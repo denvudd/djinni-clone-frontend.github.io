@@ -15,11 +15,15 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "prettier/prettier": [
+      "error",
+      { "endOfLine": "auto", "singleQuote": true }
+    ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/comma-dangle": "off",
-    "@typescript-eslint/space-before-function-paren": "off"
+    "@typescript-eslint/space-before-function-paren": "off",
+    "react/prop-types": "true"
   }
 }
