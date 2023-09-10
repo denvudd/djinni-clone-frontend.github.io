@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/Button';
 import LandMobileMenu from './components/LandMobileMenu';
 import { cn } from '@/lib/utils';
+import SignInButton from '@/components/SignInButton';
 
 export default function RootLayout({
   children,
@@ -18,34 +19,7 @@ export default function RootLayout({
             <Image src="/logo.svg" alt="Djinni logo" width={86} height={25} />
           </Link>
           <nav className="hidden md:block">
-            <ul className="flex gap-2">
-              <li>
-                <Link
-                  href="/login"
-                  className={buttonVariants({
-                    variant: 'outline',
-                    className: cn(
-                      'rounded-full text-white border-gray-400 px-3 py-0 text-sm leading-loose',
-                    ),
-                  })}
-                >
-                  Увійти
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/signup"
-                  className={buttonVariants({
-                    variant: 'outline',
-                    className: cn(
-                      'rounded-full text-white border-gray-400 px-3 py-1 text-sm',
-                    ),
-                  })}
-                >
-                  Зареєструватись
-                </Link>
-              </li>
-            </ul>
+            <SignInButton />
           </nav>
 
           <div className="flex md:hidden">
