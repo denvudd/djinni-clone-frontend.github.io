@@ -4,6 +4,7 @@ import TypingAnimation from './components/TypingAnimation';
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { MoveRight } from 'lucide-react';
+import Carousel from './components/Carousel';
 export default function Home() {
   return (
     <>
@@ -59,7 +60,7 @@ export default function Home() {
             href="/signup"
             className={buttonVariants({
               variant: 'default',
-              className: cn('bg-success'),
+              className: cn('bg-success text-xl px-4 py-3'),
             })}
           >
             Відправити Джина на пошуки <MoveRight className="ml-2" />
@@ -142,6 +143,94 @@ export default function Home() {
               />
             </li>
           </ul>
+        </div>
+      </section>
+      <section className="pt-20 pb-16 border-b border-gray-200">
+        <div className="container">
+          <div className="flex justify-center items-center gap-6 flex-col md:flex-row">
+            <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
+              <Image
+                src="https://djinni.co/static/i/landing/jobs-push/emoji-magic@2x.png"
+                alt="✨"
+                width={47}
+                height={47}
+                className="mx-auto md:mx-0"
+              />
+              <h2 className="text-gray-dark text-lg font-medium my-3 leading-snug text-center md:text-start">
+                Чому Джин?
+              </h2>
+              <p className="text-sm leading-relaxed text-center md:text-start">
+                Джин дає можливість пасивного і анонімного пошуку - коли шукають
+                вас, а не ви. Це відображає реалії ринку праці, де досвідчені
+                фахівці в постійному дефіциті.
+              </p>
+            </div>
+            <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
+              <Image
+                src="https://djinni.co/static/i/landing/jobs-push/emoji-dice@2x.png"
+                alt="✨"
+                width={47}
+                height={47}
+                className="mx-auto md:mx-0"
+              />
+              <h2 className="text-gray-dark text-lg font-medium my-3 leading-snug text-center md:text-start">
+                Скільки пропозицій я отримаю?
+              </h2>
+              <p className="text-sm leading-relaxed text-center md:text-start">
+                Дуже залежить від вашого рівня, зарплатних очікувань і міста.
+                Щотижня через Джин проходить понад 50 тис. пропозицій.
+              </p>
+            </div>
+            <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
+              <Image
+                src="https://djinni.co/static/i/landing/jobs-push/emoji-blinker@2x.png"
+                alt="✨"
+                width={47}
+                height={47}
+                className="mx-auto md:mx-0"
+              />
+              <h2 className="text-gray-dark text-lg font-medium my-3 leading-snug text-center md:text-start">
+                Мій роботодавець може знайти мене на Джині?
+              </h2>
+              <p className="text-sm leading-relaxed text-center md:text-start">
+                Ні. Всі профілі анонімні. Коли роботодавець пропонує вакансію,
+                ви можете відмовитися, не відкриваючи свої контакти.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="py-20">
+        <div className="container px-0 md:px-8">
+          <Carousel />
+        </div>
+      </section>
+      <section className="py-20 bg-indigo">
+        <div className="container">
+          <div className="max-w-2xl text-center text-white mx-auto">
+            <Image
+              src="https://djinni.co/static/i/landing/jobs-push/emoji-hat@2x.png"
+              alt="🎩"
+              width={63}
+              height={53}
+              className="mx-auto mb-5"
+            />
+            <h2 className="text-3xl font-medium mb-5">Наймайте на Джині</h2>
+            <p className="mb-5">
+              Ви сплачуєте 30% від місячної зарплати кандидата, за фактом виходу
+              на роботу. Якщо ви нікого не знайшли або кандидат не прийняв
+              оффер, ви нічого не сплачуєте.
+            </p>
+            <Link
+              href="/signup"
+              className={buttonVariants({
+                variant: 'outline',
+                className: cn('mt-5 font-medium text-lg py-5'),
+              })}
+            >
+              Розпочати пошук
+            </Link>
+          </div>
         </div>
       </section>
     </>
