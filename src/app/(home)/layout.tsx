@@ -1,7 +1,9 @@
-import { buttonVariants } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { buttonVariants } from '@/components/ui/Button';
+import LandMobileMenu from './components/LandMobileMenu';
+import { cn } from '@/lib/utils';
 
 export default function RootLayout({
   children,
@@ -12,10 +14,10 @@ export default function RootLayout({
     <>
       <header className="w-full bg-primary">
         <div className="w-full container mx-auto flex justify-between items-center py-2">
-          <Link href="/" className="">
+          <Link href="/" className="min-w-[86px] min-h-[25px]">
             <Image src="/logo.svg" alt="Djinni logo" width={86} height={25} />
           </Link>
-          <nav>
+          <nav className="hidden md:block">
             <ul className="flex gap-2">
               <li>
                 <Link
@@ -45,6 +47,10 @@ export default function RootLayout({
               </li>
             </ul>
           </nav>
+
+          <div className="flex md:hidden">
+            <LandMobileMenu />
+          </div>
         </div>
       </header>
       <main>{children}</main>
@@ -149,7 +155,7 @@ export default function RootLayout({
             </div>
           </div>
 
-          <div className="flex w-full max-h-5 gap-2">
+          <div className="flex w-full max-h-5 gap-2 mt-8">
             <Link href="/">
               <Image
                 src="/logo_short.svg"

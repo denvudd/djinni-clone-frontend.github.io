@@ -46,7 +46,7 @@ export default function Home() {
               }}
             />
           </div>
-          <h1 className="text-5xl font-semibold text-white text-center mb-4">
+          <h1 className="text-2xl md:text-5xl font-semibold text-white text-center mb-4">
             Анонімний пошук роботи на Джині
           </h1>
           <p className="text-white text-center text-xl min-h-[28px]">
@@ -60,23 +60,24 @@ export default function Home() {
             href="/signup"
             className={buttonVariants({
               variant: 'default',
-              className: cn('bg-success text-xl px-4 py-3'),
+              className: cn('bg-success text-xl px-4 py-3 h-auto'),
             })}
           >
-            Відправити Джина на пошуки <MoveRight className="ml-2" />
+            Відправити Джина на пошуки
+            <MoveRight className="ml-2" />
           </Link>
         </div>
       </section>
-      <section className="pt-20 pb-12">
+      <section className="pt-10 md:pt-20 pb-8 md:pb-12">
         <div className="container">
-          <p className="w-full max-w-2xl mx-auto text-center text-2xl leading-10">
+          <p className="w-full max-w-2xl mx-auto text-center text-xl md:text-2xl md:leading-10">
             Ви описуєте свій досвід, очікування від роботи та побажання по
             зарплаті, а компанії пропонують вакансії. Тільки ви вирішуєте, кому
             і коли відкрити контакти.
           </p>
         </div>
       </section>
-      <section className="pb-14 pt-6 border-b border-gray-200">
+      <section className="pb-14 pt-4 md:pt-6 border-b border-gray-200">
         <div className="container">
           <h2 className="text-neutral-400 text-center text-xs tracking-[.3em] uppercase mb-6 font-semibold">
             Шукають на Джині
@@ -145,7 +146,7 @@ export default function Home() {
           </ul>
         </div>
       </section>
-      <section className="pt-20 pb-16 border-b border-gray-200">
+      <section className="pt-10 md:pt-20 p-8 md:pb-16 border-b border-gray-200">
         <div className="container">
           <div className="flex justify-center items-center gap-6 flex-col md:flex-row">
             <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
@@ -200,12 +201,12 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-20">
+      <section className="my-10 md:py-20">
         <div className="container px-0 md:px-8">
           <Carousel />
         </div>
       </section>
-      <section className="py-20 bg-indigo">
+      <section className="py-12 md:py-20 bg-indigo">
         <div className="container">
           <div className="max-w-2xl text-center text-white mx-auto">
             <Image
