@@ -67,6 +67,7 @@ module.exports = {
         light: 'var(--light)',
         dark: 'var(--dark)',
         orange: 'var(--orange)',
+        borderColor: 'var(--border-color)',
 
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

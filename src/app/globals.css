@@ -5,6 +5,7 @@
 html,
 body {
   min-height: 100%;
+  height: 100%;
 }
 
 @layer base {
@@ -41,6 +42,7 @@ body {
     --dark: #222;
     --extra-light: #fafbfc;
     --orange: #fe6148;
+    --border-color: #ebebeb;
 
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -91,7 +93,7 @@ body {
   * {
     @apply border-border;
   }
-  body {
+  /* body {
     @apply bg-background text-foreground;
-  }
+  } */
 }

@@ -22,7 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ua">
-      <body className={inter.className + ' antialiased bg-white text-zinc-900'}>
+      <body
+        className={
+          inter.className +
+          ' antialiased bg-white dark:bg-gray-dark text-dark dark:text-[#adb5bd] h-full flex flex-col'
+        }
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

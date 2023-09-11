@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { buttonVariants } from '@/components/ui/Button';
 import LandMobileMenu from './components/LandMobileMenu';
-import { cn } from '@/lib/utils';
 import SignInButton from '@/components/SignInButton';
+import { Icons } from '@/components/ui/Icons';
 
 export default function RootLayout({
   children,
@@ -139,20 +138,10 @@ export default function RootLayout({
               />
             </Link>
             <a href="https://t.me/djinni_official">
-              <Image
-                src="/telegram.svg"
-                alt="Djinni logo"
-                height={20}
-                width={20}
-              />
+              <Icons.telegram height={20} width={20} />
             </a>
             <a href="https://www.linkedin.com/company/djinni-co">
-              <Image
-                src="/linkedin.svg"
-                alt="Djinni logo"
-                height={20}
-                width={20}
-              />
+              <Icons.linkedin height={20} width={20} />
             </a>
           </div>
 
