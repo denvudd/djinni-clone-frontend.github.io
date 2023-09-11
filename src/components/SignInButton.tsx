@@ -40,7 +40,7 @@ const SignInButton: React.FC<SignInButtonProps> = ({}) => {
     <ul className="flex gap-2">
       <li>
         <Link
-          href="/api/auth/signin"
+          href="/login"
           className={cn(
             buttonVariants({
               variant: 'outline',
