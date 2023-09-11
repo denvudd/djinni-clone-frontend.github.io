@@ -41,12 +41,13 @@ const SignInButton: React.FC<SignInButtonProps> = ({}) => {
       <li>
         <Link
           href="/api/auth/signin"
-          className={buttonVariants({
-            variant: 'outline',
-            className: cn(
-              'rounded-full text-white border-gray-400 px-3 py-0 text-sm leading-loose',
-            ),
-          })}
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+              className:
+                'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+            }),
+          )}
         >
           Увійти
         </Link>
@@ -54,12 +55,13 @@ const SignInButton: React.FC<SignInButtonProps> = ({}) => {
       <li>
         <Link
           href="/signup"
-          className={buttonVariants({
-            variant: 'outline',
-            className: cn(
-              'rounded-full text-white border-gray-400 px-3 py-1 text-sm',
-            ),
-          })}
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+              className:
+                'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+            }),
+          )}
         >
           Зареєструватись
         </Link>

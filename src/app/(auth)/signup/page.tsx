@@ -3,9 +3,15 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterValidator } from '@/lib/validators/register';
+import {
+  type RegisterRequest,
+  RegisterValidator,
+} from '@/lib/validators/register';
 import { z } from 'zod';
 
 import {
@@ -19,11 +25,14 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 import { Icons } from '@/components/ui/Icons';
 
 import { UserRole } from '@/lib/enums';
 
 const Page: React.FC = ({}) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof RegisterValidator>>({
     resolver: zodResolver(RegisterValidator),
     defaultValues: {
@@ -33,14 +42,44 @@ const Page: React.FC = ({}) => {
     },
   });
 
+  const {
+    mutate: register,
+    isLoading: isRegisterLoading,
+    isError: isRegisterError,
+  } = useMutation({
+    mutationFn: async ({ email, password, role }: RegisterRequest) => {
+      const payload: RegisterRequest = {
+        email,
+        password,
+        role,
+      };
+
+      const data = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/auth/register',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      return data;
+    },
+    onSuccess: () => {
+      router.push(`/my/wizard?step=0`);
+      router.refresh();
+    },
+  });
+
   function onSubmit(values: z.infer<typeof RegisterValidator>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    register(values);
   }
 
   return (
     <div className="flex flex-col mx-auto max-w-2xl">
+      {isRegisterError && <ErrorAlert />}
       <h1 className="text-4xl font-semibold mb-5">Зареєструватись на Джині</h1>
       <div className="flex">
         <div className="flex-1 pr-9 border-r border-borderColor">
@@ -109,7 +148,11 @@ const Page: React.FC = ({}) => {
                 />
               </div>
               <div className="inline-block">
-                <Button type="submit" className="text-lg">
+                <Button
+                  isLoading={isRegisterLoading}
+                  type="submit"
+                  className="text-lg"
+                >
                   Продовжити
                 </Button>
               </div>
@@ -134,7 +177,7 @@ const Page: React.FC = ({}) => {
         <a className="underline" href="/terms-of-use">
           умовами використання
         </a>{' '}
-        та
+        та{' '}
         <a className="underline" href="/pricing">
           тарифами
         </a>
