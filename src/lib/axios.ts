@@ -5,12 +5,12 @@ const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
 });
 
-instance.interceptors.request.use(async (config) => {
-  const session = await getAuthServerSession();
+// instance.interceptors.request.use(async (config) => {
+//   const session = await getAuthServerSession();
 
-  config.headers.Authorization = `Bearer ${session?.accessToken}`;
+//   config.headers.Authorization = `Bearer ${session?.accessToken}`;
 
-  return config;
-});
+//   return config;
+// });
 
 export default instance;

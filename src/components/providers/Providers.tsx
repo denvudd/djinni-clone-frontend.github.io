@@ -3,6 +3,7 @@
 import React from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TooltipProvider } from '../ui/Tooltip';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>{children}</SessionProvider>
+      <SessionProvider>
+        <TooltipProvider delayDuration={100}>{children}</TooltipProvider>
+      </SessionProvider>
     </QueryClientProvider>
   );
 };

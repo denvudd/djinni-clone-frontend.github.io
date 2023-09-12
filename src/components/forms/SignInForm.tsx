@@ -30,7 +30,7 @@ const SignInForm: React.FC = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/wizard';
 
-  const form = useForm<z.infer<typeof LoginValidator>>({
+  const form = useForm<LoginRequest>({
     resolver: zodResolver(LoginValidator),
     defaultValues: {
       username: '',
@@ -76,7 +76,7 @@ const SignInForm: React.FC = () => {
     },
   });
 
-  async function onSubmit(values: LoginRequest) {
+  function onSubmit(values: LoginRequest) {
     login(values);
   }
 

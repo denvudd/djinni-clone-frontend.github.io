@@ -5,8 +5,11 @@ declare module 'next-auth' {
   interface User {
     id: string;
     email: string;
-    avatar: string;
+    avatar: string | null;
     role: UserRole;
+    candidate_id?: string;
+    employer_id?: string;
+    fullname: string | null;
   }
   interface Session {
     user: User;

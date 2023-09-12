@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import { Icons } from '@/components/ui/Icons';
