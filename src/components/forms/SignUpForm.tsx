@@ -68,7 +68,7 @@ const SignUpForm: React.FC = () => {
       return data;
     },
     onSuccess: () => {
-      router.push(`/my/wizard?step=0`);
+      router.push(`/my/wizard?step=1`);
       router.refresh();
     },
   });

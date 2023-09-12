@@ -5,3 +5,13 @@ export interface Category {
     name: string;
   }[];
 }
+
+export interface Skill {
+  name: string;
+  category?: string;
+}
+
+export interface City {
+  city: string;
+  admin_name: string;
+}

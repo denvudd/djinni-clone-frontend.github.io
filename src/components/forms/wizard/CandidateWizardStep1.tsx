@@ -33,6 +33,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/Tooltip';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 import { DollarSign } from 'lucide-react';
 
 import { convertEnumObjToArray, formatEnglishLevel } from '@/lib/utils';
@@ -42,10 +43,9 @@ import {
   CandidateWizardStep1Validator,
 } from '@/lib/validators/candidate-wizard-step1';
 import { type Category } from '@/types';
-import ErrorAlert from '@/components/ui/ErrorAlert';
 
 interface CandidateWizardStep1Props {
-  candidateId: string | undefined;
+  candidateId: string;
 }
 
 const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
@@ -111,10 +111,6 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
 
   function onSubmit(values: CandidateWizardStep1Request) {
     updateCandidate(values);
-  }
-
-  if (!candidateId) {
-    router.push('/');
   }
 
   return (

@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { EmploymentOption, EnglishLevel } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,7 +16,7 @@ export function convertEnumObjToArray(enumObj: any) {
   );
 }
 
-export function formatEnglishLevel(englishLevel: string) {
+export function formatEnglishLevel(englishLevel: EnglishLevel) {
   switch (englishLevel) {
     case 'NoEnglish':
       return 'No English';
@@ -29,6 +30,25 @@ export function formatEnglishLevel(englishLevel: string) {
       return 'Upper-Intermediate';
     case 'AdvancedFluent':
       return 'Advanced/Fluent';
+    default:
+      return '';
+  }
+}
+
+export function formatEmploymenOptions(option: EmploymentOption) {
+  switch (option) {
+    case 'Remote':
+      return 'Віддалена робота';
+    case 'Office':
+      return 'Офіс';
+    case 'PartTime':
+      return 'Part-time';
+    case 'Freelance':
+      return 'Фріланс (разові проекти)';
+    case 'RelocateCity':
+      return 'Переїзд в інше місто';
+    case 'RelocateCountry':
+      return 'Переїзд в іншу країну';
     default:
       return '';
   }

@@ -90,6 +90,10 @@ body {
   }
 }
 
+.rti--tag {
+  background: #0969da !important;
+}
+
 @layer base {
   * {
     @apply border-border;
