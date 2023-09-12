@@ -6,7 +6,7 @@ export const CandidateWizardStep1Validator = z.object({
   experience: z.number(),
   expectations: z.number(),
   position: z.string(),
-  englishLevel: z.nativeEnum(EnglishLevel),
+  english: z.nativeEnum(EnglishLevel),
 });
 
 export type CandidateWizardStep1Request = z.infer<

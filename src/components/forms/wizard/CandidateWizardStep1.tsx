@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 
 import {
@@ -32,7 +33,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/Tooltip';
-import { Progress } from '@/components/ui/Progress';
 import { DollarSign } from 'lucide-react';
 
 import { convertEnumObjToArray, formatEnglishLevel } from '@/lib/utils';
@@ -42,30 +42,80 @@ import {
   CandidateWizardStep1Validator,
 } from '@/lib/validators/candidate-wizard-step1';
 import { type Category } from '@/types';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 
-const CandidateWizardStep1: React.FC = ({}) => {
+interface CandidateWizardStep1Props {
+  candidateId: string | undefined;
+}
+
+const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
+  candidateId,
+}) => {
+  const router = useRouter();
+
   const form = useForm<CandidateWizardStep1Request>({
     resolver: zodResolver(CandidateWizardStep1Validator),
     defaultValues: {
       category: '',
-      englishLevel: EnglishLevel.NoEnglish,
+      english: EnglishLevel.NoEnglish,
       expectations: 1500,
       experience: 0,
       position: '',
     },
   });
 
-  function onSubmit(values: CandidateWizardStep1Request) {
-    console.log(values);
-  }
+  const {
+    mutate: updateCandidate,
+    isLoading: isCandidateLoading,
+    isError: isCandidateError,
+  } = useMutation({
+    mutationFn: async ({
+      category,
+      english,
+      expectations,
+      experience,
+      position,
+    }: CandidateWizardStep1Request) => {
+      const payload: CandidateWizardStep1Request = {
+        category,
+        english,
+        expectations,
+        experience,
+        position,
+      };
+
+      const { data } = await axios.patch(`/candidate/${candidateId}`, payload);
+
+      return data;
+    },
+    onSuccess: () => {
+      router.push('/my/wizard/step3');
+      form.reset();
+    },
+    onError: (error) => {
+      console.log('[DEV]: ', error);
+    },
+  });
 
   const { data: categories } = useQuery({
     queryFn: async () => {
-      const { data } = await axios.get('/categories');
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/categories',
+      );
+
+      const data = await response.json();
 
       return data as Category[];
     },
   });
+
+  function onSubmit(values: CandidateWizardStep1Request) {
+    updateCandidate(values);
+  }
+
+  if (!candidateId) {
+    router.push('/');
+  }
 
   return (
     <Form {...form}>
@@ -73,6 +123,7 @@ const CandidateWizardStep1: React.FC = ({}) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-3 mt-4"
       >
+        {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="category"
@@ -198,7 +249,7 @@ const CandidateWizardStep1: React.FC = ({}) => {
         />
         <FormField
           control={form.control}
-          name="englishLevel"
+          name="english"
           render={({ field }) => (
             <FormItem className="flex items-start justify-between">
               <FormLabel className="flex-1 font-semibold h-full">
@@ -227,7 +278,11 @@ const CandidateWizardStep1: React.FC = ({}) => {
           )}
         />
         <div className="inline-block">
-          <Button type="submit" className="text-lg">
+          <Button
+            isLoading={isCandidateLoading}
+            type="submit"
+            className="text-lg"
+          >
             Продовжити
           </Button>
         </div>
