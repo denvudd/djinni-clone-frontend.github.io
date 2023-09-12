@@ -108,7 +108,7 @@ const SignUpForm: React.FC = () => {
                   <FormItem>
                     <FormLabel>Пароль</FormLabel>
                     <FormControl>
-                      <Input placeholder="Пароль" {...field} />
+                      <Input placeholder="Пароль" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

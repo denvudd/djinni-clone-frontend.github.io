@@ -8,11 +8,11 @@ import Carousel from './components/Carousel';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 export default async function Home() {
-  const session = await getAuthServerSession();
+  // const session = await getAuthServerSession();
 
-  if (session) {
-    redirect(session.user.role === 'Candidate' ? '/jobs' : '/developers');
-  }
+  // if (session) {
+  //   redirect(session.user.role === 'Candidate' ? '/jobs' : '/developers');
+  // }
 
   return (
     <>
