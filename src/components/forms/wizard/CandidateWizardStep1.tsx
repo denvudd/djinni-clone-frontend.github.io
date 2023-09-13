@@ -27,7 +27,7 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Slider } from '@/components/ui/Slider';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
+import { RadioGroup } from '@/components/ui/RadioGroup';
 import {
   Tooltip,
   TooltipContent,
@@ -36,13 +36,13 @@ import {
 import ErrorAlert from '@/components/ui/ErrorAlert';
 import { DollarSign } from 'lucide-react';
 
-import { convertEnumObjToArray, formatEnglishLevel } from '@/lib/utils';
 import { EnglishLevel } from '@/lib/enums';
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
 } from '@/lib/validators/candidate-wizard-step1';
 import { type Category } from '@/types';
+import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 interface CandidateWizardStep1Props {
   candidateId: string;
@@ -125,7 +125,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="category"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full">
+              <FormLabel className="flex-1 font-semibold h-full text-base">
                 Категорія
               </FormLabel>
               <div className="flex-1">
@@ -135,7 +135,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
@@ -165,7 +165,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="experience"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full">
+              <FormLabel className="flex-1 font-semibold h-full text-base">
                 Досвід роботи
               </FormLabel>
               <div className="flex-1">
@@ -195,7 +195,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="expectations"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full">
+              <FormLabel className="flex-1 font-semibold h-full text-base">
                 Зарплатні очікування
                 <Tooltip>
                   <TooltipTrigger>
@@ -231,7 +231,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="position"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full">
+              <FormLabel className="flex-1 font-semibold h-full text-base">
                 Посада
               </FormLabel>
               <div className="flex-1">
@@ -248,7 +248,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="english"
           render={({ field }) => (
             <FormItem className="flex items-start justify-between">
-              <FormLabel className="flex-1 font-semibold h-full">
+              <FormLabel className="flex-1 font-semibold h-full text-base">
                 Рівень англійської
               </FormLabel>
               <div className="flex-1">
@@ -258,14 +258,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
                   >
-                    {convertEnumObjToArray(EnglishLevel).map((level) => (
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value={level} />
-                        </FormControl>
-                        <FormLabel>{formatEnglishLevel(level)}</FormLabel>
-                      </FormItem>
-                    ))}
+                    <EnglishLevelGroup />
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />

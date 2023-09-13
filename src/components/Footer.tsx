@@ -5,7 +5,7 @@ import { Icons } from './ui/Icons';
 
 const Footer: React.FC = ({}) => {
   return (
-    <footer className="mt-auto before:block before:mt-16 border-t border-borderColor">
+    <footer className="mt-16 before:block before:mt-16 border-t border-borderColor">
       <div className="container text-xs">
         <div className="flex flex-col gap-2">
           <Image
@@ -42,13 +42,13 @@ const Footer: React.FC = ({}) => {
             </li>
           </ul>
           <ul className="flex items-center gap-3">
-            <li>З гордістю зроблено в Україн</li>
+            <li>З гордістю зроблено в Україні 🇺🇦</li>
             <li>
               © 2023 Djinni.co
               <a href="mailto:magic@djinni.co">magic@djinni.co</a>
             </li>
             <li>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" className="rounded-full">
                 <Icons.telegram className="w-4 h-4 mr-1" />
                 Зв'язатися з нами
               </Button>
