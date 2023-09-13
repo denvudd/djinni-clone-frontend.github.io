@@ -94,6 +94,10 @@ body {
   background: #0969da !important;
 }
 
+.rti--input {
+  width: auto !important;
+}
+
 @layer base {
   * {
     @apply border-border;

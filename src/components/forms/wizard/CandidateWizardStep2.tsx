@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/Form';
 import { Button } from '@/components/ui/Button';
 import ErrorAlert from '@/components/ui/ErrorAlert';
+import EditCandidateSkills from '@/components/EditCandidateSkills';
 
 import {
   type CandidateWizardStep2Request,
@@ -24,10 +25,9 @@ import {
 } from '@/lib/validators/candidate-wizard-step2';
 
 import { EmploymentOption } from '@/lib/enums';
-import { City, type Skill } from '@/types';
+import { City } from '@/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { cn, convertEnumObjToArray, formatEmploymenOptions } from '@/lib/utils';
-import { TagsInput } from 'react-tag-input-component';
 import {
   Command,
   CommandEmpty,
@@ -42,7 +42,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/Popover';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { AddSkillRequest } from '@/lib/validators/add-skill';
 
 interface CandidateWizardStep2Props {
   candidateId: string;
@@ -52,16 +51,12 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
   candidateId,
 }) => {
   const router = useRouter();
-  const [inputText, setInputText] = React.useState<string>('');
-  const [skills, setSkills] = React.useState<string>('');
-  const [selected, setSelected] = React.useState<string[]>([]);
 
   const form = useForm<CandidateWizardStep2Request>({
     resolver: zodResolver(CandidateWizardStep2Validator),
     defaultValues: {
       city: '',
       employmentOptions: EmploymentOption.Office,
-      skills: [],
     },
   });
 
@@ -73,12 +68,10 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
     mutationFn: async ({
       city,
       employmentOptions,
-      skills,
     }: CandidateWizardStep2Request) => {
       const payload: CandidateWizardStep2Request = {
         city,
         employmentOptions,
-        skills,
       };
 
       const { data } = await axios.patch(`/candidate/${candidateId}`, payload);
@@ -94,37 +87,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
     },
   });
 
-  const { data: existingSkills } = useQuery({
-    queryFn: async () => {
-      const { data } = await axios.get(`/candidate/${candidateId}/skills`);
-
-      return data as Skill[];
-    },
-  });
-
-  const { mutate: addSkill } = useMutation({
-    mutationFn: async ({ name, category }: AddSkillRequest) => {
-      const payload: AddSkillRequest = {
-        name,
-        category,
-      };
-
-      const { data } = await axios.post(
-        `/candidate/${candidateId}/skills`,
-        payload,
-      );
-
-      return data;
-    },
-    onSuccess: () => {
-      setSkills('');
-    },
-    onError: (error) => {
-      console.log('[DEV]: ', error);
-    },
-  });
-
-  const { data: cities } = useQuery({
+  const { data: cities, isLoading: isCitiesLoading } = useQuery(['cities'], {
     queryFn: async () => {
       const response = await fetch(
         process.env.NEXT_PUBLIC_BACKEND_API_URL + '/countries',
@@ -139,18 +102,6 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
   function onSubmit(values: CandidateWizardStep2Request) {
     updateCandidate(values);
   }
-
-  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Space' && inputText.trim() !== '') {
-      const newSkill = inputText.trim().split(' ').at(-1) as string; // because we checked for empty string
-
-      addSkill({
-        name: newSkill,
-      });
-    }
-  };
-
-  console.log(skills);
 
   return (
     <Form {...form}>
@@ -253,28 +204,22 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="skills"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Навички</FormLabel>
-              <FormControl>
-                <TagsInput
-                  value={selected}
-                  onChange={setSelected}
-                  name="fruits"
-                  placeHolder="Введіть та натисніть Enter..."
-                  classNames={{
-                    input: 'placeholder:text-sm text-sm',
-                    tag: 'text-sm bg-white text-white',
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel className="font-semibold text-base">Навички</FormLabel>
+          <FormControl>
+            <EditCandidateSkills candidateId={candidateId} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <div className="inline-block">
+          <Button
+            isLoading={isCandidateLoading}
+            type="submit"
+            className="text-lg"
+          >
+            Продовжити
+          </Button>
+        </div>
       </form>
     </Form>
   );
