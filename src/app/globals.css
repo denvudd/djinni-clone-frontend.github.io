@@ -92,6 +92,7 @@ body {
 
 .rti--tag {
   background: #0969da !important;
+  padding: 0.25rem 0.5rem !important;
 }
 
 .rti--input {
