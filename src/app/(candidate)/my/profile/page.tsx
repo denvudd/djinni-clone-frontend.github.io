@@ -2,8 +2,8 @@ import React from 'react';
 
 interface PageProps {}
 
-const pPage: React.FC<PageProps> = ({}) => {
+const Page: React.FC<PageProps> = ({}) => {
   return <div>page</div>;
 };
 
-export default pPage;
+export default Page;

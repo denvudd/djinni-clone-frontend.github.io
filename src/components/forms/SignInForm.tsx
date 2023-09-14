@@ -10,7 +10,6 @@ import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type LoginRequest, LoginValidator } from '@/lib/validators/login';
-import { z } from 'zod';
 
 import {
   Form,
@@ -28,9 +27,9 @@ import { Icons } from '@/components/ui/Icons';
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/wizard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const form = useForm<z.infer<typeof LoginValidator>>({
+  const form = useForm<LoginRequest>({
     resolver: zodResolver(LoginValidator),
     defaultValues: {
       username: '',
@@ -44,12 +43,16 @@ const SignInForm: React.FC = () => {
     isError: isLoginError,
   } = useMutation({
     mutationFn: async ({ username, password }: LoginRequest) => {
-      const res = await signIn('credentials', {
-        redirect: false,
-        username,
-        password,
-        callbackUrl,
-      });
+      const res = await signIn(
+        'credentials',
+        {
+          redirect: false,
+          username,
+          password,
+          callbackUrl,
+        },
+        {},
+      );
 
       if (res?.error === '401') {
         form.setError('password', {
@@ -76,7 +79,7 @@ const SignInForm: React.FC = () => {
     },
   });
 
-  async function onSubmit(values: LoginRequest) {
+  function onSubmit(values: LoginRequest) {
     login(values);
   }
 
@@ -111,7 +114,7 @@ const SignInForm: React.FC = () => {
                   <FormItem>
                     <FormLabel>Пароль</FormLabel>
                     <FormControl>
-                      <Input placeholder="Пароль" {...field} />
+                      <Input placeholder="Пароль" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

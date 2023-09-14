@@ -33,7 +33,7 @@ import { UserRole } from '@/lib/enums';
 const SignUpForm: React.FC = () => {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof RegisterValidator>>({
+  const form = useForm<RegisterRequest>({
     resolver: zodResolver(RegisterValidator),
     defaultValues: {
       email: '',
@@ -68,7 +68,7 @@ const SignUpForm: React.FC = () => {
       return data;
     },
     onSuccess: () => {
-      router.push(`/my/wizard?step=0`);
+      router.push(`/login`);
       router.refresh();
     },
   });
@@ -108,7 +108,7 @@ const SignUpForm: React.FC = () => {
                   <FormItem>
                     <FormLabel>Пароль</FormLabel>
                     <FormControl>
-                      <Input placeholder="Пароль" {...field} />
+                      <Input placeholder="Пароль" type="password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

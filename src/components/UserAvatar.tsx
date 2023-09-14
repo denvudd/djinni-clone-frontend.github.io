@@ -1,13 +1,14 @@
 import React from 'react';
-import { Avatar, AvatarFallback } from './ui/Avatar';
 import Image from 'next/image';
+
+import { Avatar, AvatarFallback } from './ui/Avatar';
 import { Icons } from './ui/Icons';
+
+import { type User } from 'next-auth';
 import type { AvatarProps } from '@radix-ui/react-avatar';
-import { UserRole } from '@/lib/enums';
-import { User } from 'next-auth';
 
 interface UserAvatarProps extends AvatarProps {
-  user: Pick<User, 'email' | 'role' | 'avatar'>;
+  user: Pick<User, 'fullname' | 'avatar'>;
 }
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ user, ...props }) => {
@@ -24,7 +25,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ user, ...props }) => {
         </div>
       ) : (
         <AvatarFallback>
-          <span className="sr-only">{user.email}</span>
+          <span className="sr-only">{user.fullname}</span>
           <Icons.user />
         </AvatarFallback>
       )}

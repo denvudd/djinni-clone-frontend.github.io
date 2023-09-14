@@ -1,19 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import TypingAnimation from './components/TypingAnimation';
+import Carousel from './components/Carousel';
+
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { MoveRight } from 'lucide-react';
-import Carousel from './components/Carousel';
-import { getAuthServerSession } from '@/lib/next-auth';
-import { redirect } from 'next/navigation';
+
 export default async function Home() {
-  const session = await getAuthServerSession();
-
-  if (session) {
-    redirect(session.user.role === 'Candidate' ? '/jobs' : '/developers');
-  }
-
   return (
     <>
       <section className="pt-28 pb-24 bg-primary">
