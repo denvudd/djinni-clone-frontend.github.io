@@ -64,7 +64,10 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
         positionAndCompany,
       };
 
-      const { data } = await axios.patch(`/employer/${employerId}`, payload);
+      const { data } = await axios.patch(`/employer/${employerId}`, {
+        ...payload,
+        filled: true,
+      });
 
       const updateSession = await update({ filled: true });
 
