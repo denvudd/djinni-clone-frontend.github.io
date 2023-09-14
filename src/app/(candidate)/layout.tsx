@@ -20,7 +20,7 @@ const CandidateLayout: React.FC<CandidateLayoutProps> = async ({
 
   return (
     <>
-      <Navbar isUserFilled={session.user.filled} />
+      <Navbar />
       <main>
         <div className="container">{children}</div>
       </main>

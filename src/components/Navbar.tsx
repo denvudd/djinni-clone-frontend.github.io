@@ -6,19 +6,19 @@ import { redirect } from 'next/navigation';
 
 import { Icons } from './ui/Icons';
 import UserAccountNav from './UserAccountNav';
-import { cn } from '@/lib/utils';
 import { buttonVariants } from './ui/Button';
 
-interface NavbarProps {
-  isUserFilled: boolean;
-}
+import { cn } from '@/lib/utils';
+import { candidateMenu, employerMenu } from '@/config/menu';
 
-const Navbar: React.FC<NavbarProps> = async ({ isUserFilled = false }) => {
+const Navbar: React.FC = async ({}) => {
   const session = await getAuthServerSession();
 
   if (!session) return redirect('/login');
 
   console.log(session);
+
+  const { fullname, role, avatar, filled } = session.user;
 
   return (
     <header className="w-full bg-gray-100 dark:bg-dark mb-12">
@@ -28,27 +28,31 @@ const Navbar: React.FC<NavbarProps> = async ({ isUserFilled = false }) => {
             <Link href="/" className="min-w-[86px] min-h-[25px]">
               <Icons.logo className="fill-black dark:fill-white" />
             </Link>
-            {isUserFilled && (
+            {filled && (
               <ul className="flex gap-4 dark:text-gray-400 text-gray-dark font-semibold">
-                <li>
-                  <Link href="">Пропозиції</Link>
-                </li>
-                <li>
-                  <Link href="">Вакансії</Link>
-                </li>
-                <li>
-                  <Link href="">Зарплати</Link>
-                </li>
+                {role === 'Candidate' &&
+                  candidateMenu.map((link) => (
+                    <li key={link.title}>
+                      <Link href={link.href}>{link.title}</Link>
+                    </li>
+                  ))}
+                {role === 'Employer' &&
+                  employerMenu.map((link) => (
+                    <li key={link.title}>
+                      <Link href={link.href}>{link.title}</Link>
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
           {session.user ? (
-            isUserFilled && (
+            filled && (
               <UserAccountNav
                 user={{
-                  fullname: session.user.fullname,
-                  avatar: session.user.avatar,
-                  role: session.user.role,
+                  fullname,
+                  avatar,
+                  role,
+                  filled,
                 }}
               />
             )

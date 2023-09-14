@@ -1,16 +1,14 @@
 'use client';
 
-import {
-  type EmployerWizardStep1Request,
-  EmployerWizardStep1Validator,
-} from '@/lib/validators/employer-wizard-step1';
+import React from 'react';
+
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
-import { useRouter } from 'next/navigation';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+
 import {
   Form,
   FormControl,
@@ -21,6 +19,12 @@ import {
 } from '@/components/ui/Form';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import ErrorAlert from '@/components/ui/ErrorAlert';
+
+import {
+  type EmployerWizardStep1Request,
+  EmployerWizardStep1Validator,
+} from '@/lib/validators/employer-wizard-step1';
 
 interface EmployerWizardStep1Props {
   employerId: string;
@@ -30,6 +34,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
   employerId,
 }) => {
   const router = useRouter();
+  const { update } = useSession();
 
   const form = useForm<EmployerWizardStep1Request>({
     resolver: zodResolver(EmployerWizardStep1Validator),
@@ -61,6 +66,8 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
 
       const { data } = await axios.patch(`/employer/${employerId}`, payload);
 
+      const updateSession = await update({ filled: true });
+
       return data;
     },
     onSuccess: () => {
@@ -77,8 +84,6 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
   }
 
   const fieldsLeft = -Object.keys(form.formState.touchedFields).length + 4;
-
-  console.log(form.formState.touchedFields);
 
   return (
     <Form {...form}>
