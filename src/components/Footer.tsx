@@ -5,8 +5,8 @@ import { Icons } from './ui/Icons';
 
 const Footer: React.FC = ({}) => {
   return (
-    <footer className="mt-16 before:block before:mt-16 border-t border-borderColor">
-      <div className="container text-xs">
+    <footer className="footer">
+      <div className="container text-xs pb-6 pt-8">
         <div className="flex flex-col gap-2">
           <Image
             src={'/logo_short.svg'}

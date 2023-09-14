@@ -4,8 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 
 import { TagsInput } from 'react-tag-input-component';
-import { type Skill } from '@/types';
 import { AddSkillRequest } from '@/lib/validators/add-skill';
+import { type Skill } from '@/types';
 
 interface EditCandidateSkillsProps {
   candidateId: string;
@@ -19,7 +19,6 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
   const {
     data: skills,
     isLoading: isSkillsLoading,
-    isError: isSkillsError,
     refetch: skillsRefetch,
   } = useQuery(['skills'], {
     queryFn: async () => {
@@ -65,7 +64,6 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
   });
 
   const addSkillsFromTags = (tags: string[]) => {
-    console.log(tags);
     // if skill doesn't exist in selectedSkills then POST new skill
     tags.forEach((tag) => {
       if (!selectedSkills.includes(tag)) {

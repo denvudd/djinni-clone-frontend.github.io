@@ -3,6 +3,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -34,6 +35,7 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
   candidateId,
 }) => {
   const router = useRouter();
+  const { update } = useSession();
 
   const form = useForm<CandidateWizardStep3Request>({
     resolver: zodResolver(CandidateWizardStep3Validator),
@@ -50,11 +52,16 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
     mutationFn: async ({ experienceDescr }: CandidateWizardStep3Request) => {
       const payload = { experienceDescr };
 
-      const { data } = await axios.patch(`/candidate/${candidateId}`, payload);
+      const { data } = await axios.patch(`/candidate/${candidateId}`, {
+        ...payload,
+        filled: true,
+      });
+
+      const updateSession = await update({ filled: true });
 
       return data;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       router.push('/my/wizard/finish');
       form.reset();
     },

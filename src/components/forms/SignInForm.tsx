@@ -10,7 +10,6 @@ import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type LoginRequest, LoginValidator } from '@/lib/validators/login';
-import { z } from 'zod';
 
 import {
   Form,
@@ -28,7 +27,7 @@ import { Icons } from '@/components/ui/Icons';
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/wizard';
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   const form = useForm<LoginRequest>({
     resolver: zodResolver(LoginValidator),
@@ -44,12 +43,16 @@ const SignInForm: React.FC = () => {
     isError: isLoginError,
   } = useMutation({
     mutationFn: async ({ username, password }: LoginRequest) => {
-      const res = await signIn('credentials', {
-        redirect: false,
-        username,
-        password,
-        callbackUrl,
-      });
+      const res = await signIn(
+        'credentials',
+        {
+          redirect: false,
+          username,
+          password,
+          callbackUrl,
+        },
+        {},
+      );
 
       if (res?.error === '401') {
         form.setError('password', {

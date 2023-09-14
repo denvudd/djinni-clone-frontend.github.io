@@ -2,7 +2,6 @@ import { NextAuthOptions } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { NextResponse } from 'next/server';
 
 async function refreshToken(token: JWT): Promise<JWT> {
   const res = await fetch(process.env.BACKEND_API_URL + '/auth/refresh', {
@@ -34,7 +33,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        console.log(credentials);
         if (!credentials?.username || !credentials?.password) return null;
 
         const { username, password } = credentials;
@@ -63,7 +61,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === 'update' && session?.filled) {
+        token.user.filled = session.filled;
+      }
+
       if (user) {
         return {
           ...token,

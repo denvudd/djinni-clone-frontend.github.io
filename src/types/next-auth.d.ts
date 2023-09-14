@@ -10,6 +10,7 @@ declare module 'next-auth' {
     candidate_id?: string;
     employer_id?: string;
     fullname: string | null;
+    filled: boolean;
   }
   interface Session {
     user: User;

@@ -10,7 +10,6 @@ import { Separator } from '@/components/ui/Separator';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
-import { Checkbox } from '@/components/ui/Checkbox';
 
 const Page: React.FC = async ({}) => {
   const session = await getAuthServerSession();

@@ -90,6 +90,15 @@ body {
   }
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  /* body {
+    @apply bg-background text-foreground;
+  } */
+}
+
 .rti--tag {
   background: #0969da !important;
   padding: 0.25rem 0.5rem !important;
@@ -99,11 +108,14 @@ body {
   width: auto !important;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  /* body {
-    @apply bg-background text-foreground;
-  } */
+.footer {
+  margin-top: auto;
+  display: block;
+}
+
+.footer::before {
+  border-bottom: 1px solid var(--border-color);
+  content: '';
+  display: block;
+  margin-top: 60px;
 }

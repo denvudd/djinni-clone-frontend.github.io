@@ -1,3 +1,6 @@
+import { getAuthServerSession } from '@/lib/next-auth';
+import { redirect } from 'next/navigation';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -5,11 +8,27 @@ import LandMobileMenu from './components/LandMobileMenu';
 import SignInButton from '@/components/SignInButton';
 import { Icons } from '@/components/ui/Icons';
 
-export default function RootLayout({
+export const dynamic = 'force-dynamic'; // for update token.user.filled property fron next-auth update session
+export const fetchCache = 'force-no-store'; // for update token.user.filled property fron next-auth update session
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getAuthServerSession();
+
+  if (session) {
+    // if user has not filled his profile then redirect on wizard
+    if (!session.user.filled) {
+      redirect(
+        session.user.role === 'Candidate' ? '/my/wizard' : '/home/wizard',
+      );
+    }
+
+    redirect(session.user.role === 'Candidate' ? '/jobs' : '/developers');
+  }
+
   return (
     <>
       <header className="w-full bg-primary">
