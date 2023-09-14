@@ -58,6 +58,25 @@ export interface CandidateProfile {
   resumeFile?: null;
 
   skills: Skill[];
-  blockedDomains: [];
-  blockedTypes: [];
+  // blockedDomains: [];
+  // blockedTypes: [];
+}
+
+export interface EmployerProfile {
+  id: string;
+  userId: string;
+
+  fullname?: string;
+  companyName?: string;
+  positionAndCompany?: string;
+  telegram?: string;
+  linkedIn?: string;
+  companyLink?: string;
+  dou?: string;
+  phone?: string;
+  aboutCompany?: string;
+  filled?: string;
+
+  // vacancies Vacancy[]
+  // offers    Offer[]
 }

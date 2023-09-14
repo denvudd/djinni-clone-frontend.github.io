@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+
 import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 
@@ -19,7 +20,7 @@ const CandidateLayout: React.FC<CandidateLayoutProps> = async ({
 
   return (
     <>
-      <Navbar />
+      <Navbar isUserFilled={session.user.filled} />
       <main>
         <div className="container">{children}</div>
       </main>
