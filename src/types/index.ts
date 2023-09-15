@@ -1,5 +1,6 @@
 import {
   CommunicateMethod,
+  CompanyType,
   EmploymentOption,
   EnglishLevel,
   PreferableLanguage,
@@ -82,6 +83,31 @@ export interface EmployerProfile {
   aboutCompany?: string;
   filled?: string;
 
-  // vacancies Vacancy[]
+  vacancies: Vacancy[];
   // offers    Offer[]
+}
+
+export interface Vacancy {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  employerId: string;
+
+  name: string;
+  domain: string;
+  description: string;
+  category: string;
+  employmentOptions: EmploymentOption;
+  country: string;
+  city?: string;
+  isRelocate: boolean;
+  salaryFork: number;
+  privateSalaryFork?: number;
+  experience: number;
+  english: EnglishLevel;
+  youtube?: string;
+
+  companyType: CompanyType;
+  // clarifiedData: ClarifiedData[];
+  // keywords: VacancyKeyword[];
 }
