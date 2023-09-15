@@ -6,10 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// export function mapenumObj(enumObj) {
-//   return null;
-// }
-
 export function convertEnumObjToArray(enumObj: any) {
   return (Object.keys(enumObj) as Array<keyof typeof enumObj>).map(
     (key) => enumObj[key],

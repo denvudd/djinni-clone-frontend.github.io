@@ -57,7 +57,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
   const categories = await fetchCategories();
 
   return (
-    <div className="col-span-1">
+    <aside className="col-span-1">
       <form method="get" id="searchform" className="flex flex-col gap-4">
         <div>
           <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
@@ -220,7 +220,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
           </ul>
         </div>
       </form>
-    </div>
+    </aside>
   );
 };
 

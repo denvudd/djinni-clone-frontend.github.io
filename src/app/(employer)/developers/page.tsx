@@ -8,6 +8,8 @@ import SidebarDevelopers from '@/components/SidebarDevelopers';
 
 import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
 import { type CandidateProfile } from '@/types';
+import DevelopersSearch from '@/components/DevelopersSearch';
+import DeveloperCard from '@/components/DeveloperCard';
 
 export interface DevelopersPageProps {
   searchParams: {
@@ -21,6 +23,7 @@ export interface DevelopersPageProps {
     employment_options: EmploymentOption;
     ready_to_relocate: string;
     page: string;
+    keywords: string;
   };
 }
 
@@ -36,6 +39,7 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
     salary_max,
     salary_min,
     title,
+    keywords,
   } = searchParams;
 
   const fetchCandidatesList = async () => {
@@ -54,6 +58,8 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
             employment_options,
             ready_to_relocate,
             page,
+            keywords,
+            limit: 10,
           },
         },
       );
@@ -99,7 +105,35 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
       </ul>
       <div className="grid grid-cols-4 gap-4">
         <SidebarDevelopers searchParams={searchParams} />
-        <div className="col-span-3 bg-white px-4">content</div>
+        <div className="col-span-3 bg-white px-3">
+          <DevelopersSearch />
+          <div className="flex flex-col gap-4 mt-4">
+            {!candidates ||
+              (!candidates.length && (
+                <p className="flex justify-center text-center text-gray">
+                  Кандидатів за заданими параметрами не знайдено.
+                </p>
+              ))}
+            {candidates &&
+              !!candidates.length &&
+              candidates.map((candidate) => (
+                <DeveloperCard
+                  id={candidate.id}
+                  key={candidate.id}
+                  city={candidate.city}
+                  country={candidate.country}
+                  createdAt={candidate.createdAt}
+                  description={candidate.experienceDescr!}
+                  expectations={candidate.expectations}
+                  experience={candidate.experience}
+                  english={candidate.english}
+                  skills={candidate.skills}
+                  title={candidate.position!}
+                  views={candidate.views}
+                />
+              ))}
+          </div>
+        </div>
       </div>
     </>
   );
