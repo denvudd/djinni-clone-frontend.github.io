@@ -26,6 +26,8 @@ export interface City {
 
 export interface CandidateProfile {
   id: string;
+  createdAt: Date;
+  updatedAt: Date;
   userId: string;
 
   fullname?: string;
@@ -34,6 +36,7 @@ export interface CandidateProfile {
   city: string;
   isRelocate: boolean;
   experience: number;
+  views: number;
 
   category?: string;
   hourlyRate?: number;
@@ -64,6 +67,8 @@ export interface CandidateProfile {
 
 export interface EmployerProfile {
   id: string;
+  createdAt: Date;
+  updatedAt: Date;
   userId: string;
 
   fullname?: string;

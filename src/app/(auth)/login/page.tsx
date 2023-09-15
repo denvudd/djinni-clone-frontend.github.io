@@ -3,7 +3,7 @@
 import SignInForm from '@/components/forms/SignInForm';
 import React from 'react';
 
-const Page: React.FC = async ({}) => {
+const Page: React.FC = ({}) => {
   return <SignInForm />;
 };
 

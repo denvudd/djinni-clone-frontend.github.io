@@ -1,11 +1,11 @@
 import React from 'react';
+import Link from 'next/link';
 
 import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 
 import EmployerWizardStep1 from '@/components/forms/wizard/EmployerWizardStep1';
 import { Separator } from '@/components/ui/Separator';
-import Link from 'next/link';
 
 const Page: React.FC = async ({}) => {
   const session = await getAuthServerSession();
