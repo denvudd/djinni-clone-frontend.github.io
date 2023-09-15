@@ -1,13 +1,13 @@
 'use client';
 
-import {
-  CreateVacancyValidator,
-  type CreateVacancyRequest,
-} from '@/lib/validators/create-vacancy';
-import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/Button';
+import { useMutation, useQueries } from '@tanstack/react-query';
+import axios from '@/lib/axios';
+import { AxiosError } from 'axios';
+
 import {
   Form,
   FormControl,
@@ -18,10 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
-import { useQueries } from '@tanstack/react-query';
-import axios from '@/lib/axios';
-import { Category, City, type Domain } from '@/types';
-import { AxiosError } from 'axios';
+import { Button } from '@/components/ui/Button';
 import {
   Select,
   SelectContent,
@@ -31,10 +28,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/Select';
-import { Textarea } from '../ui/Textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/Tooltip';
-import { Separator } from '../ui/Separator';
+import { Textarea } from '@/components/ui/Textarea';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/Tooltip';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
+import { Checkbox } from '@/components/ui/Checkbox';
+import ErrorAlert from '@/components/ui/ErrorAlert';
+import { Separator } from '@/components/ui/Separator';
 import { TagsInput } from 'react-tag-input-component';
+
+import {
+  CreateVacancyValidator,
+  type CreateVacancyRequest,
+} from '@/lib/validators/create-vacancy';
+import { type Category, type City, type Domain } from '@/types';
 import {
   convertEnumObjToArray,
   formatClarifiedData,
@@ -47,8 +57,6 @@ import {
   EmploymentOption,
   EnglishLevel,
 } from '@/lib/enums';
-import { RadioGroup, RadioGroupItem } from '../ui/RadioGroup';
-import { Checkbox } from '../ui/Checkbox';
 
 interface CreateVacancyFormProps {
   employerId: string;
@@ -67,6 +75,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       employmentOptions: EmploymentOption.Office,
       english: EnglishLevel.NoEnglish,
       clarifiedData: [ClarifiedData.Test_task],
+      isRelocate: true,
     },
   });
 
@@ -368,7 +377,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Місто
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  disabled={isCitiesLoading}
+                  onValueChange={(value) => field.onChange(value)}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="(не обрано)" />
@@ -399,7 +411,9 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
                 <RadioGroup
-                  onValueChange={field.onChange}
+                  onValueChange={(value) =>
+                    field.onChange(value === 'yes' ? true : false)
+                  }
                   defaultValue={'yes'}
                   className="flex gap-2"
                 >
@@ -448,7 +462,13 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     <FormItem className="flex items-baseline flex-1 space-x-1">
                       <FormLabel>від</FormLabel>
                       <FormControl>
-                        <Input className="w-16 h-7" {...field} />
+                        <Input
+                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(+e.target.value)}
+                          value={field.value}
+                          ref={field.ref}
+                          type="number"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -460,7 +480,14 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     <FormItem className="flex items-baseline flex-1 space-x-1">
                       <FormLabel>до</FormLabel>
                       <FormControl>
-                        <Input className="w-16 h-7" {...field} />
+                        <Input
+                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(+e.target.value)}
+                          value={field.value}
+                          ref={field.ref}
+                          type="number"
+                          min={100}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -483,7 +510,13 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     <FormItem className="flex items-baseline flex-1 space-x-1">
                       <FormLabel>від</FormLabel>
                       <FormControl>
-                        <Input className="w-16 h-7 bg-white" {...field} />
+                        <Input
+                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(+e.target.value)}
+                          value={field.value}
+                          ref={field.ref}
+                          type="number"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -495,7 +528,13 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     <FormItem className="flex items-baseline flex-1 space-x-1">
                       <FormLabel>до</FormLabel>
                       <FormControl>
-                        <Input className="w-16 h-7 bg-white" {...field} />
+                        <Input
+                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          onChange={(e) => field.onChange(+e.target.value)}
+                          value={field.value}
+                          ref={field.ref}
+                          type="number"
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -514,7 +553,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Досвід роботи, мінімум
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select onValueChange={(value) => field.onChange(+value)}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="(не обрано)" />
