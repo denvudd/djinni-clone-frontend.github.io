@@ -14,6 +14,11 @@ export interface Category {
   }[];
 }
 
+export interface Domain {
+  id: number;
+  name: string;
+}
+
 export interface Skill {
   id: string;
   name: string;

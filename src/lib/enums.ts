@@ -43,3 +43,10 @@ export enum CompanyType {
   Outstaff = 'Outstaff',
   Agency = 'Agency',
 }
+
+export enum ClarifiedData {
+  None = 'None',
+  Part_time = 'Part_time',
+  Test_task = 'Test_task',
+  Cover_letter = 'Cover_letter',
+}
