@@ -1,16 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
-import axios from 'axios';
-import { redirect } from 'next/navigation';
-
 import SidebarDevelopers from '@/components/SidebarDevelopers';
 
 import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
-import { type CandidateProfile } from '@/types';
 import DevelopersSearch from '@/components/DevelopersSearch';
 import DeveloperCard from '@/components/DeveloperCard';
-
+import { getCandidatesList } from '@/actions/get-candidate-list';
 export interface DevelopersPageProps {
   searchParams: {
     location: string;
@@ -28,54 +24,7 @@ export interface DevelopersPageProps {
 }
 
 const Page = async ({ searchParams }: DevelopersPageProps) => {
-  const {
-    employment_options,
-    english_level,
-    exp_from,
-    exp_to,
-    location,
-    page,
-    ready_to_relocate,
-    salary_max,
-    salary_min,
-    title,
-    keywords,
-  } = searchParams;
-
-  const fetchCandidatesList = async () => {
-    try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + '/candidate/list',
-        {
-          params: {
-            location,
-            title,
-            exp_from,
-            exp_to,
-            salary_min,
-            salary_max,
-            english_level,
-            employment_options,
-            ready_to_relocate,
-            page,
-            keywords,
-            limit: 10,
-          },
-        },
-      );
-
-      return data as {
-        candidates: CandidateProfile[];
-        count: number;
-      };
-    } catch (error) {
-      console.log('[DEV]: ', error);
-
-      redirect('/error');
-    }
-  };
-
-  const { candidates, count } = await fetchCandidatesList();
+  const { candidates, count } = await getCandidatesList(searchParams);
 
   return (
     <>
@@ -140,3 +89,12 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
 };
 
 export default Page;
+
+export async function generateMetadata({ searchParams }: DevelopersPageProps) {
+  const { count } = await getCandidatesList(searchParams);
+
+  return {
+    title: `Кандидати ${count}`,
+    description: `Кандидати на вакансії програмістів, тестувальників та інших IT-спеціалістів. ${count} профілей у пошуку. Анонімний пошук роботи.`,
+  };
+}

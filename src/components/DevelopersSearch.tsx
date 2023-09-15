@@ -19,17 +19,18 @@ import {
 const DevelopersSearch: React.FC = ({}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const currentParams = qs.parse(searchParams.toString());
 
   const form = useForm<DevelopersSearchRequest>({
     resolver: zodResolver(DevelopersSearchValidator),
     defaultValues: {
-      keywords: '',
+      keywords: currentParams.keywords
+        ? (currentParams.keywords as string)
+        : undefined,
     },
   });
 
   function onSubmit({ keywords }: DevelopersSearchRequest) {
-    const currentParams = qs.parse(searchParams.toString());
-
     const query = {
       ...currentParams,
       keywords: keywords ? keywords : undefined,

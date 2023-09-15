@@ -12,6 +12,9 @@ import { X } from 'lucide-react';
 
 import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
 import { type Category, type City } from '@/types';
+import ExperienceRange from './ExperienceRange';
+import SalaryRange from './SalaryRange';
+import clsx from 'clsx';
 
 interface SidebarDevelopersProps extends DevelopersPageProps {}
 
@@ -22,7 +25,6 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
     exp_from,
     exp_to,
     location,
-    page,
     ready_to_relocate,
     salary_max,
     salary_min,
@@ -58,7 +60,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
   return (
     <aside className="col-span-1">
-      <form method="get" id="searchform" className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
         <div>
           <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
             Місто
@@ -79,7 +81,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
               cities.map(({ city }) => (
                 <li>
                   <Link
-                    className="text-link"
+                    className={clsx('text-primary', {
+                      'font-bold': city === location,
+                    })}
                     href={{
                       pathname: '/developers',
                       query: {
@@ -127,7 +131,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                             title: subcategory.name,
                           },
                         }}
-                        className="text-link"
+                        className={clsx('text-primary', {
+                          'font-bold': subcategory.name === title,
+                        })}
                       >
                         {subcategory.name}
                       </Link>
@@ -138,19 +144,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
           </ul>
         </div>
 
-        <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
-            Досвід роботи
-          </h4>
-          досвід роботи
-        </div>
+        <ExperienceRange />
 
-        <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
-            Зарплатні очікування
-          </h4>
-          досвід роботи
-        </div>
+        <SalaryRange />
 
         <div>
           <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
@@ -177,7 +173,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                       english_level: level,
                     },
                   }}
-                  className="text-link"
+                  className={clsx('text-primary', {
+                    'font-bold': english_level === level,
+                  })}
                 >
                   {formatEnglishLevel(level).label}
                 </Link>
@@ -211,7 +209,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                       employment_options: employment,
                     },
                   }}
-                  className="text-link"
+                  className={clsx('text-primary', {
+                    'font-bold': employment === employment_options,
+                  })}
                 >
                   {formatEmploymenOptions(employment)}
                 </Link>
@@ -219,7 +219,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
             ))}
           </ul>
         </div>
-      </form>
+      </div>
     </aside>
   );
 };
