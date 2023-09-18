@@ -45,6 +45,54 @@ const Page: React.FC = async () => {
       >
         Створити нову вакансію
       </Link>
+
+      {vacancies && !!vacancies.length && (
+        <ul className="flex flex-col gap-8">
+          {vacancies.map((vacancy) => (
+            <li className="max-w-xl w-full">
+              <h4 className="text-lg">
+                <Link className="text-link" href={`/jobs/${vacancy.id}`}>
+                  {vacancy.name}
+                </Link>{' '}
+                {vacancy.active ? (
+                  <span className="text-green">(активна)</span>
+                ) : (
+                  <span className="text-danger">(неактивна)</span>
+                )}
+              </h4>
+              <div className="flex gap-2 text-sm mt-1">
+                <Link
+                  className="text-link"
+                  href={`/home/post_job?job=${vacancy.id}`}
+                >
+                  Редагувати
+                </Link>
+                <span className="text-sm text-gray">·</span>
+                <span className="text-gray">
+                  {!!vacancy.responsesCount
+                    ? vacancy.responsesCount
+                    : 'Немає відгуків'}
+                </span>
+                <span className="text-sm text-gray">·</span>
+                <Link
+                  className="text-link"
+                  href={`/developers?title=${vacancy.category}&exp_from=${vacancy.experience}&english_level=${vacancy.english}&salary_min=${vacancy.privateSalaryForkGte}&salary_max=${vacancy.privateSalaryForkLte}&employment_options=${vacancy.employmentOptions}&location=${vacancy.city}`}
+                >
+                  Кандидати
+                </Link>
+                <span className="text-sm text-gray">·</span>
+                <Link
+                  className="text-danger"
+                  href={`/home/post_job?delete=${vacancy.id}`}
+                >
+                  Видалити
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {vacancies && !vacancies.length && (
         <p>У вас поки що немає активних вакансій.</p>
       )}

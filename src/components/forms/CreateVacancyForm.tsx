@@ -44,7 +44,7 @@ import {
   CreateVacancyValidator,
   type CreateVacancyRequest,
 } from '@/lib/validators/create-vacancy';
-import { type Category, type City, type Domain } from '@/types';
+import { Vacancy, type Category, type City, type Domain } from '@/types';
 import {
   convertEnumObjToArray,
   formatClarifiedData,
@@ -65,6 +65,8 @@ interface CreateVacancyFormProps {
 const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   employerId,
 }) => {
+  const router = useRouter();
+
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
   const clarifiedDataArr = convertEnumObjToArray(ClarifiedData);
 
@@ -78,10 +80,6 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       isRelocate: true,
     },
   });
-
-  function onSubmit(values: CreateVacancyRequest) {
-    console.log(values);
-  }
 
   const [
     { data: domains, isLoading: isDomainsLoading },
@@ -128,14 +126,86 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
     ],
   });
 
-  console.log(form.getValues());
+  const {
+    mutate: createVacancy,
+    isLoading: isVacancyLoading,
+    isError: isVacancyError,
+  } = useMutation({
+    mutationFn: async ({
+      clarifiedData,
+      keywords,
+      ...values
+    }: CreateVacancyRequest) => {
+      const payload = {
+        employerId,
+        ...values,
+        clarifiedData,
+        keywords,
+        active: true,
+      };
+      const { data } = await axios.post(`/vacancies`, payload);
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data as Vacancy;
+    },
+    onSuccess: (data) => {
+      router.push('/home/jobs');
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log('[DEV]: ', error);
+    },
+  });
+
+  const {
+    mutate: addToDraft,
+    isLoading: isDraftLoading,
+    isError: isDraftError,
+  } = useMutation({
+    mutationFn: async ({
+      clarifiedData,
+      keywords,
+      ...values
+    }: CreateVacancyRequest) => {
+      const payload = {
+        employerId,
+        ...values,
+        clarifiedData,
+        keywords,
+        active: false,
+      };
+      const { data } = await axios.post(`/vacancies`, payload);
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data as Vacancy;
+    },
+    onSuccess: (data) => {
+      router.push('/home/jobs');
+    },
+    onError: (error) => {
+      console.log('[DEV]: ', error);
+    },
+  });
+
+  function onSubmit(values: CreateVacancyRequest) {
+    createVacancy(values);
+  }
+
+  function onSubmitDraft(values: CreateVacancyRequest) {
+    addToDraft(values);
+  }
+
+  console.log(form.formState.errors);
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 mt-4"
-      >
+      <form className="flex flex-col gap-3 mt-4">
         <FormField
           control={form.control}
           name="name"
@@ -682,8 +752,37 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
           )}
         />
 
+        <div className="flex justify-end gap-2 mt-4">
+          <Button
+            type="submit"
+            variant="outline"
+            size="lg"
+            isLoading={isVacancyLoading}
+            disabled={isVacancyLoading}
+            onClick={form.handleSubmit(onSubmitDraft)}
+          >
+            Зберегти як чорнетку
+          </Button>
+          <Button
+            type="submit"
+            variant="outline"
+            size="lg"
+            isLoading={isVacancyLoading}
+            disabled={isVacancyLoading}
+          >
+            Подивитись прев'ю
+          </Button>
+        </div>
+
         <div className="flex justify-end">
-          <Button type="submit" className="text-lg">
+          <Button
+            type="submit"
+            isLoading={isVacancyLoading}
+            disabled={isVacancyLoading}
+            size="lg"
+            className="text-lg"
+            onClick={form.handleSubmit(onSubmit)}
+          >
             Опубліковати вакансію
           </Button>
         </div>

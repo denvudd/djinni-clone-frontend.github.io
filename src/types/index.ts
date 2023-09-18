@@ -98,6 +98,8 @@ export interface Vacancy {
   updatedAt: Date;
   employerId: string;
 
+  active: boolean;
+  responsesCount: number;
   name: string;
   domain: string;
   description: string;
@@ -106,8 +108,12 @@ export interface Vacancy {
   country: string;
   city?: string;
   isRelocate: boolean;
-  salaryFork: number;
-  privateSalaryFork?: number;
+
+  salaryForkGte?: number;
+  salaryForkLte?: number;
+  privateSalaryForkGte: number;
+  privateSalaryForkLte: number;
+
   experience: number;
   english: EnglishLevel;
   youtube?: string;

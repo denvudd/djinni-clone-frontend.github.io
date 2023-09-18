@@ -7,7 +7,6 @@ import {
 } from '../enums';
 
 export const CreateVacancyValidator = z.object({
-  employerId: z.string().nonempty(),
   name: z
     .string({
       required_error: 'Це поле не може бути порожнім',
