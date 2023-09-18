@@ -10,7 +10,7 @@ export const getEmployerVacancies = async (employerId: string) => {
 
     if (data instanceof AxiosError) {
       if (data.status === 404) {
-        throw new Error('404 Not Found');
+        redirect('not-found');
       } else {
         throw new Error();
       }

@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { redirect } from 'next/navigation';
 
 import { type CandidateProfile } from '@/types';
-import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
+import { DevelopersPageProps } from '@/app/(employer)/developers/page';
 
 export const getCandidatesList = async (
   searchParams: DevelopersPageProps['searchParams'],
@@ -44,7 +44,7 @@ export const getCandidatesList = async (
 
     if (data instanceof AxiosError) {
       if (data.status === 404) {
-        throw new Error('404 Not Found');
+        redirect('not-found');
       } else {
         throw new Error();
       }
