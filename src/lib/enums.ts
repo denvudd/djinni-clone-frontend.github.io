@@ -35,3 +35,18 @@ export enum EnglishLevel {
   UpperIntermediate = 'UpperIntermediate',
   AdvancedFluent = 'AdvancedFluent',
 }
+
+export enum CompanyType {
+  None = 'None',
+  Product = 'Product',
+  Outsource = 'Outsource',
+  Outstaff = 'Outstaff',
+  Agency = 'Agency',
+}
+
+export enum ClarifiedDataEnum {
+  None = 'None',
+  Part_time = 'Part_time',
+  Test_task = 'Test_task',
+  Cover_letter = 'Cover_letter',
+}

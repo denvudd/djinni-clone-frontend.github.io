@@ -1,5 +1,7 @@
 import {
+  ClarifiedDataEnum,
   CommunicateMethod,
+  CompanyType,
   EmploymentOption,
   EnglishLevel,
   PreferableLanguage,
@@ -11,6 +13,11 @@ export interface Category {
     id: number;
     name: string;
   }[];
+}
+
+export interface Domain {
+  id: number;
+  name: string;
 }
 
 export interface Skill {
@@ -82,6 +89,59 @@ export interface EmployerProfile {
   aboutCompany?: string;
   filled?: string;
 
-  // vacancies Vacancy[]
+  vacancies: Vacancy[];
   // offers    Offer[]
+}
+
+export interface Vacancy {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  employerId: string;
+
+  active: boolean;
+  responsesCount: number;
+  name: string;
+  domain: string;
+  description: string;
+  category: string;
+  employmentOptions: EmploymentOption;
+  country: string;
+  city?: string;
+  isRelocate: boolean;
+
+  salaryForkGte?: number;
+  salaryForkLte?: number;
+  privateSalaryForkGte: number;
+  privateSalaryForkLte: number;
+
+  experience: number;
+  english: EnglishLevel;
+  youtube?: string;
+
+  companyType: CompanyType;
+  clarifiedData: ClarifiedData[];
+  keywords: VacancyKeyword[];
+
+  employer: {
+    id: string;
+    companyLink: string;
+    aboutCompany: string;
+    dou?: string;
+    fullname: string;
+    positionAndCompany: string;
+    avatar: string | null;
+  };
+}
+
+export interface ClarifiedData {
+  id: string;
+  name: ClarifiedDataEnum;
+  vacancyId: string;
+}
+
+export interface VacancyKeyword {
+  id: string;
+  name: ClarifiedData;
+  vacancyId: string;
 }

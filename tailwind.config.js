@@ -58,6 +58,7 @@ module.exports = {
           DEFAULT: 'var(--gray)',
           dark: 'var(--gray-dark)',
         },
+        brand: 'var(--brand)',
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',
         success: 'var(--success)',

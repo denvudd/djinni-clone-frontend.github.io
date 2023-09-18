@@ -1,6 +1,9 @@
+import React from 'react';
+import Link from 'next/link';
+
 import { type EnglishLevel } from '@/lib/enums';
 import { type Skill } from '@/types';
-import React from 'react';
+
 import {
   Card,
   CardContent,
@@ -8,16 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/Card';
-import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
-import { formatDistance } from 'date-fns';
-import { uk } from 'date-fns/locale';
-import { Button } from './ui/Button';
-import Link from 'next/link';
 import { Badge } from './ui/Badge';
 import { Bookmark, Eye, MessageCircle } from 'lucide-react';
 
-const TRUNCATE_TEXT_LENGTH = 450;
+import { formatDistance } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
 
+const TRUNCATE_TEXT_LENGTH = 450;
 interface DeveloperCardProps {
   id: string;
   title: string;

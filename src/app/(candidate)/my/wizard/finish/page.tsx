@@ -4,7 +4,7 @@ import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 import axios from '@/lib/axios';
 
-import CandidateInfo from '@/components/CandidateInfo';
+import CandidateInfo from '@/components/CandidateFullfiledInfo';
 import { type CandidateProfile } from '@/types';
 import { Separator } from '@/components/ui/Separator';
 import Link from 'next/link';

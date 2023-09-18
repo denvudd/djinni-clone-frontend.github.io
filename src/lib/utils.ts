@@ -1,15 +1,26 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { EmploymentOption, EnglishLevel } from './enums';
+import { ClarifiedDataEnum, EmploymentOption, EnglishLevel } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function truncate(str: string, length: number) {
+  return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
 export function convertEnumObjToArray(enumObj: any) {
   return (Object.keys(enumObj) as Array<keyof typeof enumObj>).map(
     (key) => enumObj[key],
   );
+}
+
+export function extractYoutubeKey(url: string) {
+  var regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  var match = url.match(regExp);
+  return match && match[7].length == 11 ? match[7] : false;
 }
 
 export function formatEnglishLevel(englishLevel: EnglishLevel): {
@@ -84,5 +95,16 @@ export function formatExperience(years: number) {
     return `${years} років досвіду`;
   } else {
     return 'Більше 10 років досвіду';
+  }
+}
+
+export function formatClarifiedData(clarifiedData: ClarifiedDataEnum) {
+  switch (clarifiedData) {
+    case 'Test_task':
+      return 'Є тестове завдання';
+    case 'Cover_letter':
+      return "Обов'язковий супровідний лист";
+    case 'Part_time':
+      return 'Part-time';
   }
 }
