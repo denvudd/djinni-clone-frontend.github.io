@@ -65,7 +65,7 @@ const EmployerVacancyInfo: React.FC<EmployerVacancyInfoProps> = ({
             <span className="text-xs text-gray mr-2 w-4 h-4 text-center">
               •
             </span>
-            {formatExperience(experience)} досвіду
+            {formatExperience(experience)}
           </li>
           <Separator className="my-2" />
           <li className="inline-flex items-center">

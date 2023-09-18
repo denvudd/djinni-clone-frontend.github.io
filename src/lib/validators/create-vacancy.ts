@@ -7,6 +7,7 @@ import {
 } from '../enums';
 
 export const CreateVacancyValidator = z.object({
+  active: z.boolean().optional(),
   name: z
     .string({
       required_error: 'Це поле не може бути порожнім',
@@ -27,13 +28,17 @@ export const CreateVacancyValidator = z.object({
     .max(14000, 'Це поле має бути менше 14000 символів'),
 
   youtube: z
-    .string()
-    .nonempty('Це поле не може бути порожнім')
-    .regex(
-      /^https:\/\/youtube\.com\/in\/[^\/\s]+$/,
-      'Будь ласка, вкажіть правильне посилання',
-    )
-    .optional(),
+    .union([
+      z.string().nullable(),
+      z
+        .string()
+        .regex(
+          /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|live\/|v\/)?)([\w\-]+)(\S+)?$/,
+          'Будь ласка, вкажіть правильне посилання',
+        ),
+    ])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
   category: z
     .string({
       required_error: 'Це поле не може бути порожнім',
@@ -41,11 +46,18 @@ export const CreateVacancyValidator = z.object({
     .nonempty('Оберіть один пункт зі списку'),
 
   country: z.string().optional(),
-  city: z.string().optional(),
+  city: z.union([z.string(), z.null()]).optional(),
   isRelocate: z.boolean(),
 
-  salaryForkGte: z.number().optional(),
-  salaryForkLte: z.number().optional(),
+  salaryForkGte: z
+    .union([z.number(), z.null()])
+    .optional()
+    .transform((e) => (e === null ? undefined : e)),
+  salaryForkLte: z
+    .union([z.number(), z.null()])
+    .optional()
+    .transform((e) => (e === null ? undefined : e)),
+
   privateSalaryForkGte: z.number(),
   privateSalaryForkLte: z.number(),
 
