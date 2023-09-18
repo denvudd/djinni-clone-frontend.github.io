@@ -142,6 +142,6 @@ export interface ClarifiedData {
 
 export interface VacancyKeyword {
   id: string;
-  name: ClarifiedData;
+  name: string;
   vacancyId: string;
 }

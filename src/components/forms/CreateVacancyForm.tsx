@@ -60,24 +60,44 @@ import {
 
 interface CreateVacancyFormProps {
   employerId: string;
+  existVacancy: Vacancy | undefined;
 }
 
 const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   employerId,
+  existVacancy,
 }) => {
   const router = useRouter();
 
-  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>(
+    existVacancy?.keywords.map((keyword) => keyword.name) || [],
+  );
   const clarifiedDataArr = convertEnumObjToArray(ClarifiedDataEnum);
 
   const form = useForm<CreateVacancyRequest>({
     resolver: zodResolver(CreateVacancyValidator),
     defaultValues: {
+      active: existVacancy?.active,
+      name: existVacancy?.name,
+      domain: existVacancy?.domain,
+      category: existVacancy?.category,
+      city: existVacancy?.city,
+      description: existVacancy?.description,
+      companyType: existVacancy?.companyType,
+      experience: existVacancy?.experience,
+      privateSalaryForkGte: existVacancy?.privateSalaryForkGte,
+      privateSalaryForkLte: existVacancy?.privateSalaryForkLte,
+      salaryForkGte: existVacancy?.salaryForkGte,
+      salaryForkLte: existVacancy?.salaryForkLte,
+      youtube: existVacancy?.youtube,
       keywords: selectedKeywords,
-      employmentOptions: EmploymentOption.Office,
-      english: EnglishLevel.NoEnglish,
-      clarifiedData: [ClarifiedDataEnum.Test_task],
-      isRelocate: true,
+      employmentOptions:
+        existVacancy?.employmentOptions || EmploymentOption.Office,
+      english: existVacancy?.english || EnglishLevel.NoEnglish,
+      clarifiedData: existVacancy?.clarifiedData.map((data) => data.name) || [
+        ClarifiedDataEnum.Test_task,
+      ],
+      isRelocate: existVacancy?.isRelocate || true,
     },
   });
 
@@ -131,17 +151,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
     isLoading: isVacancyLoading,
     isError: isVacancyError,
   } = useMutation({
-    mutationFn: async ({
-      clarifiedData,
-      keywords,
-      ...values
-    }: CreateVacancyRequest) => {
+    mutationFn: async ({ ...values }: CreateVacancyRequest) => {
       const payload = {
         employerId,
         ...values,
-        clarifiedData,
-        keywords,
-        active: true,
       };
       const { data } = await axios.post(`/vacancies`, payload);
 
@@ -161,23 +174,19 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   });
 
   const {
-    mutate: addToDraft,
-    isLoading: isDraftLoading,
-    isError: isDraftError,
+    mutate: updateVacancy,
+    isLoading: isVacancyUpdating,
+    isError: isVacancyUpdateError,
   } = useMutation({
-    mutationFn: async ({
-      clarifiedData,
-      keywords,
-      ...values
-    }: CreateVacancyRequest) => {
+    mutationFn: async ({ ...values }: CreateVacancyRequest) => {
       const payload = {
         employerId,
         ...values,
-        clarifiedData,
-        keywords,
-        active: false,
       };
-      const { data } = await axios.post(`/vacancies`, payload);
+      const { data } = await axios.patch(
+        `/vacancies/${existVacancy?.id}`,
+        payload,
+      );
 
       if (data instanceof AxiosError) {
         throw new Error();
@@ -195,19 +204,19 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   });
 
   function onSubmit(values: CreateVacancyRequest) {
+    console.log(values);
     createVacancy(values);
   }
 
-  function onSubmitDraft(values: CreateVacancyRequest) {
-    addToDraft(values);
+  function onSubmitUpdate(values: CreateVacancyRequest) {
+    console.log(values);
+    updateVacancy(values);
   }
-
-  console.log(form.formState.errors);
 
   return (
     <Form {...form}>
       <form className="flex flex-col gap-3 mt-4">
-        {(isDraftError || isVacancyError) && <ErrorAlert />}
+        {(isVacancyError || isVacancyUpdateError) && <ErrorAlert />}
         <FormField
           control={form.control}
           name="name"
@@ -241,6 +250,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   disabled={isDomainsLoading}
+                  defaultValue={existVacancy?.domain}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -341,6 +351,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   disabled={isCategoriesLoading}
+                  defaultValue={existVacancy?.category}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -396,6 +407,9 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     onRemoved={(tag) => {
                       if (field.value) {
                         field.onChange(field.value.filter((t) => t !== tag));
+                        setSelectedKeywords(
+                          field.value.filter((t) => t !== tag),
+                        );
                       }
                     }}
                     placeHolder="Введіть та натисніть Enter..."
@@ -420,7 +434,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Ремоут / Офіс
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  defaultValue={existVacancy?.employmentOptions}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue defaultValue={field.value} />
@@ -452,6 +469,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 <Select
                   disabled={isCitiesLoading}
                   onValueChange={(value) => field.onChange(value)}
+                  defaultValue={existVacancy?.city}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -487,6 +505,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     field.onChange(value === 'yes' ? true : false)
                   }
                   defaultValue={'yes'}
+                  defaultChecked={existVacancy?.isRelocate}
                   className="flex gap-2"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
@@ -583,7 +602,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                       <FormLabel>від</FormLabel>
                       <FormControl>
                         <Input
-                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="border-white w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           onChange={(e) => field.onChange(+e.target.value)}
                           value={field.value}
                           ref={field.ref}
@@ -601,7 +620,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                       <FormLabel>до</FormLabel>
                       <FormControl>
                         <Input
-                          className="w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="border-white w-16 h-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           onChange={(e) => field.onChange(+e.target.value)}
                           value={field.value}
                           ref={field.ref}
@@ -625,7 +644,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Досвід роботи, мінімум
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(+value)}>
+                <Select
+                  onValueChange={(value) => field.onChange(+value)}
+                  defaultValue={existVacancy?.experience.toString()}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="(не обрано)" />
@@ -654,7 +676,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Англійська
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  defaultValue={existVacancy?.english}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="(не обрано)" />
@@ -683,7 +708,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 Тип компанії
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  defaultValue={existVacancy?.companyType}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="(не обрано)" />
@@ -760,8 +788,16 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
             variant="outline"
             size="lg"
             isLoading={isVacancyLoading}
-            disabled={isVacancyLoading}
-            onClick={form.handleSubmit(onSubmitDraft)}
+            disabled={isVacancyLoading || isVacancyUpdating}
+            onClick={
+              existVacancy
+                ? form.handleSubmit(({ active, ...values }) =>
+                    onSubmitUpdate({ active: false, ...values }),
+                  )
+                : form.handleSubmit(({ active, ...values }) =>
+                    onSubmit({ active: false, ...values }),
+                  )
+            }
           >
             Зберегти як чорнетку
           </Button>
@@ -770,8 +806,16 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
             variant="outline"
             size="lg"
             isLoading={isVacancyLoading}
-            disabled={isVacancyLoading}
-            onClick={form.handleSubmit(onSubmitDraft)}
+            disabled={isVacancyLoading || isVacancyUpdating}
+            onClick={
+              existVacancy
+                ? form.handleSubmit(({ active, ...values }) =>
+                    onSubmitUpdate({ active: false, ...values }),
+                  )
+                : form.handleSubmit(({ active, ...values }) =>
+                    onSubmit({ active: false, ...values }),
+                  )
+            }
           >
             Подивитись прев'ю
           </Button>
@@ -780,11 +824,19 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
         <div className="flex justify-end">
           <Button
             type="submit"
-            isLoading={isVacancyLoading}
-            disabled={isVacancyLoading}
+            isLoading={isVacancyLoading || isVacancyUpdating}
+            disabled={isVacancyLoading || isVacancyUpdating}
             size="lg"
             className="text-lg"
-            onClick={form.handleSubmit(onSubmit)}
+            onClick={
+              existVacancy
+                ? form.handleSubmit(({ active, ...values }) =>
+                    onSubmitUpdate({ active: true, ...values }),
+                  )
+                : form.handleSubmit(({ active, ...values }) =>
+                    onSubmit({ active: true, ...values }),
+                  )
+            }
           >
             Опубліковати вакансію
           </Button>
