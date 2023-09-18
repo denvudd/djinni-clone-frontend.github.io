@@ -1,11 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import {
-  ClarifiedData,
-  CompanyType,
-  EmploymentOption,
-  EnglishLevel,
-} from './enums';
+import { ClarifiedDataEnum, EmploymentOption, EnglishLevel } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,6 +14,13 @@ export function convertEnumObjToArray(enumObj: any) {
   return (Object.keys(enumObj) as Array<keyof typeof enumObj>).map(
     (key) => enumObj[key],
   );
+}
+
+export function extractYoutubeKey(url: string) {
+  var regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  var match = url.match(regExp);
+  return match && match[7].length == 11 ? match[7] : false;
 }
 
 export function formatEnglishLevel(englishLevel: EnglishLevel): {
@@ -96,7 +98,7 @@ export function formatExperience(years: number) {
   }
 }
 
-export function formatClarifiedData(clarifiedData: ClarifiedData) {
+export function formatClarifiedData(clarifiedData: ClarifiedDataEnum) {
   switch (clarifiedData) {
     case 'Test_task':
       return 'Є тестове завдання';

@@ -1,4 +1,5 @@
 import {
+  ClarifiedDataEnum,
   CommunicateMethod,
   CompanyType,
   EmploymentOption,
@@ -119,6 +120,28 @@ export interface Vacancy {
   youtube?: string;
 
   companyType: CompanyType;
-  // clarifiedData: ClarifiedData[];
-  // keywords: VacancyKeyword[];
+  clarifiedData: ClarifiedData[];
+  keywords: VacancyKeyword[];
+
+  employer: {
+    id: string;
+    companyLink: string;
+    aboutCompany: string;
+    dou?: string;
+    fullname: string;
+    positionAndCompany: string;
+    avatar: string | null;
+  };
+}
+
+export interface ClarifiedData {
+  id: string;
+  name: ClarifiedDataEnum;
+  vacancyId: string;
+}
+
+export interface VacancyKeyword {
+  id: string;
+  name: ClarifiedData;
+  vacancyId: string;
 }

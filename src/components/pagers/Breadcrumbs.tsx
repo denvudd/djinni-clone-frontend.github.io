@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import Link from 'next/link';
-import { ChevronRightIcon } from '@radix-ui/react-icons';
+import { SlashIcon } from '@radix-ui/react-icons';
 
 import { cn, truncate } from '@/lib/utils';
 
@@ -20,13 +20,13 @@ export function Breadcrumbs({
   className,
   ...props
 }: BreadcrumbsProps) {
-  const SeparatorIcon = separator ?? ChevronRightIcon;
+  const SeparatorIcon = separator ?? SlashIcon;
 
   return (
     <nav
       aria-label="breadcrumbs"
       className={cn(
-        'flex w-full items-center overflow-auto text-sm font-medium text-muted-foreground',
+        'flex w-full items-center overflow-auto text-gray',
         className,
       )}
       {...props}
@@ -40,8 +40,7 @@ export function Breadcrumbs({
               aria-current={isLastSegment ? 'page' : undefined}
               href={segment.href}
               className={cn(
-                'truncate transition-colors hover:text-foreground',
-                isLastSegment ? 'text-foreground' : 'text-muted-foreground',
+                'truncate transition-colors hover:text-foreground text-primary',
               )}
             >
               {truncationLength > 0 && segment.title

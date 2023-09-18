@@ -52,7 +52,7 @@ import {
   formatEnglishLevel,
 } from '@/lib/utils';
 import {
-  ClarifiedData,
+  ClarifiedDataEnum,
   CompanyType,
   EmploymentOption,
   EnglishLevel,
@@ -68,7 +68,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   const router = useRouter();
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>([]);
-  const clarifiedDataArr = convertEnumObjToArray(ClarifiedData);
+  const clarifiedDataArr = convertEnumObjToArray(ClarifiedDataEnum);
 
   const form = useForm<CreateVacancyRequest>({
     resolver: zodResolver(CreateVacancyValidator),
@@ -76,7 +76,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       keywords: selectedKeywords,
       employmentOptions: EmploymentOption.Office,
       english: EnglishLevel.NoEnglish,
-      clarifiedData: [ClarifiedData.Test_task],
+      clarifiedData: [ClarifiedDataEnum.Test_task],
       isRelocate: true,
     },
   });
@@ -152,7 +152,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       return data as Vacancy;
     },
     onSuccess: (data) => {
-      router.push('/home/jobs');
+      router.push(`/jobs/${data.id}`);
       router.refresh();
     },
     onError: (error) => {
@@ -186,7 +186,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       return data as Vacancy;
     },
     onSuccess: (data) => {
-      router.push('/home/jobs');
+      router.push(`/jobs/${data.id}`);
+      router.refresh();
     },
     onError: (error) => {
       console.log('[DEV]: ', error);
@@ -206,6 +207,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
   return (
     <Form {...form}>
       <form className="flex flex-col gap-3 mt-4">
+        {(isDraftError || isVacancyError) && <ErrorAlert />}
         <FormField
           control={form.control}
           name="name"
@@ -769,6 +771,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
             size="lg"
             isLoading={isVacancyLoading}
             disabled={isVacancyLoading}
+            onClick={form.handleSubmit(onSubmitDraft)}
           >
             Подивитись прев'ю
           </Button>

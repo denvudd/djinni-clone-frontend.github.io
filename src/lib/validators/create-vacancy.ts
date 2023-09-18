@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  ClarifiedData,
+  ClarifiedDataEnum,
   CompanyType,
   EmploymentOption,
   EnglishLevel,
@@ -67,7 +67,7 @@ export const CreateVacancyValidator = z.object({
     required_error: 'Це поле не може бути порожнім',
   }),
 
-  clarifiedData: z.array(z.nativeEnum(ClarifiedData)).optional(),
+  clarifiedData: z.array(z.nativeEnum(ClarifiedDataEnum)).optional(),
   skills: z.array(z.string()).optional(),
   keywords: z.array(z.string()).optional(),
 });
