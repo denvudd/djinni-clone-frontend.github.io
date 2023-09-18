@@ -10,12 +10,14 @@ import UserAvatar from '@/components/UserAvatar';
 import { Breadcrumbs } from '@/components/pagers/Breadcrumbs';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import YoutubeEmbed from '@/components/ui/YoutubeEmbed';
+import ReactMarkdown from 'react-markdown';
 
 import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { PenSquare, Users } from 'lucide-react';
+import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 interface PageProps {
   params: {
     vacancyId: string;
@@ -140,7 +142,11 @@ const page: React.FC<PageProps> = async ({ params }) => {
       <div className="w-full flex gap-6">
         <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
           {youtube && <YoutubeEmbed url={youtube} className="mb-4" />}
-          <div className="mb-4">{description}</div>
+          <div className="mb-4">
+            <ReactMarkdown components={MarkdownRender}>
+              {description}
+            </ReactMarkdown>
+          </div>
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Про компанію</h4>
             {employer.aboutCompany ? (

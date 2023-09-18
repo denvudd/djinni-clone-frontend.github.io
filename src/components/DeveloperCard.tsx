@@ -11,12 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/Card';
+import { MarkdownRender } from './renderers/MarkdownRender';
 import { Badge } from './ui/Badge';
 import { Bookmark, Eye, MessageCircle } from 'lucide-react';
 
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
 
 const TRUNCATE_TEXT_LENGTH = 450;
 interface DeveloperCardProps {
@@ -27,6 +29,7 @@ interface DeveloperCardProps {
   city: string;
   experience: number;
   english: EnglishLevel;
+  updatedAt: Date;
   createdAt: Date;
   description: string;
   skills: Skill[];
@@ -37,6 +40,7 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
   id,
   city,
   country,
+  updatedAt,
   createdAt,
   description,
   english,
@@ -74,8 +78,8 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
           <li>{formatEnglishLevel(english).label}</li>
           <span className="mx-1">·</span>
           <li>
-            Опубліковано{' '}
-            {formatDistance(new Date(createdAt), new Date(), {
+            {createdAt <= updatedAt ? 'Оновлено' : 'Опубліковано'}{' '}
+            {formatDistance(new Date(updatedAt), new Date(), {
               locale: uk,
             })}{' '}
             тому
@@ -85,7 +89,9 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
       <CardContent className="flex flex-col gap-1 p-5 pt-0">
         <div className="pb-3">
           <div className="overflow-hidden text-ellipsis">
-            {truncateDescription}
+            <ReactMarkdown components={MarkdownRender}>
+              {truncateDescription}
+            </ReactMarkdown>
           </div>
           {isDescriptionTruncated && (
             <Link href={`/q/${id}`} className="text-primary">
