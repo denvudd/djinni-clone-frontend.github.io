@@ -294,6 +294,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     поради Джина
                   </a>
                   .
+                  <br />
+                  Використовуйте <strong>**зірочки**</strong> для bold
                 </FormDescription>
                 <FormMessage />
               </div>

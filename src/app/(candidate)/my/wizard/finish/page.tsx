@@ -1,13 +1,16 @@
 import React from 'react';
+import Link from 'next/link';
 
 import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 import axios from '@/lib/axios';
 
-import CandidateInfo from '@/components/CandidateFullfiledInfo';
+import CandidateInfo from '@/components/CandidateInfo';
 import { type CandidateProfile } from '@/types';
 import { Separator } from '@/components/ui/Separator';
-import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import { MarkdownRender } from '@/components/renderers/MarkdownRender';
+
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 
@@ -47,7 +50,11 @@ const Page: React.FC = async ({}) => {
           <div className="space-y-2 mb-4">
             <h2 className="text-2xl font-semibold">{position}</h2>
             <h4 className="font-semibold">Досвід роботи</h4>
-            <p>{experienceDescr}</p>
+            <div>
+              <ReactMarkdown components={MarkdownRender}>
+                {experienceDescr!}
+              </ReactMarkdown>
+            </div>
           </div>
           <h4 className="font-semibold mb-2">Навички</h4>
           <ul className="flex flex-wrap gap-2">

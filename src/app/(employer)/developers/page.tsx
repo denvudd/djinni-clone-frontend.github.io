@@ -71,6 +71,7 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
                   key={candidate.id}
                   city={candidate.city}
                   country={candidate.country}
+                  updatedAt={candidate.updatedAt}
                   createdAt={candidate.createdAt}
                   description={candidate.experienceDescr!}
                   expectations={candidate.expectations}
