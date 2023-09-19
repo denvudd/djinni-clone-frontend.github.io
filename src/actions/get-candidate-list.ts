@@ -51,7 +51,12 @@ export const getCandidatesList = async (
     }
 
     return data as {
-      candidates: CandidateProfile[];
+      candidates: ({
+        favoriteCandidates: {
+          employerId?: string;
+          id?: string;
+        }[];
+      } & CandidateProfile)[];
       count: number;
     };
   } catch (error) {

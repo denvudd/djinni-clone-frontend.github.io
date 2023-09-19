@@ -47,8 +47,8 @@ export interface CandidateProfile {
 
   category?: string;
   hourlyRate?: number;
-  position?: string;
-  experienceDescr?: string;
+  position: string;
+  experienceDescr: string;
   expectationsDescr?: string;
   achievementsDescr?: string;
   employerQuestions?: string;

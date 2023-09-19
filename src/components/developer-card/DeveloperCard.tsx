@@ -4,21 +4,15 @@ import Link from 'next/link';
 import { type EnglishLevel } from '@/lib/enums';
 import { type Skill } from '@/types';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './ui/Card';
-import { MarkdownRender } from './renderers/MarkdownRender';
-import { Badge } from './ui/Badge';
-import { Bookmark, Eye, MessageCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { MarkdownRender } from '../renderers/MarkdownRender';
+import { Badge } from '../ui/Badge';
 
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
+import DeveloperCardFooter from './DeveloperCardFooter';
 
 const TRUNCATE_TEXT_LENGTH = 450;
 interface DeveloperCardProps {
@@ -34,6 +28,9 @@ interface DeveloperCardProps {
   description: string;
   skills: Skill[];
   views: number;
+  isFavorite: boolean;
+  favoriteId: string | undefined;
+  employerId?: string;
 }
 
 const DeveloperCard: React.FC<DeveloperCardProps> = ({
@@ -49,6 +46,9 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
   skills,
   title,
   views,
+  isFavorite,
+  favoriteId,
+  employerId,
 }) => {
   const isDescriptionTruncated = description.length > TRUNCATE_TEXT_LENGTH;
   const truncateDescription = isDescriptionTruncated
@@ -113,25 +113,13 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="px-5 py-5 border-t border-borderColor flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/q/${id}#poke_form`}
-            className="text-primary inline-flex gap-1 items-center"
-          >
-            <MessageCircle className="w-5 h-5" /> Написати
-          </Link>
-          <Link
-            href={`/q/${id}#poke_form`}
-            className="text-primary inline-flex gap-1 items-center"
-          >
-            <Bookmark className="w-5 h-5" /> Зберегти
-          </Link>
-        </div>
-        <span className="inline-flex gap-1 items-center text-gray">
-          <Eye className="w-5 h-5" /> {views}
-        </span>
-      </CardFooter>
+      <DeveloperCardFooter
+        candidateId={id}
+        isFavorite={isFavorite}
+        views={views}
+        employerId={employerId}
+        favoriteId={favoriteId}
+      />
     </Card>
   );
 };
