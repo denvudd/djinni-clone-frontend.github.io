@@ -5,8 +5,9 @@ import SidebarDevelopers from '@/components/SidebarDevelopers';
 
 import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
 import DevelopersSearch from '@/components/DevelopersSearch';
-import DeveloperCard from '@/components/DeveloperCard';
+import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import { getCandidatesList } from '@/actions/get-candidate-list';
+import { getAuthServerSession } from '@/lib/next-auth';
 export interface DevelopersPageProps {
   searchParams: {
     location: string;
@@ -25,6 +26,7 @@ export interface DevelopersPageProps {
 
 const Page = async ({ searchParams }: DevelopersPageProps) => {
   const { candidates, count } = await getCandidatesList(searchParams);
+  const session = await getAuthServerSession();
 
   return (
     <>
@@ -45,7 +47,7 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
         </li>
         <li>
           <Link
-            href="/favorite-candidates"
+            href="/home/favorite-candidates"
             className="text-gray relative border-b-2 border-b-borderColor font-semibold py-2 h-full block"
           >
             Збережені
@@ -73,13 +75,16 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
                   country={candidate.country}
                   updatedAt={candidate.updatedAt}
                   createdAt={candidate.createdAt}
-                  description={candidate.experienceDescr!}
+                  description={candidate.experienceDescr}
                   expectations={candidate.expectations}
                   experience={candidate.experience}
                   english={candidate.english}
                   skills={candidate.skills}
-                  title={candidate.position!}
+                  title={candidate.position}
                   views={candidate.views}
+                  isFavorite={!!candidate.favoriteCandidates[0]?.employerId}
+                  favoriteId={candidate.favoriteCandidates[0]?.id}
+                  employerId={session?.user?.employer_id}
                 />
               ))}
           </div>
