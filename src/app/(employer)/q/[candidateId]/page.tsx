@@ -1,10 +1,12 @@
 import CandidateInfo from '@/components/CandidateInfo';
+import EmployerOfferForm from '@/components/EmployerOfferForm';
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { Badge } from '@/components/ui/Badge';
+import { buttonVariants } from '@/components/ui/Button';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { cn } from '@/lib/utils';
 import { type CandidateProfile } from '@/types';
@@ -82,6 +84,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     skype,
     telegram,
     whatsApp,
+    offers,
   } = await getCandidate();
 
   const segments: BreadcrumbsSegment = [
@@ -103,6 +106,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     session &&
     session.user.role === 'Candidate' &&
     session.user.candidate_id === candidateId;
+
+  const isDialogExist =
+    offers &&
+    !!offers.length &&
+    offers.find((offer) => offer.employerId === session?.user.employer_id);
 
   return (
     <>
@@ -170,6 +178,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
             <h4 className="font-semibold mb-2">Мова спілкування</h4>
             {preferableLang === 'Ukrainian' ? 'Українська' : 'English'}
           </div>
+
+          <EmployerOfferForm />
         </div>
 
         <div className="flex flex-col gap-4 md:flex-[0_0_33.333%] md:max-w-[33.333%]">

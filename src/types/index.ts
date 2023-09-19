@@ -68,6 +68,7 @@ export interface CandidateProfile {
   resumeFile?: null;
 
   skills: Skill[];
+  offers?: Offer[];
   // blockedDomains: [];
   // blockedTypes: [];
 }
@@ -132,6 +133,19 @@ export interface Vacancy {
     positionAndCompany: string;
     avatar: string | null;
   };
+}
+
+interface Offer {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  coverLetter: string;
+
+  vacancyId: string;
+  employerId: string;
+  candidateId: string;
+  // replies: ReplyOnOffer[]
 }
 
 export interface ClarifiedData {
