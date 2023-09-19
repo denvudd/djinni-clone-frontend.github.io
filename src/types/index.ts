@@ -53,7 +53,7 @@ export interface CandidateProfile {
   achievementsDescr?: string;
   employerQuestions?: string;
 
-  preferableLang?: PreferableLanguage;
+  preferableLang: PreferableLanguage;
   english: EnglishLevel;
   employmentOptions: EmploymentOption;
   communicateMethod: CommunicateMethod;
