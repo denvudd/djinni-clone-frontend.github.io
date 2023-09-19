@@ -14,6 +14,12 @@ import { candidateMenu, employerMenu } from '@/config/menu';
 const Navbar: React.FC = async ({}) => {
   const session = await getAuthServerSession();
 
+  if (!session) return redirect('/login');
+
+  console.log(session);
+
+  const { fullname, role, avatar, filled } = session.user;
+
   return (
     <header className="w-full bg-gray-100 dark:bg-dark mb-12">
       <div className="w-full min-h-[50px] container mx-auto py-2">
@@ -22,15 +28,15 @@ const Navbar: React.FC = async ({}) => {
             <Link href="/" className="min-w-[86px] min-h-[25px]">
               <Icons.logo className="fill-black dark:fill-white" />
             </Link>
-            {session?.user?.filled && (
+            {filled && (
               <ul className="flex gap-4 dark:text-gray-400 text-gray-dark font-semibold">
-                {session?.user?.role === 'Candidate' &&
+                {role === 'Candidate' &&
                   candidateMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>
                     </li>
                   ))}
-                {session?.user?.role === 'Employer' &&
+                {role === 'Employer' &&
                   employerMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>
@@ -39,14 +45,14 @@ const Navbar: React.FC = async ({}) => {
               </ul>
             )}
           </div>
-          {session?.user ? (
-            session?.user?.filled && (
+          {session.user ? (
+            filled && (
               <UserAccountNav
                 user={{
-                  fullname: session?.user?.fullname,
-                  avatar: session?.user?.avatar,
-                  role: session?.user?.role,
-                  filled: session?.user?.filled,
+                  fullname,
+                  avatar,
+                  role,
+                  filled,
                 }}
               />
             )
@@ -59,7 +65,7 @@ const Navbar: React.FC = async ({}) => {
                     buttonVariants({
                       variant: 'outline',
                       className:
-                        'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+                        'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
                     }),
                   )}
                 >
@@ -73,7 +79,7 @@ const Navbar: React.FC = async ({}) => {
                     buttonVariants({
                       variant: 'outline',
                       className:
-                        'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+                        'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
                     }),
                   )}
                 >
