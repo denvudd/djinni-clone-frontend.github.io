@@ -1,23 +1,26 @@
-import CandidateInfo from '@/components/CandidateInfo';
-import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
+import React from 'react';
+import Link from 'next/link';
+
+import { redirect } from 'next/navigation';
+import { getAuthServerSession } from '@/lib/next-auth';
+import axios, { AxiosError } from 'axios';
+
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
+import CandidateInfo from '@/components/CandidateInfo';
+import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
+import ReactMarkdown from 'react-markdown';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { Badge } from '@/components/ui/Badge';
-import { Button, buttonVariants } from '@/components/ui/Button';
-import { getAuthServerSession } from '@/lib/next-auth';
+
+import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { type CandidateProfile } from '@/types';
-import axios, { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { Clock } from 'lucide-react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import React from 'react';
-import ReactMarkdown from 'react-markdown';
+import { type CandidateProfile } from '@/types';
 
 interface PageProps {
   params: {

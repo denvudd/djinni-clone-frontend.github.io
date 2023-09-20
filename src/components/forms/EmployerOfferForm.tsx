@@ -1,6 +1,15 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
+import { AxiosError } from 'axios';
+
 import {
   Form,
   FormControl,
@@ -10,21 +19,15 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/Form';
-import { useForm } from 'react-hook-form';
+import { Textarea } from '../ui/Textarea';
+import { Button } from '../ui/Button';
+import ErrorAlert from '../ui/ErrorAlert';
+
 import {
   EmployerCreateOfferValidator,
   type EmployerCreateOfferRequest,
 } from '@/lib/validators/employer-create-offer';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { Textarea } from '../ui/Textarea';
-import { Button } from '../ui/Button';
-import { useMutation } from '@tanstack/react-query';
-import axios from '@/lib/axios';
-import { AxiosError } from 'axios';
-import ErrorAlert from '../ui/ErrorAlert';
-import { Offer } from '@/types';
-import { useRouter } from 'next/navigation';
+import { type Offer } from '@/types';
 
 interface EmployerOfferFormProps {
   employerId: string;
