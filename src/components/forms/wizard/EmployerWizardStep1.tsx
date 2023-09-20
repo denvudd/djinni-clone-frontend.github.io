@@ -78,7 +78,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
       form.reset();
     },
     onError: (error) => {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 

@@ -1,12 +1,12 @@
 import CandidateInfo from '@/components/CandidateInfo';
-import EmployerOfferForm from '@/components/EmployerOfferForm';
+import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { Badge } from '@/components/ui/Badge';
-import { buttonVariants } from '@/components/ui/Button';
+import { Button, buttonVariants } from '@/components/ui/Button';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { cn } from '@/lib/utils';
 import { type CandidateProfile } from '@/types';
@@ -46,7 +46,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
       return data as CandidateProfile;
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
 
       redirect('/not-found');
     }
@@ -55,9 +55,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   const {
     city,
     category,
-    communicateMethod,
     country,
-    createdAt,
     employmentOptions,
     english,
     expectations,
@@ -68,22 +66,9 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     position,
     skills,
     updatedAt,
-    userId,
-    views,
     achievementsDescr,
-    employerQuestions,
     expectationsDescr,
-    fullname,
-    github,
-    hourlyRate,
-    linkedIn,
-    phone,
-    portfolio,
     preferableLang,
-    resumeFile,
-    skype,
-    telegram,
-    whatsApp,
     offers,
   } = await getCandidate();
 
@@ -107,10 +92,12 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     session.user.role === 'Candidate' &&
     session.user.candidate_id === candidateId;
 
-  const isDialogExist =
-    offers &&
+  const dialog =
+    !!offers &&
     !!offers.length &&
     offers.find((offer) => offer.employerId === session?.user.employer_id);
+
+  const isDialogExist = !!dialog;
 
   return (
     <>
@@ -162,7 +149,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
               <p className="text-gray">Інформації не додано</p>
             )}
           </div>
-
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Очікування від роботи</h4>
             {expectationsDescr ? (
@@ -173,13 +159,32 @@ const Page: React.FC<PageProps> = async ({ params }) => {
               <p className="text-gray">Інформації не додано</p>
             )}
           </div>
-
-          <div className="mb-4">
+          <div className="mb-10">
             <h4 className="font-semibold mb-2">Мова спілкування</h4>
             {preferableLang === 'Ukrainian' ? 'Українська' : 'English'}
           </div>
 
-          <EmployerOfferForm />
+          {/* if employer don't have dialog with candidate yet */}
+          {!isDialogExist && !isOwner && session?.user.employer_id && (
+            <EmployerOfferForm
+              employerId={session?.user.employer_id}
+              candidateId={id}
+            />
+          )}
+
+          {/* if employer does have dialog with candidate */}
+          {isDialogExist && !isOwner && session?.user.employer_id && (
+            <Link
+              href={`/home/inbox/${dialog.id}`}
+              className={cn(
+                buttonVariants({
+                  className: 'text-lg',
+                }),
+              )}
+            >
+              Відкрити діалог з кандидатом
+            </Link>
+          )}
         </div>
 
         <div className="flex flex-col gap-4 md:flex-[0_0_33.333%] md:max-w-[33.333%]">

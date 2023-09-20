@@ -48,7 +48,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
 
       return data as Vacancy;
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
       redirect('/not-found');
     }
   }

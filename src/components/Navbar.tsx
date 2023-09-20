@@ -14,6 +14,8 @@ import { candidateMenu, employerMenu } from '@/config/menu';
 const Navbar: React.FC = async ({}) => {
   const session = await getAuthServerSession();
 
+  console.log(session?.user);
+
   return (
     <header className="w-full bg-gray-100 dark:bg-dark mb-12">
       <div className="w-full min-h-[50px] container mx-auto py-2">

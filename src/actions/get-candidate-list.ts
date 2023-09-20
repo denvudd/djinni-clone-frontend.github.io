@@ -60,7 +60,7 @@ export const getCandidatesList = async (
       count: number;
     };
   } catch (error) {
-    console.log('[DEV]: ', error);
+    console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
 
     redirect('/error');
   }

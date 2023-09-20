@@ -66,7 +66,7 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
       form.reset();
     },
     onError: (error) => {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 

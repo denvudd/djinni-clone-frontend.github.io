@@ -39,7 +39,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
       return data as City[];
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     }
   };
 
@@ -51,7 +51,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
       return data as Category[];
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     }
   };
 

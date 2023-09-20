@@ -18,7 +18,7 @@ export const getEmployerVacancies = async (employerId: string) => {
 
     return data as Vacancy[];
   } catch (error) {
-    console.log('[DEV]: ', error);
+    console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
 
     redirect('/error');
   }

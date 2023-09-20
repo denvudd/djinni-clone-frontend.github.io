@@ -47,7 +47,7 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
       skillsRefetch();
     },
     onError: (error) => {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 

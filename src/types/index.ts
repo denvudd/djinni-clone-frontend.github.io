@@ -135,16 +135,20 @@ export interface Vacancy {
   };
 }
 
-interface Offer {
+export interface Offer {
   id: string;
   createdAt: Date;
   updatedAt: Date;
 
   coverLetter: string;
-
-  vacancyId: string;
   employerId: string;
   candidateId: string;
+
+  vacancyId: {
+    active: boolean;
+    category: string;
+    id: string;
+  } | null;
   // replies: ReplyOnOffer[]
 }
 

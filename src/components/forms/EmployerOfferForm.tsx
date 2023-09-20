@@ -9,7 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/Form';
+} from '../ui/Form';
 import { useForm } from 'react-hook-form';
 import {
   EmployerCreateOfferValidator,
@@ -17,12 +17,26 @@ import {
 } from '@/lib/validators/employer-create-offer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import { Textarea } from './ui/Textarea';
-import { Button } from './ui/Button';
+import { Textarea } from '../ui/Textarea';
+import { Button } from '../ui/Button';
+import { useMutation } from '@tanstack/react-query';
+import axios from '@/lib/axios';
+import { AxiosError } from 'axios';
+import ErrorAlert from '../ui/ErrorAlert';
+import { Offer } from '@/types';
+import { useRouter } from 'next/navigation';
 
-interface EmployerOfferFormProps {}
+interface EmployerOfferFormProps {
+  employerId: string;
+  candidateId: string;
+}
 
-const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({}) => {
+const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({
+  candidateId,
+  employerId,
+}) => {
+  const router = useRouter();
+
   const form = useForm<EmployerCreateOfferRequest>({
     resolver: zodResolver(EmployerCreateOfferValidator),
     defaultValues: {
@@ -30,16 +44,48 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({}) => {
     },
   });
 
+  const {
+    mutate: createOffer,
+    isLoading: isOfferLoading,
+    isError: isOfferError,
+  } = useMutation({
+    mutationFn: async ({ coverLetter }: EmployerCreateOfferRequest) => {
+      const payload = {
+        employerId,
+        candidateId,
+        coverLetter,
+      };
+      const { data } = await axios.post(
+        `/employer/${employerId}/offer`,
+        payload,
+      );
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data as Offer;
+    },
+    onSuccess: (data) => {
+      router.push(`/home/inbox/${data.id}`);
+      router.refresh();
+    },
+    onError: (error) => {
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+    },
+  });
+
   const onSubmit = (values: EmployerCreateOfferRequest) => {
-    console.log(values);
+    createOffer(values);
   };
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-0 first-line:max-w-[75%]"
+        className="space-y-0 flex flex-col gap-4 max-w-[75%]"
       >
+        {isOfferError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="coverLetter"
@@ -53,7 +99,7 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({}) => {
                 кандидат. Не пишіть все, напишіть головне. Ваша мета -
                 зацікавити вакансією. Більше про проект та компанію можна
                 розповісти у вашому{' '}
-                <Link href="/hone/profile" className="text-link">
+                <Link href="/home/profile" className="text-link">
                   профілі работодавця.
                 </Link>{' '}
                 <em>
@@ -64,14 +110,18 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({}) => {
                 </em>
               </FormDescription>
               <FormControl>
-                <Textarea rows={9} />
+                <Textarea {...field} rows={9} />
               </FormControl>
 
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="text-lg">Запропонувати вакансію</Button>
+        <div className="inline-block">
+          <Button type="submit" className="text-lg">
+            Запропонувати вакансію
+          </Button>
+        </div>
       </form>
     </Form>
   );
