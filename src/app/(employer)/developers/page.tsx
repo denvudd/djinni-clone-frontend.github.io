@@ -8,6 +8,9 @@ import DevelopersSearch from '@/components/DevelopersSearch';
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import { getCandidatesList } from '@/actions/get-candidate-list';
 import { getAuthServerSession } from '@/lib/next-auth';
+
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 export interface DevelopersPageProps {
   searchParams: {
     location: string;

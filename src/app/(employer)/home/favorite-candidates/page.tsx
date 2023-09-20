@@ -40,7 +40,7 @@ const Page: React.FC<PageProps> = async ({}) => {
         } & CandidateProfile)[];
       };
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
 
       redirect('/error');
     }

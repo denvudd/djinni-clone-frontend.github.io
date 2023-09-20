@@ -169,7 +169,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       router.refresh();
     },
     onError: (error) => {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 
@@ -199,7 +199,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       router.refresh();
     },
     onError: (error) => {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 

@@ -53,7 +53,7 @@ export interface CandidateProfile {
   achievementsDescr?: string;
   employerQuestions?: string;
 
-  preferableLang?: PreferableLanguage;
+  preferableLang: PreferableLanguage;
   english: EnglishLevel;
   employmentOptions: EmploymentOption;
   communicateMethod: CommunicateMethod;
@@ -68,6 +68,7 @@ export interface CandidateProfile {
   resumeFile?: null;
 
   skills: Skill[];
+  offers?: Offer[];
   // blockedDomains: [];
   // blockedTypes: [];
 }
@@ -132,6 +133,23 @@ export interface Vacancy {
     positionAndCompany: string;
     avatar: string | null;
   };
+}
+
+export interface Offer {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  coverLetter: string;
+  employerId: string;
+  candidateId: string;
+
+  vacancyId: {
+    active: boolean;
+    category: string;
+    id: string;
+  } | null;
+  // replies: ReplyOnOffer[]
 }
 
 export interface ClarifiedData {

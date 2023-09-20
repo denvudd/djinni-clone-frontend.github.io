@@ -13,6 +13,8 @@ interface BreadcrumbsProps extends React.ComponentPropsWithoutRef<'nav'> {
   truncationLength?: number;
 }
 
+export type BreadcrumbsSegment = BreadcrumbsProps['segments'];
+
 export function Breadcrumbs({
   segments,
   separator,

@@ -7,17 +7,20 @@ import { getAuthServerSession } from '@/lib/next-auth';
 
 import EmployerVacancyInfo from '@/components/EmployerVacancyInfo';
 import UserAvatar from '@/components/UserAvatar';
-import { Breadcrumbs } from '@/components/pagers/Breadcrumbs';
+import {
+  Breadcrumbs,
+  type BreadcrumbsSegment,
+} from '@/components/pagers/Breadcrumbs';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import YoutubeEmbed from '@/components/ui/YoutubeEmbed';
 import ReactMarkdown from 'react-markdown';
+import { MarkdownRender } from '@/components/renderers/MarkdownRender';
+import { PenSquare, Users } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
-import { PenSquare, Users } from 'lucide-react';
-import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 interface PageProps {
   params: {
     vacancyId: string;
@@ -45,7 +48,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
 
       return data as Vacancy;
     } catch (error) {
-      console.log('[DEV]: ', error);
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
       redirect('/not-found');
     }
   }
@@ -65,10 +68,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
     id,
     isRelocate,
     name,
-    privateSalaryForkGte,
-    privateSalaryForkLte,
     responsesCount,
-    updatedAt,
     city,
     salaryForkGte,
     salaryForkLte,
@@ -78,7 +78,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
     keywords,
   } = await getVacancy();
 
-  const segments = [
+  const segments: BreadcrumbsSegment = [
     {
       title: 'Всі вакансії',
       href: '/jobs',
