@@ -6,6 +6,7 @@ import {
   EnglishLevel,
   PreferableLanguage,
 } from '@/lib/enums';
+import { User } from 'next-auth';
 
 export interface Category {
   name: string;
@@ -132,6 +133,30 @@ export interface Vacancy {
     fullname: string;
     positionAndCompany: string;
     avatar: string | null;
+  };
+}
+
+export interface EmployerOffer {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  vacancyId: null;
+  coverLetter: string;
+  employerId: string;
+  candidateId: string;
+  candidate: {
+    fullname: string | null;
+    position: string;
+    expectations: number;
+    country: string;
+    city: string;
+    experience: number;
+    english: EnglishLevel;
+    user: {
+      email: string;
+      avatar: string | null;
+    }[];
   };
 }
 

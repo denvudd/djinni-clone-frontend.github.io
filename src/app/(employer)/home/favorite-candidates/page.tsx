@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
@@ -7,8 +9,6 @@ import axios, { AxiosError } from 'axios';
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import { type CandidateProfile } from '@/types';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface PageProps {}
 
