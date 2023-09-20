@@ -1,13 +1,14 @@
 import React from 'react';
-import Link from 'next/link';
+
+import { getAuthServerSession } from '@/lib/next-auth';
+import { getCandidatesList } from '@/actions/get-candidate-list';
 
 import SidebarDevelopers from '@/components/SidebarDevelopers';
-
-import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
 import DevelopersSearch from '@/components/DevelopersSearch';
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
-import { getCandidatesList } from '@/actions/get-candidate-list';
-import { getAuthServerSession } from '@/lib/next-auth';
+import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+
+import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -31,32 +32,23 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
   const { candidates, count } = await getCandidatesList(searchParams);
   const session = await getAuthServerSession();
 
+  const tabs: PageTabProp = [
+    {
+      title: 'Усі',
+      path: '/developers',
+    },
+    {
+      title: 'Збережені',
+      path: '/home/favorite-candidates',
+    },
+  ];
+
   return (
     <>
       <h1 className="text-3xl leading-5 font-semibold mb-4">
         Кандидати <span className="text-gray">{count}</span>
       </h1>
-      <ul
-        className="flex relative gap-4 mb-5 flex-wrap before:absolute before:h-[2px] before:left-0 before:bottom-0 
-      before:border-b before:border-b-borderColor before:w-full"
-      >
-        <li>
-          <Link
-            href="/developers"
-            className="text-dark-gray relative border-b-2 border-b-orange font-semibold py-2 h-full block"
-          >
-            Усі
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/home/favorite-candidates"
-            className="text-gray relative border-b-2 border-b-borderColor font-semibold py-2 h-full block"
-          >
-            Збережені
-          </Link>
-        </li>
-      </ul>
+      <PageTabs tabs={tabs} active={0} />
       <div className="grid grid-cols-4 gap-4">
         <SidebarDevelopers searchParams={searchParams} />
         <div className="col-span-3 bg-white px-3">
