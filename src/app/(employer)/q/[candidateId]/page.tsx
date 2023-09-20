@@ -21,15 +21,18 @@ import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { Clock } from 'lucide-react';
 import { type CandidateProfile } from '@/types';
+import { Alert, AlertDescription } from '@/components/ui/Alert';
 
 interface PageProps {
   params: {
     candidateId: string;
   };
+  searchParams: { msgsent: string };
 }
 
-const Page: React.FC<PageProps> = async ({ params }) => {
+const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   const { candidateId } = params;
+  const { msgsent } = searchParams;
 
   const session = await getAuthServerSession();
 
@@ -104,6 +107,13 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
   return (
     <>
+      {msgsent === 'ok' && (
+        <Alert className="mb-4 bg-green-subtle md:max-w-[66.666%]">
+          <AlertDescription className="text-base">
+            Повідомлення надіслано.
+          </AlertDescription>
+        </Alert>
+      )}
       <Breadcrumbs segments={segments} />
       <h1 className="text-3xl font-semibold mt-4 mb-2">{position}</h1>
       {isOwner && (

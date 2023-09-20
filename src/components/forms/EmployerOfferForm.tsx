@@ -70,7 +70,7 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({
       return data as Offer;
     },
     onSuccess: (data) => {
-      router.push(`/home/inbox/${data.id}`);
+      router.push(`/q/${data.candidateId}?msgsent=ok`);
       router.refresh();
     },
     onError: (error) => {
