@@ -1,22 +1,18 @@
 import OfferMessage from '@/components/OfferMessage';
 import UserAvatar from '@/components/UserAvatar';
+import ReplyOnOffer from '@/components/forms/ReplyOnOffer';
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
-import { MarkdownRender } from '@/components/renderers/MarkdownRender';
+import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { Icons } from '@/components/ui/Icons';
 import { Separator } from '@/components/ui/Separator';
-import { Tooltip, TooltipTrigger } from '@/components/ui/Tooltip';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { formatEnglishLevel } from '@/lib/utils';
 import { type ExtendedEmployerOffer } from '@/types';
-import { TooltipContent } from '@radix-ui/react-tooltip';
 import axios, { AxiosError } from 'axios';
-import { format } from 'date-fns';
-import { uk } from 'date-fns/locale';
 import {
-  Check,
   ChevronRight,
   Globe,
   Mail,
@@ -27,16 +23,20 @@ import {
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 
 interface PageProps {
   params: {
     offerId: string;
   };
+  searchParams: {
+    msgsent: string;
+  };
 }
 
-const Page: React.FC<PageProps> = async ({ params }) => {
+const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   const { offerId } = params;
+  const { msgsent } = searchParams;
+
   const session = await getAuthServerSession();
 
   if (!session || !session.user.employer_id) redirect('/');
@@ -84,7 +84,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   const offer = await getOffer();
 
   // console.log(candidate);
-  // console.log('offer author :', offer.replies![0].author);
+  // console.log('offer author :', offer.replies![1].author);
   // console.log('id: ', offerId);
 
   function clearTelegramNickname(str: string) {
@@ -224,7 +224,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
             message={coverLetter}
             createdAt={createdAt}
             author={{
-              avatar: employer.user.avatar,
+              avatar: employer.user[0].avatar,
               name: 'Ви',
             }}
           />
@@ -247,6 +247,20 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 />
               </>
             ))}
+          {msgsent === 'ok' && (
+            <Alert className="bg-green-subtle w-full -mb-4 mt-8">
+              <AlertDescription className="text-base">
+                Повідомлення надіслано.
+              </AlertDescription>
+            </Alert>
+          )}
+          <ReplyOnOffer
+            offerId={offerId}
+            authorId={employer.user[0].id}
+            candidateId={candidateId}
+            employerId={employerId}
+            className="mt-10"
+          />
         </div>
       </div>
     </>

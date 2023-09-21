@@ -148,6 +148,10 @@ export interface EmployerOffer {
   candidateId: string;
   active: boolean;
   isArchive: boolean;
+  replies: {
+    text: string;
+    updatedAt: Date;
+  }[];
   candidate: {
     fullname: string | null;
     position: string;
@@ -214,6 +218,7 @@ export interface ExtendedEmployerOffer {
     whatsApp?: string;
     user: {
       email: string;
+      id: string;
       avatar: string | null;
     }[];
   };
@@ -225,8 +230,9 @@ export interface ExtendedEmployerOffer {
     linkedIn: string;
     user: {
       email: string;
+      id: string;
       avatar: string | null;
-    };
+    }[];
   };
 }
 

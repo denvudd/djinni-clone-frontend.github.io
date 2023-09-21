@@ -21,8 +21,11 @@ import {
 } from '../ui/Form';
 import { Textarea } from '../ui/Textarea';
 import { Button } from '../ui/Button';
+import ErrorAlert from '../ui/ErrorAlert';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
-interface ReplyOnOfferProps {
+interface ReplyOnOfferProps extends React.ComponentPropsWithoutRef<'form'> {
   offerId: string;
   /** IMPORTANT: This is should be userId and NOT employerId or candidateId. */
   authorId: string;
@@ -35,7 +38,11 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
   offerId,
   candidateId,
   employerId,
+  className,
+  ...props
 }) => {
+  const router = useRouter();
+
   const replyAs = employerId ? 'employer' : 'candidate';
   const roleId = employerId ? employerId : candidateId;
 
@@ -52,7 +59,7 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
     isError: isMessageError,
   } = useMutation({
     mutationFn: async ({ text }: ReplyOnOfferRequest) => {
-      const payload = { text, authorId, offerId, replyToId: authorId };
+      const payload = { text, authorId, replyToId: authorId };
       const { data } = await axios.post(
         `/${replyAs}/${roleId}/offer/${offerId}/reply`,
         payload,
@@ -64,8 +71,10 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
 
       return data;
     },
-    onSuccess(data) {
-      console.log(data);
+    onSuccess: () => {
+      router.push(`/home/inbox/${offerId}?msgsent=ok`);
+      router.refresh();
+      form.reset();
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -73,29 +82,39 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
   });
 
   function onSubmit(values: ReplyOnOfferRequest) {
-    console.log(values);
+    replyOnMessage(values);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn('space-y-4', className)}
+        {...props}
+      >
+        {isMessageError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel className="font-semibold mb-2 text-base">
+                Відповісти
+              </FormLabel>
               <FormControl>
-                <Textarea rows={6} placeholder="shadcn" {...field} />
+                <Textarea rows={6} {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          disabled={isMessageLoading}
+          isLoading={isMessageLoading}
+          type="submit"
+        >
+          Надіслати
+        </Button>
       </form>
     </Form>
   );

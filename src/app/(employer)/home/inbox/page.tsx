@@ -49,7 +49,7 @@ const Page: React.FC<PageProps> = async ({}) => {
 
   const { offers, count } = await getOffers();
 
-  console.log(offers);
+  console.log(offers.map((offer) => offer.replies.flat(2)));
 
   const tabs: PageTabProp = [
     {
@@ -116,10 +116,21 @@ const Page: React.FC<PageProps> = async ({}) => {
                 >
                   <span className="inline-flex items-center gap-2 float-right ml-4">
                     <Check className="w-4 h-4" />
-                    {format(new Date(offer.createdAt), 'PPP', { locale: uk })}
+                    {!!offer.replies.length && !!offer.replies.at(-1)?.updatedAt
+                      ? format(
+                          new Date(offer.replies.at(-1)?.updatedAt!),
+                          'PPP',
+                          { locale: uk },
+                        )
+                      : format(new Date(offer.updatedAt), 'PPP', {
+                          locale: uk,
+                        })}
                   </span>
-                  <p className="inline hover:text-gray-dark transition-colors">
-                    {offer.coverLetter}
+                  <p className="block hover:text-gray-dark transition-colors w-full">
+                    {/* if there are replies then show them if not show the cover letter */}
+                    {!!offer.replies.length
+                      ? offer.replies.at(-1)?.text
+                      : offer.coverLetter}
                   </p>
                 </Link>
               </div>
