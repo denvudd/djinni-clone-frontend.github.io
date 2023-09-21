@@ -1,14 +1,15 @@
 'use client';
 
-import { format } from 'date-fns';
-import { uk } from 'date-fns/locale';
 import React from 'react';
-import { MarkdownRender } from './renderers/MarkdownRender';
+
+import UserAvatar from './UserAvatar';
 import ReactMarkdown from 'react-markdown';
+import { MarkdownRender } from './renderers/MarkdownRender';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/Tooltip';
 import { Check } from 'lucide-react';
-import UserAvatar from './UserAvatar';
 
+import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
 interface OfferMessageProps {
   message: string;
   createdAt: Date;

@@ -1,19 +1,17 @@
 'use client';
 
-import {
-  ReplyOnOfferValidator,
-  type ReplyOnOfferRequest,
-} from '@/lib/validators/reply-on-offer';
+import React from 'react';
+
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
-import React from 'react';
-import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,7 +20,11 @@ import {
 import { Textarea } from '../ui/Textarea';
 import { Button } from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
-import { useRouter } from 'next/navigation';
+
+import {
+  ReplyOnOfferValidator,
+  type ReplyOnOfferRequest,
+} from '@/lib/validators/reply-on-offer';
 import { cn } from '@/lib/utils';
 
 interface ReplyOnOfferProps extends React.ComponentPropsWithoutRef<'form'> {

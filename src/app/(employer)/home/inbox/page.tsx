@@ -1,20 +1,21 @@
-import UserAvatar from '@/components/UserAvatar';
-import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
-import { getAuthServerSession } from '@/lib/next-auth';
-import { formatEnglishLevel, formatExperience } from '@/lib/utils';
-import { EmployerOffer, type Offer } from '@/types';
-import axios, { AxiosError } from 'axios';
-import { uk } from 'date-fns/locale';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { format } from 'date-fns';
 import React from 'react';
-import { Check } from 'lucide-react';
+import Link from 'next/link';
 import Image from 'next/image';
 
-interface PageProps {}
+import { redirect } from 'next/navigation';
+import { getAuthServerSession } from '@/lib/next-auth';
+import axios, { AxiosError } from 'axios';
 
-const Page: React.FC<PageProps> = async ({}) => {
+import UserAvatar from '@/components/UserAvatar';
+import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
+import { Check } from 'lucide-react';
+
+import { formatEnglishLevel, formatExperience } from '@/lib/utils';
+import { uk } from 'date-fns/locale';
+import { format } from 'date-fns';
+import { EmployerOffer } from '@/types';
+
+const Page: React.FC = async ({}) => {
   const session = await getAuthServerSession();
   async function getOffers() {
     try {
@@ -48,8 +49,6 @@ const Page: React.FC<PageProps> = async ({}) => {
   }
 
   const { offers, count } = await getOffers();
-
-  console.log(offers.map((offer) => offer.replies.flat(2)));
 
   const tabs: PageTabProp = [
     {

@@ -1,3 +1,14 @@
+import React from 'react';
+import Link from 'next/link';
+
+import { redirect } from 'next/navigation';
+import { getAuthServerSession } from '@/lib/next-auth';
+import axios, { AxiosError } from 'axios';
+
+import { Alert, AlertDescription } from '@/components/ui/Alert';
+import { Separator } from '@/components/ui/Separator';
+import { Icons } from '@/components/ui/Icons';
+
 import OfferMessage from '@/components/OfferMessage';
 import UserAvatar from '@/components/UserAvatar';
 import ReplyOnOffer from '@/components/forms/ReplyOnOffer';
@@ -5,13 +16,6 @@ import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
-import { Alert, AlertDescription } from '@/components/ui/Alert';
-import { Icons } from '@/components/ui/Icons';
-import { Separator } from '@/components/ui/Separator';
-import { getAuthServerSession } from '@/lib/next-auth';
-import { formatEnglishLevel } from '@/lib/utils';
-import { type ExtendedEmployerOffer } from '@/types';
-import axios, { AxiosError } from 'axios';
 import {
   ChevronRight,
   Globe,
@@ -20,9 +24,9 @@ import {
   Send,
   UserCheck2,
 } from 'lucide-react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import React from 'react';
+
+import { formatEnglishLevel } from '@/lib/utils';
+import { type ExtendedEmployerOffer } from '@/types';
 
 interface PageProps {
   params: {
@@ -82,10 +86,6 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     replies,
   } = await getOffer();
   const offer = await getOffer();
-
-  // console.log(candidate);
-  // console.log('offer author :', offer.replies![1].author);
-  // console.log('id: ', offerId);
 
   function clearTelegramNickname(str: string) {
     if (str.startsWith('@')) {
