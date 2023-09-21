@@ -5,6 +5,7 @@ import {
   EmploymentOption,
   EnglishLevel,
   PreferableLanguage,
+  UserRole,
 } from '@/lib/enums';
 import { User } from 'next-auth';
 
@@ -145,6 +146,8 @@ export interface EmployerOffer {
   coverLetter: string;
   employerId: string;
   candidateId: string;
+  active: boolean;
+  isArchive: boolean;
   candidate: {
     fullname: string | null;
     position: string;
@@ -160,6 +163,73 @@ export interface EmployerOffer {
   };
 }
 
+export interface ExtendedEmployerOffer {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  vacancyId: null;
+  coverLetter: string;
+  employerId: string;
+  candidateId: string;
+  active: boolean;
+  isArchive: boolean;
+  replies?: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    text: string;
+    authorId: string;
+    replyToId?: string;
+    offerId: string;
+    author: {
+      email: string;
+      avatar: string | null;
+      role: UserRole;
+      id: string;
+      employer_info?: {
+        id: string;
+        fullname: string;
+      };
+      candidate_info?: {
+        id: string;
+        fullname: string;
+      };
+    };
+  }[];
+  candidate: {
+    fullname: string | null;
+    position: string;
+    expectations: number;
+    country: string;
+    city: string;
+    experience: number;
+    english: EnglishLevel;
+    preferableLang: PreferableLanguage;
+    communicateMethod: CommunicateMethod;
+    skype?: string;
+    github?: string;
+    linkedIn?: string;
+    telegram?: string;
+    whatsApp?: string;
+    user: {
+      email: string;
+      avatar: string | null;
+    }[];
+  };
+  employer: {
+    fullname: string;
+    companyLink: string;
+    positionAndCompany: string;
+    telegram: string;
+    linkedIn: string;
+    user: {
+      email: string;
+      avatar: string | null;
+    };
+  };
+}
+
 export interface Offer {
   id: string;
   createdAt: Date;
@@ -168,6 +238,8 @@ export interface Offer {
   coverLetter: string;
   employerId: string;
   candidateId: string;
+  active: boolean;
+  isArchive: boolean;
 
   vacancyId: {
     active: boolean;
