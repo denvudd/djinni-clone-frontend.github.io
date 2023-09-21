@@ -2,7 +2,7 @@
 
 Built with the Next.js, Nest.js, TypeScript & Tailwind
 
-[![Djinni][(https://i.ibb.co/GxKKNS7/Screenshot-2023-08-05-22-13-16-1.png](https://i.ibb.co/hLM7y0V/Screenshot-2023-09-21-10-21-55.png))](https://github.com/denvudd/djinni-clone-frontend.github.io/tree/main)
+[![Djinni](https://i.ibb.co/hLM7y0V/Screenshot-2023-09-21-10-21-55.png)](https://github.com/denvudd/djinni-clone-frontend.github.io/tree/main)
 
 > **Warning**
 > This project is still in development and is NOT ready for production use.
