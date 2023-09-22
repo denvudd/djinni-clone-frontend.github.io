@@ -5,6 +5,7 @@ import {
   EmploymentOption,
   EnglishLevel,
   PreferableLanguage,
+  RefusalReason,
   UserRole,
 } from '@/lib/enums';
 import { User } from 'next-auth';
@@ -148,6 +149,16 @@ export interface EmployerOffer {
   candidateId: string;
   active: boolean;
   isArchive: boolean;
+  refusal: {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    message: string;
+    reason: RefusalReason;
+    offerId: string;
+    employerId: string;
+    candidateId: string;
+  }[];
   replies: {
     text: string;
     updatedAt: Date;
@@ -234,6 +245,11 @@ export interface ExtendedEmployerOffer {
       avatar: string | null;
     }[];
   };
+  refusal: {
+    createdAt: Date;
+    reason: RefusalReason;
+    message: string;
+  }[];
 }
 
 export interface Offer {

@@ -3,13 +3,17 @@ import Link from 'next/link';
 
 import UserAvatar from '../UserAvatar';
 import { Check } from 'lucide-react';
+import ArchiveEmployerButton from './ArchiveEmployerButton';
 
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { EnglishLevel } from '@/lib/enums';
-import { formatEnglishLevel, formatExperience } from '@/lib/utils';
+import {
+  formatEnglishLevel,
+  formatExperience,
+  formatRefusalReason,
+} from '@/lib/utils';
 import { type EmployerOffer } from '@/types';
-import ArchiveEmployerButton from './ArchiveEmployerButton';
 
 interface EmployerOfferProps {
   candidateId: string;
@@ -24,6 +28,7 @@ interface EmployerOfferProps {
   experience: number;
   english: EnglishLevel;
   replies: EmployerOffer['replies'];
+  refusals?: EmployerOffer['refusal'];
   coverLetter: string;
   updatedAt: Date;
 
@@ -43,11 +48,31 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
   fullname,
   position,
   replies,
+  refusals,
   coverLetter,
   updatedAt,
 
   isArchived = false,
 }) => {
+  const date =
+    !!replies.length && !!replies.at(-1)?.updatedAt
+      ? format(new Date(replies.at(-1)?.updatedAt!), 'PPP', {
+          locale: uk,
+        })
+      : format(new Date(updatedAt), 'PPP', {
+          locale: uk,
+        });
+
+  const isRefused = !!refusals?.length;
+  // if offer refused show refusal reason -> if not show last reply message -> if there is no replies then show cover letter
+  const content = isRefused
+    ? `Ви відмовили цьому кандидату. Причина: ${formatRefusalReason(
+        refusals.at(0)?.reason!,
+      )}`
+    : !!replies.length
+    ? replies.at(-1)?.text
+    : coverLetter;
+
   return (
     <li className="p-6 flex items-start gap-4 border-t border-borderColor group relative">
       <div className="flex items-start gap-3 w-full md:flex-[0_0_33.333%] md:max-w-[33.333%]">
@@ -89,17 +114,10 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
         >
           <span className="inline-flex items-center gap-2 float-right ml-4">
             <Check className="w-4 h-4" />
-            {!!replies.length && !!replies.at(-1)?.updatedAt
-              ? format(new Date(replies.at(-1)?.updatedAt!), 'PPP', {
-                  locale: uk,
-                })
-              : format(new Date(updatedAt), 'PPP', {
-                  locale: uk,
-                })}
+            {date}
           </span>
           <p className="block hover:text-gray-dark transition-colors w-full">
-            {/* if there are replies then show them if not show the cover letter */}
-            {!!replies.length ? replies.at(-1)?.text : coverLetter}
+            {content}
           </p>
         </Link>
       </div>

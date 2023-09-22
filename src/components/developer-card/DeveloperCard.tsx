@@ -78,8 +78,8 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
           <li>{formatEnglishLevel(english).label}</li>
           <span className="mx-1">·</span>
           <li>
-            {createdAt <= updatedAt ? 'Оновлено' : 'Опубліковано'}{' '}
-            {formatDistance(new Date(updatedAt), new Date(), {
+            Опубліковано{' '}
+            {formatDistance(new Date(createdAt), new Date(), {
               locale: uk,
             })}{' '}
             тому

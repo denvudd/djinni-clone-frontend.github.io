@@ -33,6 +33,7 @@ interface ReplyOnOfferFormProps extends React.ComponentPropsWithoutRef<'form'> {
   authorId: string;
   employerId?: string;
   candidateId?: string;
+  disabled?: boolean;
 }
 
 const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
@@ -41,6 +42,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
   candidateId,
   employerId,
   className,
+  disabled = false,
   ...props
 }) => {
   const router = useRouter();
@@ -98,20 +100,21 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
         <FormField
           control={form.control}
           name="text"
+          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold mb-2 text-base">
                 Відповісти
               </FormLabel>
               <FormControl>
-                <Textarea className="text-base" rows={6} {...field} />
+                <Textarea lang="uk" className="text-base" rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button
-          disabled={isMessageLoading}
+          disabled={disabled || isMessageLoading}
           isLoading={isMessageLoading}
           type="submit"
         >

@@ -32,6 +32,7 @@ interface RefuseOfferFormProps extends React.ComponentPropsWithoutRef<'form'> {
   employerId: string;
   candidateId: string;
   fullname: string;
+  disabled?: boolean;
 }
 
 const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
@@ -40,6 +41,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
   offerId,
   className,
   fullname,
+  disabled = false,
   ...props
 }) => {
   const router = useRouter();
@@ -71,7 +73,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
       return data;
     },
     onSuccess: () => {
-      router.push(`/home/inbox/archive`);
+      router.push(`/home/inbox/${offerId}?msgsent=ok`);
       router.refresh();
       form.reset();
     },
@@ -96,6 +98,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
         <FormField
           control={form.control}
           name="reason"
+          disabled={disabled}
           render={({ field }) => (
             <FormItem className="space-y-3">
               <FormLabel className="font-semibold mb-2 text-base">
@@ -110,7 +113,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                   {convertEnumObjToArray(RefusalReason).map((reason) => (
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value={reason} />
+                        <RadioGroupItem disabled={disabled} value={reason} />
                       </FormControl>
                       <FormLabel className="font-normal text-base">
                         {formatRefusalReason(reason)}
@@ -127,6 +130,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
         <FormField
           control={form.control}
           name="message"
+          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold mb-2 text-base">
@@ -134,7 +138,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                 <span className="font-normal text-gray">(не обов'язково)</span>
               </FormLabel>
               <FormControl>
-                <Textarea className="text-base" rows={6} {...field} />
+                <Textarea lang="uk" className="text-base" rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -144,6 +148,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
         <FormField
           control={form.control}
           name="approve"
+          disabled={disabled}
           render={({ field }) => (
             <FormItem>
               <div className="flex items-start space-x-2">
@@ -152,6 +157,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     className="block"
+                    disabled={disabled}
                   />
                 </FormControl>
                 <FormLabel className="font-normal text-base leading-none">
@@ -164,7 +170,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
         />
 
         <Button
-          disabled={!form.formState.isValid || isRefuseLoading}
+          disabled={disabled || !form.formState.isValid || isRefuseLoading}
           isLoading={isRefuseLoading}
           type="submit"
         >

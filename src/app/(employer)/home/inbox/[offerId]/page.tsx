@@ -5,17 +5,21 @@ import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
 
-import { Alert, AlertDescription } from '@/components/ui/Alert';
-import { Separator } from '@/components/ui/Separator';
-import { Icons } from '@/components/ui/Icons';
-
 import OfferMessage from '@/components/offers/OfferMessage';
-import UserAvatar from '@/components/UserAvatar';
 import ReplyOnOfferForm from '@/components/forms/ReplyOnOfferForm';
+import RefuseOfferForm from '@/components/forms/RefuseOfferForm';
+import OfferRefusal from '@/components/offers/OfferRefusal';
+
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
+import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+
+import { Alert, AlertDescription } from '@/components/ui/Alert';
+import { Separator } from '@/components/ui/Separator';
+import { Icons } from '@/components/ui/Icons';
+import UserAvatar from '@/components/UserAvatar';
 import {
   ChevronRight,
   Globe,
@@ -27,16 +31,14 @@ import {
 
 import { formatEnglishLevel } from '@/lib/utils';
 import { type ExtendedEmployerOffer } from '@/types';
-import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
-import RefuseOfferForm from '@/components/forms/RefuseOfferForm';
 
 interface PageProps {
   params: {
     offerId: string;
   };
   searchParams: {
-    msgsent: string;
-    archive: string;
+    msgsent?: 'ok';
+    archive?: 'add';
   };
 }
 
@@ -82,6 +84,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     candidate,
     employer,
     replies,
+    refusal,
   } = await getOffer();
 
   function clearTelegramNickname(str: string) {
@@ -103,6 +106,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     },
   ];
 
+  // TODO: pretiffy this with query-string
   const tabs: PageTabProp = [
     {
       title: 'Відповісти',
@@ -255,6 +259,14 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
                 />
               </>
             ))}
+          {/* Refusal (if exist)*/}
+          {refusal && !!refusal.length && (
+            <OfferRefusal
+              createdAt={refusal[0].createdAt}
+              message={refusal[0].message}
+              reason={refusal[0].reason}
+            />
+          )}
           {msgsent === 'ok' && (
             <Alert className="bg-green-subtle w-full -mb-4 mt-8">
               <AlertDescription className="text-base">
@@ -270,6 +282,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
                 authorId={employer.user[0].id}
                 candidateId={candidateId}
                 employerId={employerId}
+                disabled={refusal && !!refusal.length}
               />
             ) : (
               <RefuseOfferForm
@@ -277,6 +290,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
                 candidateId={candidateId}
                 employerId={employerId}
                 fullname={employer.fullname}
+                disabled={refusal && !!refusal.length}
               />
             )}
           </div>

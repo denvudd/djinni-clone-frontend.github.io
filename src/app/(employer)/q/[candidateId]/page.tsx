@@ -189,6 +189,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
           {isDialogExist && !isOwner && session?.user.employer_id && (
             <Link
               href={`/home/inbox/${dialog.id}`}
+              id="poke_form"
               className={cn(
                 buttonVariants({
                   className: 'text-lg',

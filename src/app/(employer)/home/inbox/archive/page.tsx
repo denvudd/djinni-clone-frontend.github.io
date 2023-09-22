@@ -10,6 +10,13 @@ import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
 
 import { EmployerOffer as EmployerOfferType } from '@/types';
+import { RefusalReason } from '@/lib/enums';
+import { formatRefusalReason } from '@/lib/utils';
+
+type Refusal = {
+  reason: RefusalReason;
+  createdAt: Date;
+};
 
 const Page: React.FC = async () => {
   const session = await getAuthServerSession();
@@ -36,7 +43,7 @@ const Page: React.FC = async () => {
       }
 
       return data as {
-        offers: EmployerOfferType[];
+        offers: ({ refusal: Refusal[] } & EmployerOfferType)[];
         count: number;
       };
     } catch (error) {
@@ -76,25 +83,29 @@ const Page: React.FC = async () => {
               coverLetter,
               id,
               replies,
-            }) => (
-              <EmployerOffer
-                candidateId={candidateId}
-                offerId={id}
-                employerId={session.user.employer_id!}
-                avatar={candidate.user[0].avatar}
-                city={candidate.city}
-                country={candidate.country}
-                coverLetter={coverLetter}
-                english={candidate.english}
-                expectations={candidate.expectations}
-                experience={candidate.experience}
-                fullname={candidate.fullname}
-                position={candidate.position}
-                replies={replies}
-                updatedAt={updatedAt}
-                isArchived
-              />
-            ),
+              refusal,
+            }) => {
+              return (
+                <EmployerOffer
+                  candidateId={candidateId}
+                  offerId={id}
+                  employerId={session.user.employer_id!}
+                  avatar={candidate.user[0].avatar}
+                  city={candidate.city}
+                  country={candidate.country}
+                  coverLetter={coverLetter}
+                  english={candidate.english}
+                  expectations={candidate.expectations}
+                  experience={candidate.experience}
+                  fullname={candidate.fullname}
+                  position={candidate.position}
+                  replies={replies}
+                  refusals={refusal}
+                  updatedAt={updatedAt}
+                  isArchived
+                />
+              );
+            },
           )}
         {offers && !offers.length && (
           <div className="text-center py-12 mx-auto max-w-sm">
