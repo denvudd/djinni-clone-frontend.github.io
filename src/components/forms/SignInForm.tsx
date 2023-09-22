@@ -43,16 +43,12 @@ const SignInForm: React.FC = () => {
     isError: isLoginError,
   } = useMutation({
     mutationFn: async ({ username, password }: LoginRequest) => {
-      const res = await signIn(
-        'credentials',
-        {
-          redirect: false,
-          username,
-          password,
-          callbackUrl,
-        },
-        {},
-      );
+      const res = await signIn('credentials', {
+        redirect: false,
+        username,
+        password,
+        callbackUrl,
+      });
 
       if (res?.error === '401') {
         form.setError('password', {
@@ -63,6 +59,11 @@ const SignInForm: React.FC = () => {
           type: 'custom',
           message: 'Неправильний пароль або email',
         });
+      }
+
+      // in case if database down
+      if (res?.error === 'fetch failed') {
+        throw new Error();
       }
 
       if (!res?.ok) {
@@ -76,6 +77,10 @@ const SignInForm: React.FC = () => {
         router.push(callbackUrl);
         router.refresh();
       }
+    },
+    onError: (error) => {
+      router.push('/error');
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
     },
   });
 

@@ -12,7 +12,6 @@ import {
   type RegisterRequest,
   RegisterValidator,
 } from '@/lib/validators/register';
-import { z } from 'zod';
 
 import {
   Form,
@@ -70,6 +69,10 @@ const SignUpForm: React.FC = () => {
     onSuccess: () => {
       router.push(`/login`);
       router.refresh();
+    },
+    onError: (error) => {
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+      router.push('/error');
     },
   });
 
