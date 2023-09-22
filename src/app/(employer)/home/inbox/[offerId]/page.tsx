@@ -9,7 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { Separator } from '@/components/ui/Separator';
 import { Icons } from '@/components/ui/Icons';
 
-import OfferMessage from '@/components/OfferMessage';
+import OfferMessage from '@/components/offers/OfferMessage';
 import UserAvatar from '@/components/UserAvatar';
 import ReplyOnOffer from '@/components/forms/ReplyOnOffer';
 import {
@@ -76,13 +76,8 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     coverLetter,
     createdAt,
     employerId,
-    id,
-    updatedAt,
-    vacancyId,
-    active,
     candidate,
     employer,
-    isArchive,
     replies,
   } = await getOffer();
   const offer = await getOffer();
