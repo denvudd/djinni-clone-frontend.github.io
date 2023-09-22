@@ -22,12 +22,12 @@ import { Button } from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
 
 import {
-  ReplyOnOfferValidator,
-  type ReplyOnOfferRequest,
+  ReplyOnOfferFormValidator,
+  type ReplyOnOfferFormRequest,
 } from '@/lib/validators/reply-on-offer';
 import { cn } from '@/lib/utils';
 
-interface ReplyOnOfferProps extends React.ComponentPropsWithoutRef<'form'> {
+interface ReplyOnOfferFormProps extends React.ComponentPropsWithoutRef<'form'> {
   offerId: string;
   /** IMPORTANT: This is should be userId and NOT employerId or candidateId. */
   authorId: string;
@@ -35,7 +35,7 @@ interface ReplyOnOfferProps extends React.ComponentPropsWithoutRef<'form'> {
   candidateId?: string;
 }
 
-const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
+const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
   authorId,
   offerId,
   candidateId,
@@ -48,8 +48,8 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
   const replyAs = employerId ? 'employer' : 'candidate';
   const roleId = employerId ? employerId : candidateId;
 
-  const form = useForm<ReplyOnOfferRequest>({
-    resolver: zodResolver(ReplyOnOfferValidator),
+  const form = useForm<ReplyOnOfferFormRequest>({
+    resolver: zodResolver(ReplyOnOfferFormValidator),
     defaultValues: {
       text: '',
     },
@@ -60,7 +60,7 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
     isLoading: isMessageLoading,
     isError: isMessageError,
   } = useMutation({
-    mutationFn: async ({ text }: ReplyOnOfferRequest) => {
+    mutationFn: async ({ text }: ReplyOnOfferFormRequest) => {
       const payload = { text, authorId, replyToId: authorId };
       const { data } = await axios.post(
         `/${replyAs}/${roleId}/offer/${offerId}/reply`,
@@ -83,7 +83,7 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
     },
   });
 
-  function onSubmit(values: ReplyOnOfferRequest) {
+  function onSubmit(values: ReplyOnOfferFormRequest) {
     replyOnMessage(values);
   }
 
@@ -104,7 +104,7 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
                 Відповісти
               </FormLabel>
               <FormControl>
-                <Textarea rows={6} {...field} />
+                <Textarea className="text-base" rows={6} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -122,4 +122,4 @@ const ReplyOnOffer: React.FC<ReplyOnOfferProps> = ({
   );
 };
 
-export default ReplyOnOffer;
+export default ReplyOnOfferForm;

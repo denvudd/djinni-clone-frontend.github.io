@@ -10,7 +10,8 @@ import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
 
 import { EmployerOffer as EmployerOfferType } from '@/types';
-const Page: React.FC = async ({}) => {
+
+const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
   if (!session || !session.user.employer_id) redirect('/');

@@ -9,8 +9,16 @@ import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
 
 import { EmployerOffer as EmployerOfferType } from '@/types';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 
-const Page: React.FC = async ({}) => {
+interface PageProps {
+  searchParams: {
+    error: string;
+  };
+}
+
+const Page: React.FC<PageProps> = async ({ searchParams }) => {
+  const { error } = searchParams;
   const session = await getAuthServerSession();
 
   if (!session || !session.user.employer_id) redirect('/');
@@ -64,6 +72,7 @@ const Page: React.FC = async ({}) => {
       <h1 className="text-3xl font-semibold my-8">
         Усі відгуки <span className="text-gray">{count}</span>
       </h1>
+      {error === 'true' && <ErrorAlert />}
       <ul className="flex flex-col rounded-lg border border-borderColor">
         {offers &&
           !!offers.length &&

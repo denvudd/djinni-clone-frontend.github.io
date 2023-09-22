@@ -41,6 +41,7 @@ const ArchiveEmployerButton: React.FC<ArchiveEmployerButtonProps> = ({
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+      router.push('/home/inbox?error=true');
     },
   });
 

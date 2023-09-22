@@ -252,7 +252,7 @@ export interface Offer {
     category: string;
     id: string;
   } | null;
-  // replies: ReplyOnOffer[]
+  // replies: ReplyOnOfferForm[]
 }
 
 export interface ClarifiedData {

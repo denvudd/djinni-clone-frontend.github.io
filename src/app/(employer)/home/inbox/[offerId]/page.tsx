@@ -11,7 +11,7 @@ import { Icons } from '@/components/ui/Icons';
 
 import OfferMessage from '@/components/offers/OfferMessage';
 import UserAvatar from '@/components/UserAvatar';
-import ReplyOnOffer from '@/components/forms/ReplyOnOffer';
+import ReplyOnOfferForm from '@/components/forms/ReplyOnOfferForm';
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
@@ -27,6 +27,8 @@ import {
 
 import { formatEnglishLevel } from '@/lib/utils';
 import { type ExtendedEmployerOffer } from '@/types';
+import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
+import RefuseOfferForm from '@/components/forms/RefuseOfferForm';
 
 interface PageProps {
   params: {
@@ -34,12 +36,13 @@ interface PageProps {
   };
   searchParams: {
     msgsent: string;
+    archive: string;
   };
 }
 
 const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   const { offerId } = params;
-  const { msgsent } = searchParams;
+  const { msgsent, archive } = searchParams;
 
   const session = await getAuthServerSession();
 
@@ -80,7 +83,6 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     employer,
     replies,
   } = await getOffer();
-  const offer = await getOffer();
 
   function clearTelegramNickname(str: string) {
     if (str.startsWith('@')) {
@@ -98,6 +100,17 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     {
       title: `${candidate.position}, від $${candidate.expectations}, ${candidate.city}`,
       href: `/home/${offerId}`,
+    },
+  ];
+
+  const tabs: PageTabProp = [
+    {
+      title: 'Відповісти',
+      path: `/home/inbox/${offerId}`,
+    },
+    {
+      title: 'Перемістити до Архіву',
+      path: `/home/inbox/${offerId}?archive=add`,
     },
   ];
 
@@ -249,13 +262,24 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
               </AlertDescription>
             </Alert>
           )}
-          <ReplyOnOffer
-            offerId={offerId}
-            authorId={employer.user[0].id}
-            candidateId={candidateId}
-            employerId={employerId}
-            className="mt-10"
-          />
+          <div className="mt-10">
+            <PageTabs tabs={tabs} active={!archive ? 0 : 1} />
+            {!archive ? (
+              <ReplyOnOfferForm
+                offerId={offerId}
+                authorId={employer.user[0].id}
+                candidateId={candidateId}
+                employerId={employerId}
+              />
+            ) : (
+              <RefuseOfferForm
+                offerId={offerId}
+                candidateId={candidateId}
+                employerId={employerId}
+                fullname={employer.fullname}
+              />
+            )}
+          </div>
         </div>
       </div>
     </>
