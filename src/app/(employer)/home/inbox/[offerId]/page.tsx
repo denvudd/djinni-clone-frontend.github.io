@@ -5,17 +5,21 @@ import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
 
-import { Alert, AlertDescription } from '@/components/ui/Alert';
-import { Separator } from '@/components/ui/Separator';
-import { Icons } from '@/components/ui/Icons';
+import OfferMessage from '@/components/offers/OfferMessage';
+import ReplyOnOfferForm from '@/components/forms/ReplyOnOfferForm';
+import RefuseOfferForm from '@/components/forms/RefuseOfferForm';
+import OfferRefusal from '@/components/offers/OfferRefusal';
 
-import OfferMessage from '@/components/OfferMessage';
-import UserAvatar from '@/components/UserAvatar';
-import ReplyOnOffer from '@/components/forms/ReplyOnOffer';
 import {
   Breadcrumbs,
   type BreadcrumbsSegment,
 } from '@/components/pagers/Breadcrumbs';
+import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+
+import { Alert, AlertDescription } from '@/components/ui/Alert';
+import { Separator } from '@/components/ui/Separator';
+import { Icons } from '@/components/ui/Icons';
+import UserAvatar from '@/components/UserAvatar';
 import {
   ChevronRight,
   Globe,
@@ -33,13 +37,14 @@ interface PageProps {
     offerId: string;
   };
   searchParams: {
-    msgsent: string;
+    msgsent?: 'ok';
+    archive?: 'add';
   };
 }
 
 const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   const { offerId } = params;
-  const { msgsent } = searchParams;
+  const { msgsent, archive } = searchParams;
 
   const session = await getAuthServerSession();
 
@@ -76,16 +81,11 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     coverLetter,
     createdAt,
     employerId,
-    id,
-    updatedAt,
-    vacancyId,
-    active,
     candidate,
     employer,
-    isArchive,
     replies,
+    refusal,
   } = await getOffer();
-  const offer = await getOffer();
 
   function clearTelegramNickname(str: string) {
     if (str.startsWith('@')) {
@@ -103,6 +103,18 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     {
       title: `${candidate.position}, від $${candidate.expectations}, ${candidate.city}`,
       href: `/home/${offerId}`,
+    },
+  ];
+
+  // TODO: pretiffy this with query-string
+  const tabs: PageTabProp = [
+    {
+      title: 'Відповісти',
+      path: `/home/inbox/${offerId}`,
+    },
+    {
+      title: 'Перемістити до Архіву',
+      path: `/home/inbox/${offerId}?archive=add`,
     },
   ];
 
@@ -247,6 +259,14 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
                 />
               </>
             ))}
+          {/* Refusal (if exist)*/}
+          {refusal && !!refusal.length && (
+            <OfferRefusal
+              createdAt={refusal[0].createdAt}
+              message={refusal[0].message}
+              reason={refusal[0].reason}
+            />
+          )}
           {msgsent === 'ok' && (
             <Alert className="bg-green-subtle w-full -mb-4 mt-8">
               <AlertDescription className="text-base">
@@ -254,13 +274,26 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
               </AlertDescription>
             </Alert>
           )}
-          <ReplyOnOffer
-            offerId={offerId}
-            authorId={employer.user[0].id}
-            candidateId={candidateId}
-            employerId={employerId}
-            className="mt-10"
-          />
+          <div className="mt-10">
+            <PageTabs tabs={tabs} active={!archive ? 0 : 1} />
+            {!archive ? (
+              <ReplyOnOfferForm
+                offerId={offerId}
+                authorId={employer.user[0].id}
+                candidateId={candidateId}
+                employerId={employerId}
+                disabled={refusal && !!refusal.length}
+              />
+            ) : (
+              <RefuseOfferForm
+                offerId={offerId}
+                candidateId={candidateId}
+                employerId={employerId}
+                fullname={employer.fullname}
+                disabled={refusal && !!refusal.length}
+              />
+            )}
+          </div>
         </div>
       </div>
     </>

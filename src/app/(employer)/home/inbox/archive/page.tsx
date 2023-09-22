@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Image from 'next/image';
 
 import { redirect } from 'next/navigation';
@@ -9,16 +10,15 @@ import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
 
 import { EmployerOffer as EmployerOfferType } from '@/types';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import { RefusalReason } from '@/lib/enums';
+import { formatRefusalReason } from '@/lib/utils';
 
-interface PageProps {
-  searchParams: {
-    error: string;
-  };
-}
+type Refusal = {
+  reason: RefusalReason;
+  createdAt: Date;
+};
 
-const Page: React.FC<PageProps> = async ({ searchParams }) => {
-  const { error } = searchParams;
+const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
   if (!session || !session.user.employer_id) redirect('/');
@@ -26,7 +26,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     try {
       const { data } = await axios.get(
         process.env.BACKEND_API_URL +
-          `/employer/${session?.user.employer_id}/offers`,
+          `/employer/${session?.user.employer_id}/offers/acrhive`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -43,7 +43,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
       }
 
       return data as {
-        offers: EmployerOfferType[];
+        offers: ({ refusal: Refusal[] } & EmployerOfferType)[];
         count: number;
       };
     } catch (error) {
@@ -68,11 +68,10 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <div className="-mt-8">
-      <PageTabs tabs={tabs} active={0} />
+      <PageTabs tabs={tabs} active={1} />
       <h1 className="text-3xl font-semibold my-8">
-        Усі відгуки <span className="text-gray">{count}</span>
+        Архів <span className="text-gray">{count}</span>
       </h1>
-      {error === 'true' && <ErrorAlert />}
       <ul className="flex flex-col rounded-lg border border-borderColor">
         {offers &&
           !!offers.length &&
@@ -84,40 +83,45 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
               coverLetter,
               id,
               replies,
-            }) => (
-              <EmployerOffer
-                candidateId={candidateId}
-                offerId={id}
-                employerId={session.user.employer_id!}
-                avatar={candidate.user[0].avatar}
-                city={candidate.city}
-                country={candidate.country}
-                coverLetter={coverLetter}
-                english={candidate.english}
-                expectations={candidate.expectations}
-                experience={candidate.experience}
-                fullname={candidate.fullname}
-                position={candidate.position}
-                replies={replies}
-                updatedAt={updatedAt}
-              />
-            ),
+              refusal,
+            }) => {
+              return (
+                <EmployerOffer
+                  candidateId={candidateId}
+                  offerId={id}
+                  employerId={session.user.employer_id!}
+                  avatar={candidate.user[0].avatar}
+                  city={candidate.city}
+                  country={candidate.country}
+                  coverLetter={coverLetter}
+                  english={candidate.english}
+                  expectations={candidate.expectations}
+                  experience={candidate.experience}
+                  fullname={candidate.fullname}
+                  position={candidate.position}
+                  replies={replies}
+                  refusals={refusal}
+                  updatedAt={updatedAt}
+                  isArchived
+                />
+              );
+            },
           )}
         {offers && !offers.length && (
-          <div className="text-center py-12 mx-auto max-w-xs">
+          <div className="text-center py-12 mx-auto max-w-sm">
             <Image
-              src="https://djinni.co/static/images/empty/ill_no_unread.svg"
-              width={120}
-              height={40}
-              alt="Favorite icon"
+              src="https://djinni.co/static/images/empty/ill_no_archive.svg"
+              width={170}
+              height={50}
+              alt="No Archive icon"
               className="mx-auto mb-4"
             />
             <h3 className="font-semibold text-2xl mb-2">
-              Ви все-все прочитали!
+              Ті, з ким не відбувся метч
             </h3>
             <p className="text-gray">
-              І ми вами дуже пишаємось. Мерщій танцювати, чи ще трохи
-              попрацюємо?
+              Інколи кандидати вам не підходять. Відмовляйте їм та відправляйте
+              в архів, щоб швидше розбирати листування.
             </p>
           </div>
         )}

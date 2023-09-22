@@ -87,6 +87,7 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-0 flex flex-col gap-4 max-w-[75%]"
+        id="poke_form"
       >
         {isOfferError && <ErrorAlert />}
         <FormField

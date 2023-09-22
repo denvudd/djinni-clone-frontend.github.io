@@ -2,14 +2,15 @@
 
 import React from 'react';
 
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../UserAvatar';
 import ReactMarkdown from 'react-markdown';
-import { MarkdownRender } from './renderers/MarkdownRender';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/Tooltip';
+import { MarkdownRender } from '../renderers/MarkdownRender';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/Tooltip';
 import { Check } from 'lucide-react';
 
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
+
 interface OfferMessageProps {
   message: string;
   createdAt: Date;

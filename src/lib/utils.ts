@@ -1,6 +1,11 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { ClarifiedDataEnum, EmploymentOption, EnglishLevel } from './enums';
+import {
+  ClarifiedDataEnum,
+  EmploymentOption,
+  EnglishLevel,
+  RefusalReason,
+} from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -106,5 +111,24 @@ export function formatClarifiedData(clarifiedData: ClarifiedDataEnum) {
       return "Обов'язковий супровідний лист";
     case 'Part_time':
       return 'Part-time';
+  }
+}
+
+export function formatRefusalReason(reason: RefusalReason) {
+  switch (reason) {
+    case 'NoExperience':
+      return 'Не вистачає досвіду роботи';
+    case 'NoSkills':
+      return 'Невідповідність навичок';
+    case 'BadEnglish':
+      return 'Для цієї вакансії потрібен кращий рівень англійської';
+    case 'BadLocation':
+      return 'Не розглядаємо кандидатів з цієї країни або міста';
+    case 'BadSalaryMatch':
+      return 'Немає співпадіння по зарплаті';
+    case 'StopedHiring':
+      return 'Зупинили пошук за цією вакансією';
+    case 'Other':
+      return 'Інше';
   }
 }
