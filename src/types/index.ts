@@ -147,8 +147,11 @@ export interface EmployerOffer {
   coverLetter: string;
   employerId: string;
   candidateId: string;
+
   active: boolean;
   isArchive: boolean;
+  isFavorite: boolean;
+
   refusal: {
     id: string;
     createdAt: Date;

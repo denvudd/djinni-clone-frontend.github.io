@@ -25,7 +25,7 @@ const Page: React.FC = async () => {
     try {
       const { data } = await axios.get(
         process.env.BACKEND_API_URL +
-          `/employer/${session?.user.employer_id}/offers/archive`,
+          `/employer/${session?.user.employer_id}/offers/favorite`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -34,11 +34,12 @@ const Page: React.FC = async () => {
       );
 
       if (data instanceof AxiosError) {
-        if (data.status === 404) {
-          redirect('/not-found');
-        } else {
-          throw new Error();
-        }
+        // if (data.status === 404) {
+        //   redirect('/not-found');
+        // } else {
+        //   throw new Error();
+        // }
+        console.log(data);
       }
 
       return data as {
@@ -71,9 +72,9 @@ const Page: React.FC = async () => {
 
   return (
     <div className="-mt-8">
-      <PageTabs tabs={tabs} active={1} />
+      <PageTabs tabs={tabs} active={2} />
       <h1 className="text-3xl font-semibold my-8">
-        Архів <span className="text-gray">{count}</span>
+        Збережене <span className="text-gray">{count}</span>
       </h1>
       <ul className="flex flex-col rounded-lg border border-borderColor">
         {offers &&
@@ -87,7 +88,7 @@ const Page: React.FC = async () => {
               id,
               replies,
               refusal,
-              isFavorite,
+              isArchive,
             }) => {
               return (
                 <EmployerOffer
@@ -106,8 +107,8 @@ const Page: React.FC = async () => {
                   replies={replies}
                   refusals={refusal}
                   updatedAt={updatedAt}
-                  isArchived
-                  isFavorite={isFavorite}
+                  isArchived={isArchive}
+                  isFavorite
                 />
               );
             },
@@ -115,18 +116,18 @@ const Page: React.FC = async () => {
         {offers && !offers.length && (
           <div className="text-center py-12 mx-auto max-w-sm">
             <Image
-              src="https://djinni.co/static/images/empty/ill_no_archive.svg"
+              src="https://djinni.co/static/images/empty/ill_no_fav.svg"
               width={170}
               height={50}
               alt="No Archive icon"
               className="mx-auto mb-4"
             />
             <h3 className="font-semibold text-2xl mb-2">
-              Ті, з ким не відбувся метч
+              Ті, хто особливо зацікавили
             </h3>
             <p className="text-gray">
-              Інколи кандидати вам не підходять. Відмовляйте їм та відправляйте
-              в архів, щоб швидше розбирати листування.
+              Деякі кандидати — на вагу золота. Зберігайте кандидатів, щоб не
+              загубити листування з ними та відкласти на майбутнє.
             </p>
           </div>
         )}

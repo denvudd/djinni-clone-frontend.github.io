@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 import UserAvatar from '../UserAvatar';
-import { Check } from 'lucide-react';
-import ArchiveEmployerButton from './ArchiveEmployerButton';
+import { Bookmark, Check } from 'lucide-react';
+import ArchiveEmployerButton from './panel/ArchiveEmployerButton';
 
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
@@ -14,6 +14,9 @@ import {
   formatRefusalReason,
 } from '@/lib/utils';
 import { type EmployerOffer } from '@/types';
+import FavoriteEmployerButton from './panel/FavoriteEmployerButton';
+import OfferPanel from './panel/OfferPanel';
+import clsx from 'clsx';
 
 interface EmployerOfferProps {
   candidateId: string;
@@ -33,6 +36,7 @@ interface EmployerOfferProps {
   updatedAt: Date;
 
   isArchived?: boolean;
+  isFavorite?: boolean;
 }
 
 const EmployerOffer: React.FC<EmployerOfferProps> = ({
@@ -53,6 +57,7 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
   updatedAt,
 
   isArchived = false,
+  isFavorite = false,
 }) => {
   const date =
     !!replies.length && !!replies.at(-1)?.updatedAt
@@ -85,8 +90,11 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
         <div className="inline-flex flex-col">
           <Link
             href={`/q/${candidateId}`}
-            className="text-primary truncate font-medium"
+            className={clsx('text-primary truncate font-medium', {
+              'flex gap-1 items-center font-semibold': isFavorite,
+            })}
           >
+            {isFavorite && <Bookmark className="w-4 h-4 fill-primary" />}
             {fullname ? fullname : '(Анонімний кандидат)'}
           </Link>
           <p className="text-gray">{position}</p>
@@ -121,13 +129,13 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
           </p>
         </Link>
       </div>
-      {!isArchived && (
-        <ArchiveEmployerButton
-          candidateId={candidateId}
-          employerId={employerId}
-          offerId={offerId}
-        />
-      )}
+      <OfferPanel
+        candidateId={candidateId}
+        employerId={employerId}
+        offerId={offerId}
+        isArchived={isArchived}
+        isFavorite={isFavorite}
+      />
     </li>
   );
 };

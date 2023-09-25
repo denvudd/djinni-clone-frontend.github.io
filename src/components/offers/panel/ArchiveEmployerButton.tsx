@@ -1,12 +1,21 @@
 'use client';
 
 import React from 'react';
-import { Button } from '../ui/Button';
-import { ThumbsDown } from 'lucide-react';
+
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/Tooltip';
+
+import { ThumbsDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '../../ui/Button';
 
 interface ArchiveEmployerButtonProps {
   offerId: string;
@@ -46,15 +55,19 @@ const ArchiveEmployerButton: React.FC<ArchiveEmployerButtonProps> = ({
   });
 
   return (
-    <div className="hidden group-hover:block absolute right-5 top-5 z-10 shadow-[0_0_8px_0_rgba(0,0,0,.04),_0_0_0_1px_rgba(0,0,0,.04)] bg-background rounded-md p-1">
-      <ul className="flex items-center">
-        <li>
-          <Button variant="ghost" onClick={() => moveOfferToArchive()}>
-            <ThumbsDown className="w-5 h-5 text-gray" />
-          </Button>
-        </li>
-      </ul>
-    </div>
+    <Tooltip>
+      <TooltipTrigger
+        className={cn(
+          buttonVariants({
+            variant: 'ghost',
+          }),
+        )}
+        onClick={() => moveOfferToArchive()}
+      >
+        <ThumbsDown className="w-5 h-5 text-gray" />
+      </TooltipTrigger>
+      <TooltipContent>Перемістити до Архіву</TooltipContent>
+    </Tooltip>
   );
 };
 

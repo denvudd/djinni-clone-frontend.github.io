@@ -230,6 +230,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
             </ul>
           </div>
         </div>
+
         <div className="flex flex-col md:flex-[0_0_58.333%] md:max-w-[58.333%]">
           {/* Cover Letter attached to offer */}
           <OfferMessage
@@ -267,6 +268,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
               reason={refusal[0].reason}
             />
           )}
+
           {msgsent === 'ok' && (
             <Alert className="bg-green-subtle w-full -mb-4 mt-8">
               <AlertDescription className="text-base">
@@ -274,7 +276,8 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
               </AlertDescription>
             </Alert>
           )}
-          <div className="mt-10">
+
+          <div className="mt-10" id="reply">
             <PageTabs tabs={tabs} active={!archive ? 0 : 1} />
             {!archive ? (
               <ReplyOnOfferForm

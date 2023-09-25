@@ -64,6 +64,10 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
       title: 'Архів',
       path: '/home/inbox/archive',
     },
+    {
+      title: 'Збережене',
+      path: '/home/inbox/favorite',
+    },
   ];
 
   return (
@@ -84,6 +88,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
               coverLetter,
               id,
               replies,
+              isFavorite,
             }) => (
               <EmployerOffer
                 candidateId={candidateId}
@@ -100,6 +105,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
                 position={candidate.position}
                 replies={replies}
                 updatedAt={updatedAt}
+                isFavorite={isFavorite}
               />
             ),
           )}
