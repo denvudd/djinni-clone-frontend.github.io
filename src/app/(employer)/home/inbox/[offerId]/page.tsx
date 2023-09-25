@@ -16,7 +16,7 @@ import {
 } from '@/components/pagers/Breadcrumbs';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 
-import { Alert, AlertDescription } from '@/components/ui/Alert';
+import AlertSuccess from '@/components/ui/AlertSuccess';
 import { Separator } from '@/components/ui/Separator';
 import { Icons } from '@/components/ui/Icons';
 import UserAvatar from '@/components/UserAvatar';
@@ -269,13 +269,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
             />
           )}
 
-          {msgsent === 'ok' && (
-            <Alert className="bg-green-subtle w-full -mb-4 mt-8">
-              <AlertDescription className="text-base">
-                Повідомлення надіслано.
-              </AlertDescription>
-            </Alert>
-          )}
+          {msgsent === 'ok' && <AlertSuccess className="-mb-4 mt-8" />}
 
           <div className="mt-10" id="reply">
             <PageTabs tabs={tabs} active={!archive ? 0 : 1} />

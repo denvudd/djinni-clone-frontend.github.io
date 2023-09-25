@@ -43,7 +43,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   return (
     <div className="flex items-center">
       <Select onValueChange={setCountry} value={country}>
-        <SelectTrigger className="w-[80px] h-10 border-r-0 rounded-se-none rounded-ee-none shadow-none">
+        <SelectTrigger className="w-[80px] h-10 rounded-se-none rounded-ee-none shadow-none">
           <SelectValue asChild>
             <div>{country.toUpperCase()}</div>
           </SelectValue>
@@ -68,7 +68,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         onChange={handlePhoneValueChange}
         type="tel"
         ref={inputRef}
-        className="rounded-ss-none rounded-es-none"
+        className="border-l-0 rounded-ss-none rounded-es-none"
         {...restProps}
       />
     </div>

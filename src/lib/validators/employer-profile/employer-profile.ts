@@ -11,25 +11,35 @@ export const EmployerProfileValidator = z.object({
     .max(120, 'Повне ім’я не може бути більше 120 символів.'),
   positionAndCompany: z
     .string()
-    .max(200, 'Максимальна допустима кількість символів - 200')
-    .optional(),
+    .max(200, 'Максимальна допустима кількість символів - 200'),
   telegram: z
-    .string()
-    .max(200, 'Максимальна допустима кількість символів - 200')
-    .optional(),
+    .union([
+      z.string().max(200, 'Максимальна допустима кількість символів - 200'),
+      z.null(),
+    ])
+    .optional()
+    .transform((e) => (e === null ? undefined : e)),
   phone: z
-    .string()
-    .refine(validator.isMobilePhone, {
-      message: 'Некоректний номер телефону',
-    })
-    .optional(),
+    .union([
+      z.string().nullable(),
+      z.string().refine((value) => validator.isMobilePhone(value), {
+        message: 'Некоректний номер телефону',
+      }),
+    ])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
   linkedIn: z
-    .string()
-    .nonempty('Це поле не може бути порожнім')
-    .regex(
-      /^(http(s)?:\/\/)?(www\.)?linkedin\.com\/in\/.{3,}$/,
-      'Будь ласка, вкажіть правильне посилання на ваш профіль LinkedIn',
-    ),
+    .union([
+      z.string().nullable(),
+      z
+        .string()
+        .regex(
+          /^(http(s)?:\/\/)?(www\.)?linkedin\.com\/in\/.{3,}$/,
+          'Будь ласка, вкажіть правильне посилання на ваш профіль LinkedIn',
+        ),
+    ])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
 });
 
 export type EmployerProfileRequest = z.infer<typeof EmployerProfileValidator>;

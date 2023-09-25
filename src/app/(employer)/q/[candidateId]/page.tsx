@@ -22,6 +22,7 @@ import { uk } from 'date-fns/locale';
 import { Clock } from 'lucide-react';
 import { type CandidateProfile } from '@/types';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
+import AlertSuccess from '@/components/ui/AlertSuccess';
 
 interface PageProps {
   params: {
@@ -107,13 +108,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   return (
     <>
-      {msgsent === 'ok' && (
-        <Alert className="mb-4 bg-green-subtle md:max-w-[66.666%]">
-          <AlertDescription className="text-base">
-            Повідомлення надіслано.
-          </AlertDescription>
-        </Alert>
-      )}
+      {msgsent === 'ok' && <AlertSuccess className="mb-4 md:max-w-[66.666%]" />}
       <Breadcrumbs segments={segments} />
       <h1 className="text-3xl font-semibold mt-4 mb-2">{position}</h1>
       {isOwner && (

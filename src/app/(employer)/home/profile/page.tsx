@@ -10,6 +10,7 @@ import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
 import { Separator } from '@/components/ui/Separator';
 
 import { type EmployerProfile } from '@/types';
+import AlertSuccess from '@/components/ui/AlertSuccess';
 
 interface PageProps {
   searchParams: {
@@ -77,10 +78,27 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
       path: '/home/billing',
     },
   ];
+
   return (
     <>
       <h1 className="text-3xl font-semibold mb-4">Мій профіль</h1>
       <PageTabs tabs={tabs} active={0} />
+      {updated === 'ok' && (
+        <AlertSuccess
+          message={
+            <span>
+              Профіль оновлено.{' '}
+              <Link
+                href={`/r/${session.user.employer_id}`}
+                className="text-link"
+              >
+                Дивитися на Джині →
+              </Link>
+            </span>
+          }
+          className="mb-4"
+        />
+      )}
       <div className="grid lg:grid-cols-3 lg:gap-6">
         <div className="w-full lg:col-span-2">
           <EmployerProfileForm
@@ -89,6 +107,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             telegram={telegram}
             phone={phone}
             linkedIn={linkedIn}
+            employerId={session.user.employer_id}
           />
           <Separator className="mt-12 mb-4" />
           <p>

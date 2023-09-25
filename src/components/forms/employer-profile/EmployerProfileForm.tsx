@@ -4,6 +4,10 @@ import React from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
+import { AxiosError } from 'axios';
 
 import {
   Form,
@@ -15,15 +19,15 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import PhoneInput from '@/components/ui/PhoneInput';
 
 import {
   EmployerProfileValidator,
   type EmployerProfileRequest,
 } from '@/lib/validators/employer-profile/employer-profile';
-import { Button } from '@/components/ui/Button';
-
 interface EmployerProfileFormProps {
+  employerId: string;
   fullname: string | undefined;
   positionAndCompany: string | undefined;
   telegram: string | undefined;
@@ -32,12 +36,15 @@ interface EmployerProfileFormProps {
 }
 
 const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
+  employerId,
   fullname,
   linkedIn,
   phone,
   positionAndCompany,
   telegram,
 }) => {
+  const router = useRouter();
+
   const form = useForm<EmployerProfileRequest>({
     resolver: zodResolver(EmployerProfileValidator),
     defaultValues: {
@@ -49,8 +56,46 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
     },
   });
 
+  const {
+    mutate: updateProfile,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useMutation({
+    mutationFn: async ({
+      fullname,
+      positionAndCompany,
+      linkedIn,
+      phone,
+      telegram,
+    }: EmployerProfileRequest) => {
+      const payload = {
+        fullname,
+        positionAndCompany,
+        linkedIn: linkedIn || null,
+        phone,
+        telegram: telegram || null,
+      };
+
+      const { data } = await axios.patch(`/employer/${employerId}`, payload);
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data;
+    },
+    onSuccess: () => {
+      router.push(`/home/profile?updated=ok`);
+    },
+    onError: (error) => {
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+    },
+  });
+
   function onSubmit(values: EmployerProfileRequest) {
+    // console.log(form.getFieldState('phone').isTouched);
     console.log(values);
+    updateProfile(values);
   }
 
   return (
@@ -88,7 +133,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
           )}
         />
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-start gap-6">
           <FormField
             control={form.control}
             name="telegram"
@@ -148,7 +193,13 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
             </FormItem>
           )}
         />
-        <Button className="text-lg" size="lg" type="submit">
+        <Button
+          isLoading={isProfileLoading}
+          disabled={isProfileLoading}
+          className="text-lg"
+          size="lg"
+          type="submit"
+        >
           Зберегти зміни
         </Button>
       </form>
