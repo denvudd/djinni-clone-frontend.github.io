@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/Separator';
 
 import { type EmployerProfile } from '@/types';
 import AlertSuccess from '@/components/ui/AlertSuccess';
+import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
 
 interface PageProps {
   searchParams: {
@@ -83,6 +84,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     <>
       <h1 className="text-3xl font-semibold mb-4">Мій профіль</h1>
       <PageTabs tabs={tabs} active={0} />
+
       {updated === 'ok' && (
         <AlertSuccess
           message={
@@ -99,6 +101,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
           className="mb-4"
         />
       )}
+
       <div className="grid lg:grid-cols-3 lg:gap-6">
         <div className="w-full lg:col-span-2">
           <EmployerProfileForm
@@ -117,7 +120,14 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             </Link>
           </p>
         </div>
-        <div className="w-full">214141</div>
+
+        <div className="w-full">
+          <EmployerAvatarForm
+            avatar={session.user.avatar}
+            fullname={session.user.fullname}
+            employerId={session.user.employer_id}
+          />
+        </div>
       </div>
     </>
   );
