@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EnglishLevel } from '../enums';
+import { EnglishLevel } from '../../enums';
 
 export const CandidateWizardStep1Validator = z.object({
   category: z.string().nonempty('Будь ласка, виберіть категорію'),

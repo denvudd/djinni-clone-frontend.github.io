@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EmploymentOption } from '../enums';
+import { EmploymentOption } from '../../enums';
 
 export const CandidateWizardStep2Validator = z.object({
   employmentOptions: z.nativeEnum(EmploymentOption),

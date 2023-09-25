@@ -40,7 +40,7 @@ import { EnglishLevel } from '@/lib/enums';
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
-} from '@/lib/validators/candidate-wizard-step1';
+} from '@/lib/validators/wizard/candidate-wizard-step1';
 import { type Category } from '@/types';
 import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 

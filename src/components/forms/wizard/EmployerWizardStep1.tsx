@@ -24,7 +24,7 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import {
   type EmployerWizardStep1Request,
   EmployerWizardStep1Validator,
-} from '@/lib/validators/employer-wizard-step1';
+} from '@/lib/validators/wizard/employer-wizard-step1';
 
 interface EmployerWizardStep1Props {
   employerId: string;

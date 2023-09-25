@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   type RegisterRequest,
   RegisterValidator,
-} from '@/lib/validators/register';
+} from '@/lib/validators/auth/register';
 
 import {
   Form,

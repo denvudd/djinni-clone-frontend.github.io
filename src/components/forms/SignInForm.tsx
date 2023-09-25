@@ -9,7 +9,7 @@ import { signIn } from 'next-auth/react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type LoginRequest, LoginValidator } from '@/lib/validators/login';
+import { type LoginRequest, LoginValidator } from '@/lib/validators/auth/login';
 
 import {
   Form,
