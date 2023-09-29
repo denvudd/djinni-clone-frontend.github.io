@@ -1,13 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
+import { AxiosError } from 'axios';
+import { getAuthServerSession } from '@/lib/next-auth';
 import axios from '@/lib/axios';
 
 import CreateVacancyForm from '@/components/forms/CreateVacancyForm';
-import { AxiosError } from 'axios';
 import { type Vacancy } from '@/types';
+import { UserRole } from '@/lib/enums';
 
 interface PageProps {
   searchParams: {
@@ -19,7 +20,7 @@ const Page = async ({ searchParams }: PageProps) => {
   const session = await getAuthServerSession();
   const { job } = searchParams;
 
-  if (session && session.user.role !== 'Employer') redirect('/');
+  if (session && session.user.role !== UserRole.Employer) redirect('/');
 
   async function getExistVacancy() {
     try {
@@ -53,10 +54,7 @@ const Page = async ({ searchParams }: PageProps) => {
       </h1>
       <div className="flex flex-col">
         <div className="flex-[0_0_83.33333%] max-w-[83.33333%]">
-          <CreateVacancyForm
-            employerId={session!.user.employer_id!}
-            existVacancy={existVacancy}
-          />
+          <CreateVacancyForm employerId={session!.user.employer_id!} existVacancy={existVacancy} />
         </div>
       </div>
     </>

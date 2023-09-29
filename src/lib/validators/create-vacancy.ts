@@ -1,10 +1,5 @@
 import { z } from 'zod';
-import {
-  ClarifiedDataEnum,
-  CompanyType,
-  EmploymentOption,
-  EnglishLevel,
-} from '../enums';
+import { ClarifiedDataEnum, CompanyType, EmploymentOption, EnglishLevel } from '../enums';
 
 export const CreateVacancyValidator = z.object({
   active: z.boolean().optional(),

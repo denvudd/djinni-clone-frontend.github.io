@@ -2,21 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 
-import {
-  convertEnumObjToArray,
-  formatEmploymenOptions,
-  formatEnglishLevel,
-} from '@/lib/utils';
-import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 import { X } from 'lucide-react';
+import clsx from 'clsx';
+import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
+import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 
 import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
 import { type Category, type City } from '@/types';
 import ExperienceRange from './ExperienceRange';
 import SalaryRange from './SalaryRange';
-import clsx from 'clsx';
 
-interface SidebarDevelopersProps extends DevelopersPageProps {}
+type SidebarDevelopersProps = DevelopersPageProps;
 
 const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
   const {
@@ -33,9 +29,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
   const fetchCities = async () => {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + '/countries/popular',
-      );
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/countries/popular`);
 
       return data as City[];
     } catch (error) {
@@ -45,9 +39,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + '/categories',
-      );
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/categories`);
 
       return data as Category[];
     } catch (error) {
@@ -118,9 +110,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
               !!categories.length &&
               categories.map((category) => (
                 <ul className="flex flex-col gap-1">
-                  <span className="block mb-1 font-semibold text-gray">
-                    {category.name}
-                  </span>
+                  <span className="block mb-1 font-semibold text-gray">{category.name}</span>
                   {category.subcategories.map((subcategory) => (
                     <li>
                       <Link
@@ -163,7 +153,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
             )}
           </h4>
           <ul className="flex flex-col gap-1">
-            {convertEnumObjToArray(EnglishLevel).map((level) => (
+            {convertEnumObjToArray(EnglishLevel).map((level: EnglishLevel) => (
               <li>
                 <Link
                   href={{

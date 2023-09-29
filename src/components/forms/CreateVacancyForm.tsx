@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueries } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
+import { TagsInput } from 'react-tag-input-component';
+import axios from '@/lib/axios';
 
 import {
   Form,
@@ -29,21 +30,13 @@ import {
   SelectValue,
 } from '../ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { Checkbox } from '@/components/ui/Checkbox';
 import ErrorAlert from '@/components/ui/ErrorAlert';
 import { Separator } from '@/components/ui/Separator';
-import { TagsInput } from 'react-tag-input-component';
 
-import {
-  CreateVacancyValidator,
-  type CreateVacancyRequest,
-} from '@/lib/validators/create-vacancy';
+import { CreateVacancyValidator, type CreateVacancyRequest } from '@/lib/validators/create-vacancy';
 import { Vacancy, type Category, type City, type Domain } from '@/types';
 import {
   convertEnumObjToArray,
@@ -51,28 +44,20 @@ import {
   formatEmploymenOptions,
   formatEnglishLevel,
 } from '@/lib/utils';
-import {
-  ClarifiedDataEnum,
-  CompanyType,
-  EmploymentOption,
-  EnglishLevel,
-} from '@/lib/enums';
+import { ClarifiedDataEnum, CompanyType, EmploymentOption, EnglishLevel } from '@/lib/enums';
 
 interface CreateVacancyFormProps {
   employerId: string;
   existVacancy: Vacancy | undefined;
 }
 
-const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
-  employerId,
-  existVacancy,
-}) => {
+const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, existVacancy }) => {
   const router = useRouter();
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>(
-    existVacancy?.keywords.map((keyword) => keyword.name) || [],
+    existVacancy?.keywords.map((keyword) => keyword.name) ?? [],
   );
-  const clarifiedDataArr = convertEnumObjToArray(ClarifiedDataEnum);
+  const clarifiedDataArr: ClarifiedDataEnum[] = convertEnumObjToArray(ClarifiedDataEnum);
 
   const form = useForm<CreateVacancyRequest>({
     resolver: zodResolver(CreateVacancyValidator),
@@ -91,13 +76,12 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       salaryForkLte: existVacancy?.salaryForkLte,
       youtube: existVacancy?.youtube,
       keywords: selectedKeywords,
-      employmentOptions:
-        existVacancy?.employmentOptions || EmploymentOption.Office,
-      english: existVacancy?.english || EnglishLevel.NoEnglish,
-      clarifiedData: existVacancy?.clarifiedData.map((data) => data.name) || [
+      employmentOptions: existVacancy?.employmentOptions ?? EmploymentOption.Office,
+      english: existVacancy?.english ?? EnglishLevel.NoEnglish,
+      clarifiedData: existVacancy?.clarifiedData.map((data) => data.name) ?? [
         ClarifiedDataEnum.Test_task,
       ],
-      isRelocate: existVacancy?.isRelocate || true,
+      isRelocate: existVacancy?.isRelocate ?? true,
     },
   });
 
@@ -110,7 +94,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       {
         queryKey: ['domains'],
         queryFn: async () => {
-          const { data } = await axios.get(`/categories/domain-categories`);
+          const { data } = await axios.get('/categories/domain-categories');
 
           if (data instanceof AxiosError) {
             throw new Error();
@@ -122,7 +106,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       {
         queryKey: ['categories'],
         queryFn: async () => {
-          const { data } = await axios.get(`/categories`);
+          const { data } = await axios.get('/categories');
 
           if (data instanceof AxiosError) {
             throw new Error();
@@ -134,7 +118,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
       {
         queryKey: ['cities'],
         queryFn: async () => {
-          const { data } = await axios.get(`/countries`);
+          const { data } = await axios.get('/countries');
 
           if (data instanceof AxiosError) {
             throw new Error();
@@ -156,7 +140,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
         employerId,
         ...values,
       };
-      const { data } = await axios.post(`/vacancies`, payload);
+      const { data } = await axios.post('/vacancies', payload);
 
       if (data instanceof AxiosError) {
         throw new Error();
@@ -183,10 +167,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
         employerId,
         ...values,
       };
-      const { data } = await axios.patch(
-        `/vacancies/${existVacancy?.id}`,
-        payload,
-      );
+      const { data } = await axios.patch(`/vacancies/${existVacancy?.id}`, payload);
 
       if (data instanceof AxiosError) {
         throw new Error();
@@ -258,12 +239,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
-                    {domains &&
-                      domains.map((domain) => (
-                        <SelectItem value={domain.name} key={domain.id}>
-                          {domain.name}
-                        </SelectItem>
-                      ))}
+                    {domains?.map((domain) => (
+                      <SelectItem value={domain.name} key={domain.id}>
+                        {domain.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormDescription className="font-normal leading-tight mt-3">
@@ -288,8 +268,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                   <Textarea rows={12} {...field} />
                 </FormControl>
                 <FormDescription className="font-normal leading-tight mt-3">
-                  Вимоги, обов'язки, проект, команда, умови праці,
-                  компенсаційний пакет. Див. також{' '}
+                  Вимоги, обов&apos;язки, проект, команда, умови праці, компенсаційний пакет. Див.
+                  також{' '}
                   <a className="text-link inline" href="/help/tips">
                     поради Джина
                   </a>
@@ -313,18 +293,15 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 <Tooltip>
                   <TooltipTrigger className="text-link">[?]</TooltipTrigger>
                   <TooltipContent>
-                    Ви можете додати відео про вакансію. Це має бути посилання
-                    на YouTube відео, а не посилання на канал.
+                    Ви можете додати відео про вакансію. Це має бути посилання на YouTube відео, а
+                    не посилання на канал.
                   </TooltipContent>
                 </Tooltip>
-                <span className="block font-normal">(не обов'язково)</span>
+                <span className="block font-normal">(не обов&apos;язково)</span>
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="https://www.youtube.com/watch?v=6Zbhvaac68Y"
-                  />
+                  <Input {...field} placeholder="https://www.youtube.com/watch?v=6Zbhvaac68Y" />
                 </FormControl>
                 <FormMessage />
               </div>
@@ -361,20 +338,16 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
-                    {categories &&
-                      categories.map((category) => (
-                        <SelectGroup key={category.name}>
-                          <SelectLabel>{category.name}</SelectLabel>
-                          {category.subcategories.map((subcategory) => (
-                            <SelectItem
-                              value={subcategory.name}
-                              key={subcategory.id}
-                            >
-                              {subcategory.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      ))}
+                    {categories?.map((category) => (
+                      <SelectGroup key={category.name}>
+                        <SelectLabel>{category.name}</SelectLabel>
+                        {category.subcategories.map((subcategory) => (
+                          <SelectItem value={subcategory.name} key={subcategory.id}>
+                            {subcategory.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -393,8 +366,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                 <Tooltip>
                   <TooltipTrigger className="text-link">[?]</TooltipTrigger>
                   <TooltipContent>
-                    Ключові слова, за якими кандидат може знайти вакансію в
-                    пошуку
+                    Ключові слова, за якими кандидат може знайти вакансію в пошуку
                   </TooltipContent>
                 </Tooltip>
               </FormLabel>
@@ -409,9 +381,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     onRemoved={(tag) => {
                       if (field.value) {
                         field.onChange(field.value.filter((t) => t !== tag));
-                        setSelectedKeywords(
-                          field.value.filter((t) => t !== tag),
-                        );
+                        setSelectedKeywords(field.value.filter((t) => t !== tag));
                       }
                     }}
                     placeHolder="Введіть та натисніть Enter..."
@@ -479,12 +449,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
-                    {cities &&
-                      cities.map(({ city }) => (
-                        <SelectItem value={city} key={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
+                    {cities?.map(({ city }) => (
+                      <SelectItem value={city} key={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -503,10 +472,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
               </FormLabel>
               <div className="flex-[0_0_63.33333%] max-w-[63.33333%]">
                 <RadioGroup
-                  onValueChange={(value) =>
-                    field.onChange(value === 'yes' ? true : false)
-                  }
-                  defaultValue={'yes'}
+                  onValueChange={(value) => field.onChange(value === 'yes')}
+                  defaultValue="yes"
                   defaultChecked={existVacancy?.isRelocate}
                   className="flex gap-2"
                 >
@@ -514,9 +481,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     <FormControl>
                       <RadioGroupItem value="no" />
                     </FormControl>
-                    <FormLabel className="font-normal text-base">
-                      Без релокейту
-                    </FormLabel>
+                    <FormLabel className="font-normal text-base">Без релокейту</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
@@ -528,8 +493,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                   </FormItem>
                 </RadioGroup>
                 <FormDescription className="font-normal leading-tight mt-3">
-                  Якщо ваша компанія дозволяє чи оплачує витрати на релокейт
-                  працівників.
+                  Якщо ваша компанія дозволяє чи оплачує витрати на релокейт працівників.
                 </FormDescription>
                 <FormMessage />
               </div>
@@ -544,9 +508,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
           <div className="flex items-center flex-[0_0_63.33333%] max-w-[63.33333%]">
             <div className="flex-1 max-w-[50%] p-4 pt-2">
               <label className="mb-1 font-semibold">Приватна</label>
-              <p className="text-gray text-sm h-10 mb-2">
-                Кандидати ці цифри не побачать
-              </p>
+              <p className="text-gray text-sm h-10 mb-2">Кандидати ці цифри не побачать</p>
               <div className="flex items-center">
                 <FormField
                   control={form.control}
@@ -590,11 +552,9 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
 
             <div className="flex-1 max-w-[50%] p-4 pt-2 bg-teal-subtle rounded-md">
               <label className="mb-1 font-semibold">
-                Публічна <span className="text-green">(не обов'язково)</span>
+                Публічна <span className="text-green">(не обов&apos;язково)</span>
               </label>
-              <p className="text-gray text-sm h-10 mb-2">
-                Ми покажемо цю вилку кандидатам
-              </p>
+              <p className="text-gray text-sm h-10 mb-2">Ми покажемо цю вилку кандидатам</p>
               <div className="flex items-center">
                 <FormField
                   control={form.control}
@@ -656,11 +616,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
-                    <SelectItem value={`0`}>Без досвіду</SelectItem>
-                    <SelectItem value={`1`}>1 рік</SelectItem>
-                    <SelectItem value={`2`}>2 роки</SelectItem>
-                    <SelectItem value={`3`}>3 роки</SelectItem>
-                    <SelectItem value={`5`}>5 років</SelectItem>
+                    <SelectItem value="0">Без досвіду</SelectItem>
+                    <SelectItem value="1">1 рік</SelectItem>
+                    <SelectItem value="2">2 роки</SelectItem>
+                    <SelectItem value="3">3 роки</SelectItem>
+                    <SelectItem value="5">5 років</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -741,41 +701,32 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
               <div className="mb-4">
                 <FormLabel className="pt-2 flex-[0_0_33.33333%] max-w-[33.33333%] font-semibold h-full text-base">
                   Уточнюючі дані
-                  <span className="block font-normal">(не обов'язково)</span>
+                  <span className="block font-normal">(не обов&apos;язково)</span>
                 </FormLabel>
               </div>
               <div className="flex flex-wrap gap-3 flex-[0_0_63.33333%] max-w-[63.33333%]">
                 {clarifiedDataArr.slice(1, 4).map((item) => (
                   <FormField
-                    key={item.id}
+                    key={item}
                     control={form.control}
                     name="clarifiedData"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={item.id}
-                          className="flex items-center gap-2 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(item)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value!, item])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== item,
-                                      ),
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="text-base font-normal">
-                            {formatClarifiedData(item)}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
+                    render={({ field }) => (
+                      <FormItem key={item} className="flex items-center gap-2 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(item)}
+                            onCheckedChange={(checked) =>
+                              checked
+                                ? field.onChange([...field.value!, item])
+                                : field.onChange(field.value?.filter((value) => value !== item))
+                            }
+                          />
+                        </FormControl>
+                        <FormLabel className="text-base font-normal">
+                          {formatClarifiedData(item)}
+                        </FormLabel>
+                      </FormItem>
+                    )}
                   />
                 ))}
               </div>
@@ -819,7 +770,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({
                   )
             }
           >
-            Подивитись прев'ю
+            Подивитись прев&apos;ю
           </Button>
         </div>
 

@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/Sheet';
 import { Menu } from 'lucide-react';
+import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/Sheet';
 import { useIsComponentMounted } from '@/hooks/use-is-component-mounted';
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -31,9 +31,7 @@ const LandMobileMenu: React.FC = () => {
                 href="/login"
                 className={buttonVariants({
                   variant: 'outline',
-                  className: cn(
-                    'rounded-full border-gray-400 px-3 py-0 text-sm leading-loose',
-                  ),
+                  className: cn('rounded-full border-gray-400 px-3 py-0 text-sm leading-loose'),
                 })}
               >
                 Увійти
@@ -44,9 +42,7 @@ const LandMobileMenu: React.FC = () => {
                 href="/signup"
                 className={buttonVariants({
                   variant: 'outline',
-                  className: cn(
-                    'rounded-full border-gray-400 px-3 py-1 text-sm',
-                  ),
+                  className: cn('rounded-full border-gray-400 px-3 py-1 text-sm'),
                 })}
               >
                 Зареєструватись

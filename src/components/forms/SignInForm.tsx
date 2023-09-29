@@ -27,7 +27,7 @@ import { Icons } from '@/components/ui/Icons';
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/';
 
   const form = useForm<LoginRequest>({
     resolver: zodResolver(LoginValidator),
@@ -95,10 +95,7 @@ const SignInForm: React.FC = () => {
       <div className="flex">
         <div className="flex-1 pr-9 border-r border-borderColor">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col gap-3"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
               <FormField
                 control={form.control}
                 name="username"
@@ -126,11 +123,7 @@ const SignInForm: React.FC = () => {
                 )}
               />
               <div className="inline-block">
-                <Button
-                  isLoading={isLoginLoading}
-                  type="submit"
-                  className="text-lg"
-                >
+                <Button isLoading={isLoginLoading} type="submit" className="text-lg">
                   Увійти
                 </Button>
               </div>
@@ -140,11 +133,11 @@ const SignInForm: React.FC = () => {
         <div className="flex-1">
           <div className="pl-9 pb-5 flex flex-col gap-4">
             <Button variant="outline">
-              <Icons.linkedin className="w-6 h-6 mr-3" />
+              <Icons.Linkedin className="w-6 h-6 mr-3" />
               Продовжити з LinkedIn
             </Button>
             <Button variant="outline">
-              <Icons.google className="w-5 h-5 mr-3" />
+              <Icons.Google className="w-5 h-5 mr-3" />
               Продовжити з Google
             </Button>
           </div>

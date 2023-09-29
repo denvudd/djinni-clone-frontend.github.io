@@ -1,14 +1,15 @@
 'use client';
 
 import React from 'react';
-import { CardFooter } from '../ui/Card';
 import Link from 'next/link';
 import { Bookmark, Eye, MessageCircle } from 'lucide-react';
 import clsx from 'clsx';
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
+import { CardFooter } from '../ui/Card';
+import { type EmployerProfile, type FavoriteCandidate } from '@/types';
 
 interface DeveloperCardFooterProps {
   candidateId: string;
@@ -17,6 +18,8 @@ interface DeveloperCardFooterProps {
   favoriteId: string | undefined;
   views: number;
 }
+
+type EmployerWithFavorites = EmployerProfile & { favoriteCandidates: FavoriteCandidate[] };
 
 const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
   candidateId,
@@ -31,19 +34,15 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
   const { mutate: addToFavorite } = useMutation({
     mutationFn: async () => {
       if (access) {
-        console.log('work');
-        const { data } = await axios.post(
-          `/employer/${employerId}/candidate-to-favorite`,
-          {
-            candidateId,
-          },
-        );
+        const { data } = await axios.post(`/employer/${employerId}/candidate-to-favorite`, {
+          candidateId,
+        });
 
         if (data instanceof AxiosError) {
           throw new Error();
         }
 
-        return data;
+        return data as EmployerWithFavorites;
       }
     },
     onSuccess: () => {
@@ -62,7 +61,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
           throw new Error();
         }
 
-        return data;
+        return data as { success: true; deletedCount: number };
       }
     },
     onSuccess: () => {
@@ -75,7 +74,6 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
       if (isFavorite) {
         removeFromFavorite();
       } else {
-        console.log('add');
         addToFavorite();
       }
     } else {

@@ -2,26 +2,24 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
-import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
+import ReactMarkdown from 'react-markdown';
+import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { Clock } from 'lucide-react';
+import { getAuthServerSession } from '@/lib/next-auth';
 
-import {
-  Breadcrumbs,
-  type BreadcrumbsSegment,
-} from '@/components/pagers/Breadcrumbs';
+import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
 import CandidateInfo from '@/components/CandidateInfo';
 import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
-import ReactMarkdown from 'react-markdown';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { Badge } from '@/components/ui/Badge';
 
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { uk } from 'date-fns/locale';
-import { Clock } from 'lucide-react';
 import { type CandidateProfile } from '@/types';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
+import { PreferableLanguage, UserRole } from '@/lib/enums';
 
 interface PageProps {
   params: {
@@ -39,7 +37,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   async function getCandidate() {
     try {
       const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/candidate/${candidateId}/public`,
+        `${process.env.BACKEND_API_URL}/candidate/${candidateId}/public`,
       );
 
       if (data instanceof AxiosError) {
@@ -95,7 +93,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   const isOwner =
     session &&
-    session.user.role === 'Candidate' &&
+    session.user.role === UserRole.Candidate &&
     session.user.candidate_id === candidateId;
 
   const dialog =
@@ -109,9 +107,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     <>
       {msgsent === 'ok' && (
         <Alert className="mb-4 bg-green-subtle md:max-w-[66.666%]">
-          <AlertDescription className="text-base">
-            Повідомлення надіслано.
-          </AlertDescription>
+          <AlertDescription className="text-base">Повідомлення надіслано.</AlertDescription>
         </Alert>
       )}
       <Breadcrumbs segments={segments} />
@@ -119,10 +115,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
       {isOwner && (
         <div className="text-success mb-3">
           Це ваш публічний профіль на Джині
-          <Link
-            href="/my/profile"
-            className="ml-2 underline inline-block text-link"
-          >
+          <Link href="/my/profile" className="ml-2 underline inline-block text-link">
             Редагувати
           </Link>
         </div>
@@ -132,9 +125,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
         <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Досвід роботи</h4>
-            <ReactMarkdown components={MarkdownRender}>
-              {experienceDescr}
-            </ReactMarkdown>
+            <ReactMarkdown components={MarkdownRender}>{experienceDescr}</ReactMarkdown>
           </div>
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Навички</h4>
@@ -155,9 +146,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Досягнення</h4>
             {achievementsDescr ? (
-              <ReactMarkdown components={MarkdownRender}>
-                {achievementsDescr}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{achievementsDescr}</ReactMarkdown>
             ) : (
               <p className="text-gray">Інформації не додано</p>
             )}
@@ -165,24 +154,19 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Очікування від роботи</h4>
             {expectationsDescr ? (
-              <ReactMarkdown components={MarkdownRender}>
-                {expectationsDescr}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{expectationsDescr}</ReactMarkdown>
             ) : (
               <p className="text-gray">Інформації не додано</p>
             )}
           </div>
           <div className="mb-10">
             <h4 className="font-semibold mb-2">Мова спілкування</h4>
-            {preferableLang === 'Ukrainian' ? 'Українська' : 'English'}
+            {preferableLang === PreferableLanguage.Ukrainian ? 'Українська' : 'English'}
           </div>
 
           {/* if employer don't have dialog with candidate yet */}
           {!isDialogExist && !isOwner && session?.user.employer_id && (
-            <EmployerOfferForm
-              employerId={session?.user.employer_id}
-              candidateId={id}
-            />
+            <EmployerOfferForm employerId={session?.user.employer_id} candidateId={id} />
           )}
 
           {/* if employer does have dialog with candidate */}

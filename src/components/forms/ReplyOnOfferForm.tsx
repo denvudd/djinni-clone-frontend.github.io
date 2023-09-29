@@ -6,17 +6,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
+import axios from '@/lib/axios';
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/Form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/Form';
 import { Textarea } from '../ui/Textarea';
 import { Button } from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -48,7 +41,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
   const router = useRouter();
 
   const replyAs = employerId ? 'employer' : 'candidate';
-  const roleId = employerId ? employerId : candidateId;
+  const roleId = employerId ?? candidateId;
 
   const form = useForm<ReplyOnOfferFormRequest>({
     resolver: zodResolver(ReplyOnOfferFormValidator),
@@ -64,16 +57,13 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
   } = useMutation({
     mutationFn: async ({ text }: ReplyOnOfferFormRequest) => {
       const payload = { text, authorId, replyToId: authorId };
-      const { data } = await axios.post(
-        `/${replyAs}/${roleId}/offer/${offerId}/reply`,
-        payload,
-      );
+      const { data } = await axios.post(`/${replyAs}/${roleId}/offer/${offerId}/reply`, payload);
 
       if (data instanceof AxiosError) {
         throw new Error();
       }
 
-      return data;
+      return data as unknown;
     },
     onSuccess: () => {
       router.push(`/home/inbox/${offerId}?msgsent=ok`);
@@ -103,9 +93,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold mb-2 text-base">
-                Відповісти
-              </FormLabel>
+              <FormLabel className="font-semibold mb-2 text-base">Відповісти</FormLabel>
               <FormControl>
                 <Textarea lang="uk" className="text-base" rows={6} {...field} />
               </FormControl>
@@ -113,11 +101,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
             </FormItem>
           )}
         />
-        <Button
-          disabled={disabled || isMessageLoading}
-          isLoading={isMessageLoading}
-          type="submit"
-        >
+        <Button disabled={disabled || isMessageLoading} isLoading={isMessageLoading} type="submit">
           Надіслати
         </Button>
       </form>

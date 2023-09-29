@@ -1,17 +1,17 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import React from 'react';
 import { getEmployerVacancies } from '@/actions/get-employer-vacancies';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { buttonVariants } from '@/components/ui/Button';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import React from 'react';
 
 const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.employer_id) redirect('/');
+  if (!session?.user.employer_id) redirect('/');
 
   const vacancies = await getEmployerVacancies(session.user.employer_id);
 
@@ -30,19 +30,13 @@ const Page: React.FC = async () => {
           </div>
           <AlertDescription>
             <p className="text-sm text-gray-400">
-              <strong className="text-white">
-                Опублікуйте першу вакансію.{' '}
-              </strong>
-              Ми надішлемо її підходящим кандидатам. В середньому, ви отримаєте
-              від 15 відгуків.
+              <strong className="text-white">Опублікуйте першу вакансію. </strong>
+              Ми надішлемо її підходящим кандидатам. В середньому, ви отримаєте від 15 відгуків.
             </p>
           </AlertDescription>
         </Alert>
       )}
-      <Link
-        href="/home/post_job"
-        className={cn(buttonVariants({ className: 'text-base mb-6' }))}
-      >
+      <Link href="/home/post_job" className={cn(buttonVariants({ className: 'text-base mb-6' }))}>
         Створити нову вакансію
       </Link>
 
@@ -61,17 +55,12 @@ const Page: React.FC = async () => {
                 )}
               </h4>
               <div className="flex gap-2 text-sm mt-1">
-                <Link
-                  className="text-link"
-                  href={`/home/post_job?job=${vacancy.id}`}
-                >
+                <Link className="text-link" href={`/home/post_job?job=${vacancy.id}`}>
                   Редагувати
                 </Link>
                 <span className="text-sm text-gray">·</span>
                 <span className="text-gray">
-                  {!!vacancy.responsesCount
-                    ? vacancy.responsesCount
-                    : 'Немає відгуків'}
+                  {vacancy.responsesCount ? vacancy.responsesCount : 'Немає відгуків'}
                 </span>
                 <span className="text-sm text-gray">·</span>
                 <Link
@@ -81,10 +70,7 @@ const Page: React.FC = async () => {
                   Кандидати
                 </Link>
                 <span className="text-sm text-gray">·</span>
-                <Link
-                  className="text-danger"
-                  href={`/home/post_job?delete=${vacancy.id}`}
-                >
+                <Link className="text-danger" href={`/home/post_job?delete=${vacancy.id}`}>
                   Видалити
                 </Link>
               </div>
@@ -93,9 +79,7 @@ const Page: React.FC = async () => {
         </ul>
       )}
 
-      {vacancies && !vacancies.length && (
-        <p>У вас поки що немає активних вакансій.</p>
-      )}
+      {vacancies && !vacancies.length && <p>У вас поки що немає активних вакансій.</p>}
       <Link href="/jobs" className="text-link mt-7 inline-block">
         Вакансії інших роботодавців
       </Link>

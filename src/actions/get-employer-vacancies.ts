@@ -1,11 +1,11 @@
-import { type Vacancy } from '@/types';
 import axios, { AxiosError } from 'axios';
 import { redirect } from 'next/navigation';
+import { type Vacancy } from '@/types';
 
 export const getEmployerVacancies = async (employerId: string) => {
   try {
     const { data } = await axios.get(
-      process.env.BACKEND_API_URL + `/employer/${employerId}/vacancies`,
+      `${process.env.BACKEND_API_URL}/employer/${employerId}/vacancies`,
     );
 
     if (data instanceof AxiosError) {

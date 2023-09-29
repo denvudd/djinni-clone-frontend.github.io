@@ -5,10 +5,7 @@ export const LoginValidator = z.object({
   password: z
     .string()
     .min(6)
-    .regex(
-      /^(?=.*\d)(?=.*[A-Z]).+$/,
-      'Повинна бути мінімум одна заглавна літера та цифра',
-    ),
+    .regex(/^(?=.*\d)(?=.*[A-Z]).+$/, 'Повинна бути мінімум одна заглавна літера та цифра'),
 });
 
 export type LoginRequest = z.infer<typeof LoginValidator>;

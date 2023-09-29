@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
 
+import Link from 'next/link';
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/Form';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
@@ -15,9 +16,8 @@ import {
   ExperienceRangeValidator,
   type ExperienceRangeRequest,
 } from '@/lib/validators/experience-range';
-import Link from 'next/link';
 
-const ExperienceRange: React.FC = ({}) => {
+const ExperienceRange: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentParams = qs.parse(searchParams.toString());
@@ -54,7 +54,7 @@ const ExperienceRange: React.FC = ({}) => {
     <div>
       <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
         Досвід роботи
-        {(exp_from || exp_to) && (
+        {(exp_from ?? exp_to) && (
           <button
             onClick={() => {
               const url = qs.stringifyUrl(
@@ -80,10 +80,7 @@ const ExperienceRange: React.FC = ({}) => {
         )}
       </h4>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="inline-flex items-center gap-1"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="inline-flex items-center gap-1">
           <FormField
             control={form.control}
             name="exp_from"
@@ -127,12 +124,7 @@ const ExperienceRange: React.FC = ({}) => {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            size="sm"
-            variant="outline"
-            className="w-12 h-7"
-          >
+          <Button type="submit" size="sm" variant="outline" className="w-12 h-7">
             →
           </Button>
         </form>

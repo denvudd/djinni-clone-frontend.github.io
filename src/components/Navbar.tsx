@@ -2,16 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 
 import { getAuthServerSession } from '@/lib/next-auth';
-import { redirect } from 'next/navigation';
 
-import { Icons } from './ui/Icons';
 import UserAccountNav from './UserAccountNav';
 import { buttonVariants } from './ui/Button';
+import { Icons } from './ui/Icons';
 
 import { cn } from '@/lib/utils';
 import { candidateMenu, employerMenu } from '@/config/menu';
+import { UserRole } from '@/lib/enums';
 
-const Navbar: React.FC = async ({}) => {
+const Navbar: React.FC = async () => {
   const session = await getAuthServerSession();
 
   console.log(session?.user);
@@ -22,17 +22,17 @@ const Navbar: React.FC = async ({}) => {
         <nav className="min-w-[86px] min-h-[32px] h-full flex items-center justify-between">
           <div className="flex items-center justify-between gap-3">
             <Link href="/" className="min-w-[86px] min-h-[25px]">
-              <Icons.logo className="fill-black dark:fill-white" />
+              <Icons.Logo className="fill-black dark:fill-white" />
             </Link>
             {session?.user?.filled && (
               <ul className="flex gap-4 dark:text-gray-400 text-gray-dark font-semibold">
-                {session?.user?.role === 'Candidate' &&
+                {session?.user?.role === UserRole.Candidate &&
                   candidateMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>
                     </li>
                   ))}
-                {session?.user?.role === 'Employer' &&
+                {session?.user?.role === UserRole.Employer &&
                   employerMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>

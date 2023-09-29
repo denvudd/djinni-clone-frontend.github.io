@@ -7,17 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string';
 
+import Link from 'next/link';
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/Form';
 import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 
-import {
-  type SalaryRangeRequest,
-  SalaryRangeValidator,
-} from '@/lib/validators/salary-range';
-import Link from 'next/link';
+import { type SalaryRangeRequest, SalaryRangeValidator } from '@/lib/validators/salary-range';
 
-const SalaryRange: React.FC = ({}) => {
+const SalaryRange: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentParams = qs.parse(searchParams.toString());
@@ -54,7 +51,7 @@ const SalaryRange: React.FC = ({}) => {
     <div>
       <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
         Зарплатні очікування
-        {(salary_min || salary_max) && (
+        {(salary_min ?? salary_max) && (
           <button
             onClick={() => {
               const url = qs.stringifyUrl(
@@ -122,12 +119,7 @@ const SalaryRange: React.FC = ({}) => {
               </FormItem>
             )}
           />
-          <Button
-            type="submit"
-            size="sm"
-            variant="outline"
-            className="w-12 h-7"
-          >
+          <Button type="submit" size="sm" variant="outline" className="w-12 h-7">
             →
           </Button>
         </form>

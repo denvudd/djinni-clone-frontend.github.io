@@ -8,10 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type RegisterRequest,
-  RegisterValidator,
-} from '@/lib/validators/register';
+import { type RegisterRequest, RegisterValidator } from '@/lib/validators/register';
 
 import {
   Form,
@@ -53,21 +50,18 @@ const SignUpForm: React.FC = () => {
         role,
       };
 
-      const data = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/auth/register',
-        {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+      });
 
       return data;
     },
     onSuccess: () => {
-      router.push(`/login`);
+      router.push('/login');
       router.refresh();
     },
     onError: (error) => {
@@ -87,10 +81,7 @@ const SignUpForm: React.FC = () => {
       <div className="flex">
         <div className="flex-1 pr-9 border-r border-borderColor">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col gap-3"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
               <FormField
                 control={form.control}
                 name="email"
@@ -133,9 +124,7 @@ const SignUpForm: React.FC = () => {
                             <FormControl>
                               <RadioGroupItem value={UserRole.Employer} />
                             </FormControl>
-                            <FormLabel>
-                              Я роботодавець - шукаю розробників
-                            </FormLabel>
+                            <FormLabel>Я роботодавець - шукаю розробників</FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
@@ -151,11 +140,7 @@ const SignUpForm: React.FC = () => {
                 />
               </div>
               <div className="inline-block">
-                <Button
-                  isLoading={isRegisterLoading}
-                  type="submit"
-                  className="text-lg"
-                >
+                <Button isLoading={isRegisterLoading} type="submit" className="text-lg">
                   Продовжити
                 </Button>
               </div>
@@ -165,11 +150,11 @@ const SignUpForm: React.FC = () => {
         <div className="flex-1">
           <div className="pl-9 pb-5 flex flex-col gap-4">
             <Button variant="outline">
-              <Icons.linkedin className="w-6 h-6 mr-3" />
+              <Icons.Linkedin className="w-6 h-6 mr-3" />
               Продовжити з LinkedIn
             </Button>
             <Button variant="outline">
-              <Icons.google className="w-5 h-5 mr-3" />
+              <Icons.Google className="w-5 h-5 mr-3" />
               Продовжити з Google
             </Button>
           </div>

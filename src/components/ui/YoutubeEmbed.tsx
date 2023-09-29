@@ -5,18 +5,8 @@ interface YoutubeEmbedProps extends React.ComponentProps<'div'> {
   url: string;
 }
 
-const YoutubeEmbed: React.FC<YoutubeEmbedProps> = ({
-  url,
-  className,
-  ...props
-}) => (
-  <div
-    className={cn(
-      'overflow-hidden pt-[56.25%] relative h-0 rounded-md',
-      className,
-    )}
-    {...props}
-  >
+const YoutubeEmbed: React.FC<YoutubeEmbedProps> = ({ url, className, ...props }) => (
+  <div className={cn('overflow-hidden pt-[56.25%] relative h-0 rounded-md', className)} {...props}>
     <iframe
       width="853"
       height="480"

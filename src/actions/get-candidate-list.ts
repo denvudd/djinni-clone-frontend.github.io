@@ -4,9 +4,7 @@ import { redirect } from 'next/navigation';
 import { type CandidateProfile } from '@/types';
 import { DevelopersPageProps } from '@/app/(employer)/developers/page';
 
-export const getCandidatesList = async (
-  searchParams: DevelopersPageProps['searchParams'],
-) => {
+export const getCandidatesList = async (searchParams: DevelopersPageProps['searchParams']) => {
   const {
     employment_options,
     english_level,
@@ -22,25 +20,22 @@ export const getCandidatesList = async (
   } = searchParams;
 
   try {
-    const { data } = await axios.get(
-      process.env.BACKEND_API_URL + '/candidate/list',
-      {
-        params: {
-          location,
-          title,
-          exp_from,
-          exp_to,
-          salary_min,
-          salary_max,
-          english_level,
-          employment_options,
-          ready_to_relocate,
-          page,
-          keywords,
-          limit: 10,
-        },
+    const { data } = await axios.get(`${process.env.BACKEND_API_URL}/candidate/list`, {
+      params: {
+        location,
+        title,
+        exp_from,
+        exp_to,
+        salary_min,
+        salary_max,
+        english_level,
+        employment_options,
+        ready_to_relocate,
+        page,
+        keywords,
+        limit: 10,
       },
-    );
+    });
 
     if (data instanceof AxiosError) {
       if (data.status === 404) {

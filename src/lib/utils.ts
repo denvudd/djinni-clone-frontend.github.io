@@ -1,11 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import {
-  ClarifiedDataEnum,
-  EmploymentOption,
-  EnglishLevel,
-  RefusalReason,
-} from './enums';
+import { ClarifiedDataEnum, EmploymentOption, EnglishLevel, RefusalReason } from './enums';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,17 +10,14 @@ export function truncate(str: string, length: number) {
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
 
-export function convertEnumObjToArray(enumObj: any) {
-  return (Object.keys(enumObj) as Array<keyof typeof enumObj>).map(
-    (key) => enumObj[key],
-  );
+export function convertEnumObjToArray(enumObj: object) {
+  return (Object.keys(enumObj) as (keyof typeof enumObj)[]).map((key) => enumObj[key]);
 }
 
 export function extractYoutubeKey(url: string) {
-  var regExp =
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  var match = url.match(regExp);
-  return match && match[7].length == 11 ? match[7] : false;
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[7].length === 11 ? match[7] : false;
 }
 
 export function formatEnglishLevel(englishLevel: EnglishLevel): {
@@ -56,8 +48,7 @@ export function formatEnglishLevel(englishLevel: EnglishLevel): {
     case 'UpperIntermediate':
       return {
         label: 'Upper-Intermediate',
-        tooltip:
-          'Можу брати участь у мітингах або проходити співбесіду англійською мовою',
+        tooltip: 'Можу брати участь у мітингах або проходити співбесіду англійською мовою',
       };
     case 'AdvancedFluent':
       return {
@@ -94,13 +85,14 @@ export function formatEmploymenOptions(option: EmploymentOption) {
 export function formatExperience(years: number) {
   if (years === 1) {
     return '1 рік досвіду';
-  } else if (years >= 2 && years <= 4) {
-    return `${years} роки досвіду`;
-  } else if (years >= 5 && years <= 10) {
-    return `${years} років досвіду`;
-  } else {
-    return 'Більше 10 років досвіду';
   }
+  if (years >= 2 && years <= 4) {
+    return `${years} роки досвіду`;
+  }
+  if (years >= 5 && years <= 10) {
+    return `${years} років досвіду`;
+  }
+  return 'Більше 10 років досвіду';
 }
 
 export function formatClarifiedData(clarifiedData: ClarifiedDataEnum) {
@@ -108,9 +100,12 @@ export function formatClarifiedData(clarifiedData: ClarifiedDataEnum) {
     case 'Test_task':
       return 'Є тестове завдання';
     case 'Cover_letter':
+      // eslint-disable-next-line quotes
       return "Обов'язковий супровідний лист";
     case 'Part_time':
       return 'Part-time';
+    default:
+      return '';
   }
 }
 
@@ -130,5 +125,7 @@ export function formatRefusalReason(reason: RefusalReason) {
       return 'Зупинили пошук за цією вакансією';
     case 'Other':
       return 'Інше';
+    default:
+      return '';
   }
 }

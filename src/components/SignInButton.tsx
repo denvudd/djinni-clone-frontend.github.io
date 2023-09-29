@@ -9,12 +9,10 @@ import { buttonVariants } from './ui/Button';
 import { cn } from '@/lib/utils';
 import UserAvatar from './UserAvatar';
 
-interface SignInButtonProps {}
-
-const SignInButton: React.FC<SignInButtonProps> = ({}) => {
+const SignInButton: React.FC = () => {
   const { data: session } = useSession();
 
-  if (session && session.user) {
+  if (session?.user) {
     return (
       <ul className="flex">
         <UserAvatar user={session.user} />
@@ -43,8 +41,7 @@ const SignInButton: React.FC<SignInButtonProps> = ({}) => {
           className={cn(
             buttonVariants({
               variant: 'outline',
-              className:
-                'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+              className: 'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
             }),
           )}
         >
@@ -57,8 +54,7 @@ const SignInButton: React.FC<SignInButtonProps> = ({}) => {
           className={cn(
             buttonVariants({
               variant: 'outline',
-              className:
-                'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+              className: 'rounded-full text-white border-gray-300 px-3 py-0 text-sm leading-loose',
             }),
           )}
         >

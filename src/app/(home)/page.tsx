@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { MoveRight } from 'lucide-react';
 import TypingAnimation from './components/TypingAnimation';
 import Carousel from './components/Carousel';
 
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { MoveRight } from 'lucide-react';
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       <section className="pt-28 pb-24 bg-primary">
@@ -15,8 +15,7 @@ export default async function Home() {
           <div
             className="h-11 w-14 text-center relative mx-auto mt-8"
             style={{
-              background:
-                'url(https://djinni.co/static/i/landing/jobs-push/inbox@2x.png)',
+              background: 'url(https://djinni.co/static/i/landing/jobs-push/inbox@2x.png)',
               backgroundSize: '55px 45px',
             }}
           >
@@ -73,9 +72,8 @@ export default async function Home() {
       <section className="pt-10 md:pt-20 pb-8 md:pb-12">
         <div className="container">
           <p className="w-full max-w-2xl mx-auto text-center text-xl md:text-2xl md:leading-10">
-            Ви описуєте свій досвід, очікування від роботи та побажання по
-            зарплаті, а компанії пропонують вакансії. Тільки ви вирішуєте, кому
-            і коли відкрити контакти.
+            Ви описуєте свій досвід, очікування від роботи та побажання по зарплаті, а компанії
+            пропонують вакансії. Тільки ви вирішуєте, кому і коли відкрити контакти.
           </p>
         </div>
       </section>
@@ -87,60 +85,48 @@ export default async function Home() {
           <ul className="flex justify-between gap-6 md:gap-8 flex-wrap md:flex-nowrap">
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/sigma@2x.png'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/sigma@2x.png"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
             </li>
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/globallogic@2x.png'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/globallogic@2x.png"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
             </li>
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/terrasoft@2x.png'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/terrasoft@2x.png"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
             </li>
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/data_art_logo@2x.png'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/data_art_logo@2x.png"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
             </li>
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/ciklum-logo.svg'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/ciklum-logo.svg"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
             </li>
             <li className="relative w-full min-h-[36px] max-h-[36px]">
               <Image
-                src={
-                  'https://djinni.co/static/i/landing/jobs-push/logos/agile-engine@2x.png'
-                }
-                alt={'Partnet company'}
+                src="https://djinni.co/static/i/landing/jobs-push/logos/agile-engine@2x.png"
+                alt="Partnet company"
                 className="object-contain"
                 fill
               />
@@ -163,9 +149,8 @@ export default async function Home() {
                 Чому Джин?
               </h2>
               <p className="text-sm leading-relaxed text-center md:text-start">
-                Джин дає можливість пасивного і анонімного пошуку - коли шукають
-                вас, а не ви. Це відображає реалії ринку праці, де досвідчені
-                фахівці в постійному дефіциті.
+                Джин дає можливість пасивного і анонімного пошуку - коли шукають вас, а не ви. Це
+                відображає реалії ринку праці, де досвідчені фахівці в постійному дефіциті.
               </p>
             </div>
             <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
@@ -180,8 +165,8 @@ export default async function Home() {
                 Скільки пропозицій я отримаю?
               </h2>
               <p className="text-sm leading-relaxed text-center md:text-start">
-                Дуже залежить від вашого рівня, зарплатних очікувань і міста.
-                Щотижня через Джин проходить понад 50 тис. пропозицій.
+                Дуже залежить від вашого рівня, зарплатних очікувань і міста. Щотижня через Джин
+                проходить понад 50 тис. пропозицій.
               </p>
             </div>
             <div className="w-full md:flex-[0_0_33.3333%] md:max-w-[33.3333%]">
@@ -196,8 +181,8 @@ export default async function Home() {
                 Мій роботодавець може знайти мене на Джині?
               </h2>
               <p className="text-sm leading-relaxed text-center md:text-start">
-                Ні. Всі профілі анонімні. Коли роботодавець пропонує вакансію,
-                ви можете відмовитися, не відкриваючи свої контакти.
+                Ні. Всі профілі анонімні. Коли роботодавець пропонує вакансію, ви можете
+                відмовитися, не відкриваючи свої контакти.
               </p>
             </div>
           </div>
@@ -220,9 +205,8 @@ export default async function Home() {
             />
             <h2 className="text-3xl font-medium mb-5">Наймайте на Джині</h2>
             <p className="mb-5">
-              Ви сплачуєте 30% від місячної зарплати кандидата, за фактом виходу
-              на роботу. Якщо ви нікого не знайшли або кандидат не прийняв
-              оффер, ви нічого не сплачуєте.
+              Ви сплачуєте 30% від місячної зарплати кандидата, за фактом виходу на роботу. Якщо ви
+              нікого не знайшли або кандидат не прийняв оффер, ви нічого не сплачуєте.
             </p>
             <Link
               href="/signup"

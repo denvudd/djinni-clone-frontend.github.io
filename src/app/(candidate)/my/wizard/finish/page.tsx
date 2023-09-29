@@ -1,23 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import { getAuthServerSession } from '@/lib/next-auth';
 import axios from '@/lib/axios';
 
 import CandidateInfo from '@/components/CandidateInfo';
 import { type CandidateProfile } from '@/types';
 import { Separator } from '@/components/ui/Separator';
-import ReactMarkdown from 'react-markdown';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 
-const Page: React.FC = async ({}) => {
+const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.candidate_id) redirect('/');
+  if (!session?.user.candidate_id) redirect('/');
 
   async function fetchFullfilledCandidate(candidateId: string) {
     const { data } = await axios.get(`/candidate/${candidateId}`);
@@ -41,9 +41,7 @@ const Page: React.FC = async ({}) => {
 
   return (
     <div className="flex flex-col">
-      <p className="text-xl mb-4">
-        Джин готовий приступити до пошуку пропозицій! (/◔ ◡ ◔)/
-      </p>
+      <p className="text-xl mb-4">Джин готовий приступити до пошуку пропозицій! (/◔ ◡ ◔)/</p>
       <div className="w-full flex gap-6 mb-10">
         <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
           <p className="text-gray mb-4">Категорія: {category}</p>
@@ -51,9 +49,7 @@ const Page: React.FC = async ({}) => {
             <h2 className="text-2xl font-semibold">{position}</h2>
             <h4 className="font-semibold">Досвід роботи</h4>
             <div>
-              <ReactMarkdown components={MarkdownRender}>
-                {experienceDescr!}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{experienceDescr}</ReactMarkdown>
             </div>
           </div>
           <h4 className="font-semibold mb-2">Навички</h4>
@@ -80,9 +76,7 @@ const Page: React.FC = async ({}) => {
       <div className="inline-block mt-10">
         <Link
           href="/my/profile?publish=true"
-          className={cn(
-            buttonVariants({ variant: 'default', className: 'text-lg' }),
-          )}
+          className={cn(buttonVariants({ variant: 'default', className: 'text-lg' }))}
         >
           Опубліковати зараз
         </Link>

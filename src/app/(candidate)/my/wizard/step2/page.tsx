@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import CandidateWizardStep1 from '@/components/forms/wizard/CandidateWizardStep1';
 import { Progress } from '@/components/ui/Progress';
 
-const Page: React.FC = async ({}) => {
+const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
-  if (!session || !session.user?.candidate_id) redirect('/');
+  if (!session?.user?.candidate_id) redirect('/');
 
   return (
     <div className="flex flex-col">

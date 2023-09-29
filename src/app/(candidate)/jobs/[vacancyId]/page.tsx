@@ -3,24 +3,23 @@ import React from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
+import ReactMarkdown from 'react-markdown';
+import { PenSquare, Users } from 'lucide-react';
+import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import EmployerVacancyInfo from '@/components/EmployerVacancyInfo';
 import UserAvatar from '@/components/UserAvatar';
-import {
-  Breadcrumbs,
-  type BreadcrumbsSegment,
-} from '@/components/pagers/Breadcrumbs';
+import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
 import { Button, buttonVariants } from '@/components/ui/Button';
 import YoutubeEmbed from '@/components/ui/YoutubeEmbed';
-import ReactMarkdown from 'react-markdown';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
-import { PenSquare, Users } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
-import { format } from 'date-fns';
-import { uk } from 'date-fns/locale';
+import { UserRole } from '@/lib/enums';
+
 interface PageProps {
   params: {
     vacancyId: string;
@@ -34,9 +33,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
 
   async function getVacancy() {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/vacancies/${vacancyId}`,
-      );
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/vacancies/${vacancyId}`);
 
       if (data instanceof AxiosError) {
         if (data.status === 404) {
@@ -96,19 +93,14 @@ const page: React.FC<PageProps> = async ({ params }) => {
   ];
 
   const isOwner =
-    session &&
-    session.user.role === 'Employer' &&
-    session.user.employer_id === employerId;
+    session && session.user.role === UserRole.Employer && session.user.employer_id === employerId;
 
   return (
     <>
       <Breadcrumbs segments={segments} />
       <h1 className="text-3xl font-semibold mt-4 mb-2">
-        {name}{' '}
-        {!active && (
-          <span className="text-danger font-normal">(неактивна)</span>
-        )}{' '}
-        {(salaryForkGte || salaryForkLte) && (
+        {name} {!active && <span className="text-danger font-normal">(неактивна)</span>}{' '}
+        {(salaryForkGte ?? salaryForkLte) && (
           <span className="text-green">
             ${salaryForkGte}-${salaryForkLte}
           </span>
@@ -143,9 +135,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
         <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
           {youtube && <YoutubeEmbed url={youtube} className="mb-4" />}
           <div className="mb-4">
-            <ReactMarkdown components={MarkdownRender}>
-              {description}
-            </ReactMarkdown>
+            <ReactMarkdown components={MarkdownRender}>{description}</ReactMarkdown>
           </div>
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Про компанію</h4>
@@ -157,27 +147,21 @@ const page: React.FC<PageProps> = async ({ params }) => {
           </div>
           <div className="mb-4">
             <h4 className="font-semibold mb-2">Сайт компанії</h4>
-            <a
-              className="text-link"
-              target="_blank"
-              href={employer.companyLink}
-            >
+            <a className="text-link" target="_blank" href={employer.companyLink} rel="noreferrer">
               {employer.companyLink}
             </a>
           </div>
           {employer.dou && (
             <div className="mb-4">
               <h4 className="font-semibold mb-2">Компанія на DOU</h4>
-              <a className="text-link" target="_blank" href={employer.dou}>
+              <a className="text-link" target="_blank" href={employer.dou} rel="noreferrer">
                 {employer.dou}
               </a>
             </div>
           )}
           {!active && (
             <div className="mb-4">
-              <p className="text-danger font-semibold mb-4">
-                Ця вакансія зараз неактивна.
-              </p>
+              <p className="text-danger font-semibold mb-4">Ця вакансія зараз неактивна.</p>
               <p>
                 Дивитися актуальні вакансії{' '}
                 <Link className="text-link" href={`/jobs/title=${category}`}>
@@ -218,8 +202,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
         <div className="flex flex-col gap-1 mt-6 text-gray">
           <p className="inline-flex items-center gap-1">
             <PenSquare className="w-4 h-4" />
-            Вакансія опублікована{' '}
-            {format(new Date(createdAt), 'PPP', { locale: uk })}
+            Вакансія опублікована {format(new Date(createdAt), 'PPP', { locale: uk })}
           </p>
           <p className="inline-flex items-center gap-1">
             <Users className="w-4 h-4" />
@@ -227,7 +210,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
           </p>
         </div>
       )}
-      {session?.user.role === 'Candidate' && (
+      {session?.user.role === UserRole.Candidate && (
         <Button className="text-lg my-6">Відгукнутись</Button>
       )}
     </>

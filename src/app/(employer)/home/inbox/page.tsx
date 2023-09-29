@@ -2,8 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 
 import { redirect } from 'next/navigation';
-import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
@@ -21,12 +21,11 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   const { error } = searchParams;
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.employer_id) redirect('/');
+  if (!session?.user.employer_id) redirect('/');
   async function getOffers() {
     try {
       const { data } = await axios.get(
-        process.env.BACKEND_API_URL +
-          `/employer/${session?.user.employer_id}/offers`,
+        `${process.env.BACKEND_API_URL}/employer/${session?.user.employer_id}/offers`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -81,15 +80,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         {offers &&
           !!offers.length &&
           offers.map(
-            ({
-              candidate,
-              candidateId,
-              updatedAt,
-              coverLetter,
-              id,
-              replies,
-              isFavorite,
-            }) => (
+            ({ candidate, candidateId, updatedAt, coverLetter, id, replies, isFavorite }) => (
               <EmployerOffer
                 candidateId={candidateId}
                 offerId={id}
@@ -118,12 +109,9 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
               alt="Favorite icon"
               className="mx-auto mb-4"
             />
-            <h3 className="font-semibold text-2xl mb-2">
-              Ви все-все прочитали!
-            </h3>
+            <h3 className="font-semibold text-2xl mb-2">Ви все-все прочитали!</h3>
             <p className="text-gray">
-              І ми вами дуже пишаємось. Мерщій танцювати, чи ще трохи
-              попрацюємо?
+              І ми вами дуже пишаємось. Мерщій танцювати, чи ще трохи попрацюємо?
             </p>
           </div>
         )}

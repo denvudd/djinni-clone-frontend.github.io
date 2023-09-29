@@ -16,7 +16,7 @@ import {
   type DevelopersSearchRequest,
 } from '@/lib/validators/developers-search';
 
-const DevelopersSearch: React.FC = ({}) => {
+const DevelopersSearch: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentParams = qs.parse(searchParams.toString());
@@ -24,16 +24,14 @@ const DevelopersSearch: React.FC = ({}) => {
   const form = useForm<DevelopersSearchRequest>({
     resolver: zodResolver(DevelopersSearchValidator),
     defaultValues: {
-      keywords: currentParams.keywords
-        ? (currentParams.keywords as string)
-        : undefined,
+      keywords: currentParams.keywords ? (currentParams.keywords as string) : undefined,
     },
   });
 
   function onSubmit({ keywords }: DevelopersSearchRequest) {
     const query = {
       ...currentParams,
-      keywords: keywords ? keywords : undefined,
+      keywords: keywords || undefined,
     };
 
     const url = qs.stringifyUrl(
@@ -50,10 +48,7 @@ const DevelopersSearch: React.FC = ({}) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full max-w-full"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full max-w-full">
         <FormField
           control={form.control}
           name="keywords"
