@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import { Menu } from 'lucide-react';
 import { Label } from './ui/Label';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
@@ -16,12 +17,9 @@ import {
   Sheet,
 } from './ui/Sheet';
 
-import { Menu } from 'lucide-react';
 import { useIsComponentMounted } from '@/hooks/use-is-component-mounted';
 
-interface MobileMenuProps {}
-
-const MobileMenu: React.FC<MobileMenuProps> = ({}) => {
+const MobileMenu: React.FC = () => {
   const { isMounted } = useIsComponentMounted();
 
   if (!isMounted) {
@@ -31,15 +29,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({}) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="py-1 px-1 border border-stone-400 rounded-md">
-          <Menu className="text-white w-10 h-7" />
+        <button className="rounded-md border border-stone-400 p-1">
+          <Menu className="h-7 w-10 text-white" />
         </button>
       </SheetTrigger>
       <SheetContent side="top">
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">

@@ -2,35 +2,26 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
-import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
+import { ChevronRight, Globe, Mail, MessageCircle, Send, UserCheck2 } from 'lucide-react';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import OfferMessage from '@/components/offers/OfferMessage';
 import ReplyOnOfferForm from '@/components/forms/ReplyOnOfferForm';
 import RefuseOfferForm from '@/components/forms/RefuseOfferForm';
 import OfferRefusal from '@/components/offers/OfferRefusal';
 
-import {
-  Breadcrumbs,
-  type BreadcrumbsSegment,
-} from '@/components/pagers/Breadcrumbs';
+import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 
 import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { Separator } from '@/components/ui/Separator';
 import { Icons } from '@/components/ui/Icons';
 import UserAvatar from '@/components/UserAvatar';
-import {
-  ChevronRight,
-  Globe,
-  Mail,
-  MessageCircle,
-  Send,
-  UserCheck2,
-} from 'lucide-react';
 
 import { formatEnglishLevel } from '@/lib/utils';
 import { type ExtendedEmployerOffer } from '@/types';
+import { UserRole } from '@/lib/enums';
 
 interface PageProps {
   params: {
@@ -48,18 +39,15 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.employer_id) redirect('/');
+  if (!session?.user.employer_id) redirect('/');
 
   async function getOffer() {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/offer/${offerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/offer/${offerId}`, {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
         },
-      );
+      });
 
       if (data instanceof AxiosError) {
         if (data.status === 404) {
@@ -76,23 +64,14 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     }
   }
 
-  const {
-    candidateId,
-    coverLetter,
-    createdAt,
-    employerId,
-    candidate,
-    employer,
-    replies,
-    refusal,
-  } = await getOffer();
+  const { candidateId, coverLetter, createdAt, employerId, candidate, employer, replies, refusal } =
+    await getOffer();
 
   function clearTelegramNickname(str: string) {
     if (str.startsWith('@')) {
       return str.slice(1);
-    } else {
-      return str;
     }
+    return str;
   }
 
   const segments: BreadcrumbsSegment = [
@@ -122,116 +101,104 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     <>
       <Breadcrumbs
         segments={segments}
-        className="font-semibold text-xl [&>*:last-child]:text-gray-dark"
+        className="[&>*:last-child]:text-gray-dark text-xl font-semibold"
         separator={ChevronRight}
       />
       <Separator className="my-4" />
       <div className="flex gap-16">
-        <div className="md:flex-[0_0_33.333%] md:max-w-[33.333%]">
+        <div className="md:max-w-[33.333%] md:flex-[0_0_33.333%]">
           <div className="flex gap-2">
             <UserAvatar
               user={{
                 avatar: candidate.user[0].avatar,
                 fullname: candidate.fullname,
               }}
-              className="w-12 h-12"
+              className="h-12 w-12"
             />
             <div className="flex flex-col">
               <Link className="text-link" href={`/q/${candidateId}`}>
-                {candidate.fullname
-                  ? candidate.fullname
-                  : '(Анонімний кандидат)'}{' '}
+                {candidate.fullname ? candidate.fullname : '(Анонімний кандидат)'}{' '}
               </Link>
-              <span className="text-gray font-medium">
-                {candidate.position}
-              </span>
+              <span className="text-gray font-medium">{candidate.position}</span>
             </div>
           </div>
 
-          <div className="border border-borderColor rounded-md p-3 mt-5">
-            <ul className="text-sm flex flex-col gap-1">
+          <div className="border-borderColor mt-5 rounded-md border p-3">
+            <ul className="flex flex-col gap-1 text-sm">
               {candidate.skype && (
-                <li className="inline-flex items-center gap-2 text-primary">
-                  <Icons.skype className="w-4 h-4 fill-primary" />
-                  <a target="_blank" href={`skype:${candidate.skype}?chat`}>
+                <li className="text-primary inline-flex items-center gap-2">
+                  <Icons.Skype className="fill-primary h-4 w-4" />
+                  <a target="_blank" href={`skype:${candidate.skype}?chat`} rel="noreferrer">
                     Skype
                   </a>
                 </li>
               )}
               {candidate.linkedIn && (
-                <li className="inline-flex items-center gap-2 text-primary">
-                  <Icons.linkedin className="w-4 h-4 fill-primary" />
-                  <a target="_blank" href={candidate.linkedIn}>
+                <li className="text-primary inline-flex items-center gap-2">
+                  <Icons.Linkedin className="fill-primary h-4 w-4" />
+                  <a target="_blank" href={candidate.linkedIn} rel="noreferrer">
                     LinkedIn
                   </a>
                 </li>
               )}
               {candidate.telegram && (
-                <li className="inline-flex items-center gap-2 text-primary">
-                  <Icons.telegram className="w-4 h-4 fill-primary" />
+                <li className="text-primary inline-flex items-center gap-2">
+                  <Icons.Telegram className="fill-primary h-4 w-4" />
                   <a
                     target="_blank"
-                    href={`https://t.me/${clearTelegramNickname(
-                      candidate.telegram,
-                    )}`}
-                  >{`https://t.me/${clearTelegramNickname(
-                    candidate.telegram,
-                  )}`}</a>
+                    href={`https://t.me/${clearTelegramNickname(candidate.telegram)}`}
+                    rel="noreferrer"
+                  >{`https://t.me/${clearTelegramNickname(candidate.telegram)}`}</a>
                 </li>
               )}
               {candidate.whatsApp && (
-                <li className="inline-flex items-center gap-2 text-primary">
-                  <Icons.whatapp className="w-4 h-4 fill-primary" />
-                  <a
-                    target="_blank"
-                    href={`https://wa.me/${candidate.whatsApp}`}
-                  >
+                <li className="text-primary inline-flex items-center gap-2">
+                  <Icons.Whatapp className="fill-primary h-4 w-4" />
+                  <a target="_blank" href={`https://wa.me/${candidate.whatsApp}`} rel="noreferrer">
                     {candidate.whatsApp}
                   </a>
                 </li>
               )}
               {candidate.github && (
-                <li className="inline-flex items-center gap-2 text-primary">
-                  <Icons.github className="w-4 h-4 fill-primary" />
-                  <a target="_blank" href={candidate.github}>
+                <li className="text-primary inline-flex items-center gap-2">
+                  <Icons.Github className="fill-primary h-4 w-4" />
+                  <a target="_blank" href={candidate.github} rel="noreferrer">
                     {candidate.github}
                   </a>
                 </li>
               )}
-              <li className="inline-flex items-center gap-2 text-primary">
-                <Mail className="w-4 h-4" />
-                <a target="_blank" href={`mailto:${candidate.user[0].email}`}>
+              <li className="text-primary inline-flex items-center gap-2">
+                <Mail className="h-4 w-4" />
+                <a target="_blank" href={`mailto:${candidate.user[0].email}`} rel="noreferrer">
                   {candidate.user[0].email}
                 </a>
               </li>
               <Separator className="my-2" />
               <li className="inline-flex items-center gap-2">
-                <UserCheck2 className="w-4 h-4 text-gray" />
+                <UserCheck2 className="text-gray h-4 w-4" />
                 <span>
-                  Бажана мова спілкування:{' '}
-                  <strong>{candidate.preferableLang}</strong>
+                  Бажана мова спілкування: <strong>{candidate.preferableLang}</strong>
                 </span>
               </li>
               <li className="inline-flex items-center gap-2">
-                <Globe className="w-4 h-4 text-gray" />
+                <Globe className="text-gray h-4 w-4" />
                 {candidate.country}, {candidate.city}
               </li>
               <li className="inline-flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-gray" />
+                <MessageCircle className="text-gray h-4 w-4" />
                 {formatEnglishLevel(candidate.english).label}
               </li>
               <li className="inline-flex items-center gap-2">
-                <Send className="w-4 h-4 text-gray" />
+                <Send className="text-gray h-4 w-4" />
                 <span>
-                  Бажаний спосіб зв'язку:{' '}
-                  <strong>{candidate.communicateMethod}</strong>
+                  Бажаний спосіб зв&apos;язку: <strong>{candidate.communicateMethod}</strong>
                 </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-[0_0_58.333%] md:max-w-[58.333%]">
+        <div className="flex flex-col md:max-w-[58.333%] md:flex-[0_0_58.333%]">
           {/* Cover Letter attached to offer */}
           <OfferMessage
             message={coverLetter}
@@ -253,14 +220,14 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
                   author={{
                     avatar: reply.author.avatar,
                     name:
-                      reply.author.role === 'Employer'
+                      reply.author.role === UserRole.Employer
                         ? 'Ви'
                         : reply.author.candidate_info!.fullname,
                   }}
                 />
               </>
             ))}
-          {/* Refusal (if exist)*/}
+          {/* Refusal (if exist) */}
           {refusal && !!refusal.length && (
             <OfferRefusal
               createdAt={refusal[0].createdAt}
@@ -270,10 +237,8 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
           )}
 
           {msgsent === 'ok' && (
-            <Alert className="bg-green-subtle w-full -mb-4 mt-8">
-              <AlertDescription className="text-base">
-                Повідомлення надіслано.
-              </AlertDescription>
+            <Alert className="bg-green-subtle -mb-4 mt-8 w-full">
+              <AlertDescription className="text-base">Повідомлення надіслано.</AlertDescription>
             </Alert>
           )}
 

@@ -8,7 +8,6 @@ import {
   RefusalReason,
   UserRole,
 } from '@/lib/enums';
-import { User } from 'next-auth';
 
 export interface Category {
   name: string;
@@ -95,6 +94,16 @@ export interface EmployerProfile {
 
   vacancies: Vacancy[];
   // offers    Offer[]
+}
+
+export interface FavoriteCandidate {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  userId: string;
+  employerId: string;
+  candidateId: string;
 }
 
 export interface Vacancy {
@@ -271,7 +280,6 @@ export interface Offer {
     category: string;
     id: string;
   } | null;
-  // replies: ReplyOnOfferForm[]
 }
 
 export interface ClarifiedData {

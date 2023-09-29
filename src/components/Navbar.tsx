@@ -2,37 +2,37 @@ import React from 'react';
 import Link from 'next/link';
 
 import { getAuthServerSession } from '@/lib/next-auth';
-import { redirect } from 'next/navigation';
 
-import { Icons } from './ui/Icons';
 import UserAccountNav from './UserAccountNav';
 import { buttonVariants } from './ui/Button';
+import { Icons } from './ui/Icons';
 
 import { cn } from '@/lib/utils';
 import { candidateMenu, employerMenu } from '@/config/menu';
+import { UserRole } from '@/lib/enums';
 
-const Navbar: React.FC = async ({}) => {
+const Navbar: React.FC = async () => {
   const session = await getAuthServerSession();
 
   console.log(session?.user);
 
   return (
-    <header className="w-full bg-gray-100 dark:bg-dark mb-12">
-      <div className="w-full min-h-[50px] container mx-auto py-2">
-        <nav className="min-w-[86px] min-h-[32px] h-full flex items-center justify-between">
+    <header className="dark:bg-dark mb-12 w-full bg-gray-100">
+      <div className="container mx-auto min-h-[50px] w-full py-2">
+        <nav className="flex h-full min-h-[32px] min-w-[86px] items-center justify-between">
           <div className="flex items-center justify-between gap-3">
-            <Link href="/" className="min-w-[86px] min-h-[25px]">
-              <Icons.logo className="fill-black dark:fill-white" />
+            <Link href="/" className="min-h-[25px] min-w-[86px]">
+              <Icons.Logo className="fill-black dark:fill-white" />
             </Link>
             {session?.user?.filled && (
-              <ul className="flex gap-4 dark:text-gray-400 text-gray-dark font-semibold">
-                {session?.user?.role === 'Candidate' &&
+              <ul className="text-gray-dark flex gap-4 font-semibold dark:text-gray-400">
+                {session?.user?.role === UserRole.Candidate &&
                   candidateMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>
                     </li>
                   ))}
-                {session?.user?.role === 'Employer' &&
+                {session?.user?.role === UserRole.Employer &&
                   employerMenu.map((link) => (
                     <li key={link.title}>
                       <Link href={link.href}>{link.title}</Link>

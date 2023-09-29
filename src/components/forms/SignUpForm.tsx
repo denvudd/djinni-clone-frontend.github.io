@@ -8,10 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type RegisterRequest,
-  RegisterValidator,
-} from '@/lib/validators/register';
+import { type RegisterRequest, RegisterValidator } from '@/lib/validators/register';
 
 import {
   Form,
@@ -53,21 +50,18 @@ const SignUpForm: React.FC = () => {
         role,
       };
 
-      const data = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/auth/register',
-        {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+      });
 
       return data;
     },
     onSuccess: () => {
-      router.push(`/login`);
+      router.push('/login');
       router.refresh();
     },
     onError: (error) => {
@@ -81,16 +75,13 @@ const SignUpForm: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col mx-auto max-w-2xl">
+    <div className="mx-auto flex max-w-2xl flex-col">
       {isRegisterError && <ErrorAlert />}
-      <h1 className="text-4xl font-semibold mb-5">Зареєструватись на Джині</h1>
+      <h1 className="mb-5 text-4xl font-semibold">Зареєструватись на Джині</h1>
       <div className="flex">
-        <div className="flex-1 pr-9 border-r border-borderColor">
+        <div className="border-borderColor flex-1 border-r pr-9">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col gap-3"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
               <FormField
                 control={form.control}
                 name="email"
@@ -133,9 +124,7 @@ const SignUpForm: React.FC = () => {
                             <FormControl>
                               <RadioGroupItem value={UserRole.Employer} />
                             </FormControl>
-                            <FormLabel>
-                              Я роботодавець - шукаю розробників
-                            </FormLabel>
+                            <FormLabel>Я роботодавець - шукаю розробників</FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
@@ -151,11 +140,7 @@ const SignUpForm: React.FC = () => {
                 />
               </div>
               <div className="inline-block">
-                <Button
-                  isLoading={isRegisterLoading}
-                  type="submit"
-                  className="text-lg"
-                >
+                <Button isLoading={isRegisterLoading} type="submit" className="text-lg">
                   Продовжити
                 </Button>
               </div>
@@ -163,19 +148,19 @@ const SignUpForm: React.FC = () => {
           </Form>
         </div>
         <div className="flex-1">
-          <div className="pl-9 pb-5 flex flex-col gap-4">
+          <div className="flex flex-col gap-4 pb-5 pl-9">
             <Button variant="outline">
-              <Icons.linkedin className="w-6 h-6 mr-3" />
+              <Icons.Linkedin className="mr-3 h-6 w-6" />
               Продовжити з LinkedIn
             </Button>
             <Button variant="outline">
-              <Icons.google className="w-5 h-5 mr-3" />
+              <Icons.Google className="mr-3 h-5 w-5" />
               Продовжити з Google
             </Button>
           </div>
         </div>
       </div>
-      <p className="text-sm mt-5 mb-4">
+      <p className="mb-4 mt-5 text-sm">
         Реєструючись, ви погоджуєтесь з{' '}
         <a className="underline" href="/terms-of-use">
           умовами використання

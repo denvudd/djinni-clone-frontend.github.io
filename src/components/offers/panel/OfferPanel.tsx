@@ -1,14 +1,10 @@
 import React from 'react';
 
-import ArchiveEmployerButton from './ArchiveEmployerButton';
-import FavoriteEmployerButton from './FavoriteEmployerButton';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
 import { MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import ArchiveEmployerButton from './ArchiveEmployerButton';
+import FavoriteEmployerButton from './FavoriteEmployerButton';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 
@@ -27,48 +23,46 @@ const OfferPanel: React.FC<OfferPanelProps> = ({
   offerId,
   isArchived,
   isFavorite,
-}) => {
-  return (
-    <div className="hidden group-hover:block absolute right-5 top-5 z-10 shadow-[0_0_8px_0_rgba(0,0,0,.04),_0_0_0_1px_rgba(0,0,0,.04)] bg-background rounded-md p-1">
-      <ul className="flex items-center">
-        {!isArchived && (
-          <li>
-            <ArchiveEmployerButton
-              candidateId={candidateId}
-              employerId={employerId}
-              offerId={offerId}
-            />
-          </li>
-        )}
-        {!isFavorite && (
-          <li>
-            <FavoriteEmployerButton
-              candidateId={candidateId}
-              employerId={employerId}
-              offerId={offerId}
-            />
-          </li>
-        )}
+}) => (
+  <div className="bg-background absolute right-5 top-5 z-10 hidden rounded-md p-1 shadow-[0_0_8px_0_rgba(0,0,0,.04),_0_0_0_1px_rgba(0,0,0,.04)] group-hover:block">
+    <ul className="flex items-center">
+      {!isArchived && (
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Link
-                className={cn(
-                  buttonVariants({
-                    variant: 'ghost',
-                  }),
-                )}
-                href={`/home/inbox/${offerId}#reply`}
-              >
-                <MessageCircle className="w-5 h-5 text-gray" />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>Відповісти</TooltipContent>
-          </Tooltip>
+          <ArchiveEmployerButton
+            candidateId={candidateId}
+            employerId={employerId}
+            offerId={offerId}
+          />
         </li>
-      </ul>
-    </div>
-  );
-};
+      )}
+      {!isFavorite && (
+        <li>
+          <FavoriteEmployerButton
+            candidateId={candidateId}
+            employerId={employerId}
+            offerId={offerId}
+          />
+        </li>
+      )}
+      <li>
+        <Tooltip>
+          <TooltipTrigger>
+            <Link
+              className={cn(
+                buttonVariants({
+                  variant: 'ghost',
+                }),
+              )}
+              href={`/home/inbox/${offerId}#reply`}
+            >
+              <MessageCircle className="text-gray h-5 w-5" />
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>Відповісти</TooltipContent>
+        </Tooltip>
+      </li>
+    </ul>
+  </div>
+);
 
 export default OfferPanel;

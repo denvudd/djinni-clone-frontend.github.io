@@ -1,9 +1,10 @@
 import React from 'react';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { TagsInput } from 'react-tag-input-component';
+import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
 
-import { TagsInput } from 'react-tag-input-component';
 import { AddSkillRequest } from '@/lib/validators/add-skill';
 import { type Skill } from '@/types';
 
@@ -11,9 +12,7 @@ interface EditCandidateSkillsProps {
   candidateId: string;
 }
 
-const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
-  candidateId,
-}) => {
+const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({ candidateId }) => {
   const [selectedSkills, setSelectedSkills] = React.useState<string[]>([]);
 
   const {
@@ -24,9 +23,14 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
     queryFn: async () => {
       const { data } = await axios.get(`/candidate/${candidateId}/skills`);
 
-      setSelectedSkills(data.map((skill: Skill) => skill.name));
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
 
       return data as Skill[];
+    },
+    onSuccess: (data) => {
+      setSelectedSkills(data.map((skill) => skill.name));
     },
   });
 
@@ -36,15 +40,12 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
         name,
       };
 
-      const { data } = await axios.post(
-        `/candidate/${candidateId}/skills`,
-        payload,
-      );
+      const { data } = await axios.post(`/candidate/${candidateId}/skills`, payload);
 
-      return data;
+      return data as Skill[];
     },
-    onSuccess: (data) => {
-      skillsRefetch();
+    onSuccess: async () => {
+      await skillsRefetch();
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -55,11 +56,9 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
     mutationFn: async (name: string) => {
       const skill = skills?.find((skill) => skill.name === name);
 
-      const { data } = await axios.delete(
-        `/candidate/${candidateId}/skills/${skill?.id}`,
-      );
+      const { data } = await axios.delete(`/candidate/${candidateId}/skills/${skill?.id}`);
 
-      return data;
+      return data as Skill & { success: true };
     },
   });
 
@@ -77,9 +76,7 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({
   const removeSkillsFromTags = (tag: string) => {
     removeSkill(tag);
 
-    setSelectedSkills((selectedSkills) =>
-      selectedSkills.filter((skill) => skill !== tag),
-    );
+    setSelectedSkills((selectedSkills) => selectedSkills.filter((skill) => skill !== tag));
   };
 
   return (

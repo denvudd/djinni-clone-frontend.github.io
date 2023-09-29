@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import axios from '@/lib/axios';
 
 import {
@@ -25,7 +26,7 @@ import {
 } from '@/lib/validators/candidate-wizard-step2';
 
 import { EmploymentOption } from '@/lib/enums';
-import { City } from '@/types';
+import { CandidateProfile, City } from '@/types';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { cn, convertEnumObjToArray, formatEmploymenOptions } from '@/lib/utils';
 import {
@@ -36,20 +37,13 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/Command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/Popover';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 
 interface CandidateWizardStep2Props {
   candidateId: string;
 }
 
-const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
-  candidateId,
-}) => {
+const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId }) => {
   const router = useRouter();
 
   const form = useForm<CandidateWizardStep2Request>({
@@ -65,10 +59,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
     isLoading: isCandidateLoading,
     isError: isCandidateError,
   } = useMutation({
-    mutationFn: async ({
-      city,
-      employmentOptions,
-    }: CandidateWizardStep2Request) => {
+    mutationFn: async ({ city, employmentOptions }: CandidateWizardStep2Request) => {
       const payload: CandidateWizardStep2Request = {
         city,
         employmentOptions,
@@ -76,7 +67,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
 
       const { data } = await axios.patch(`/candidate/${candidateId}`, payload);
 
-      return data;
+      return data as CandidateProfile;
     },
     onSuccess: () => {
       router.push('/my/wizard/step4');
@@ -89,9 +80,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
 
   const { data: cities, isLoading: isCitiesLoading } = useQuery(['cities'], {
     queryFn: async () => {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/countries',
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/countries`);
 
       const data = await response.json();
 
@@ -105,33 +94,26 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 mt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-6">
         {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="employmentOptions"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="font-semibold mb-2 text-base">
-                Варіанти зайнятості
-              </FormLabel>
+              <FormLabel className="mb-2 text-base font-semibold">Варіанти зайнятості</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   className="flex flex-col space-y-1"
                 >
-                  {convertEnumObjToArray(EmploymentOption).map((option) => (
+                  {convertEnumObjToArray(EmploymentOption).map((option: EmploymentOption) => (
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
                         <RadioGroupItem value={option} />
                       </FormControl>
-                      <FormLabel className="text-base">
-                        {formatEmploymenOptions(option)}
-                      </FormLabel>
+                      <FormLabel className="text-base">{formatEmploymenOptions(option)}</FormLabel>
                     </FormItem>
                   ))}
                 </RadioGroup>
@@ -153,20 +135,16 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
                     <Button
                       variant="outline"
                       role="combobox"
-                      className={cn(
-                        'justify-between',
-                        !field.value && 'text-muted-foreground',
-                      )}
+                      className={cn('justify-between', !field.value && 'text-muted-foreground')}
                     >
                       {field.value
-                        ? cities!.find((city) => city.city === field.value)
-                            ?.city
+                        ? cities!.find((city) => city.city === field.value)?.city
                         : 'Почніть вводити текст і виберіть місто...'}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-full sm:w-60% max-h-[300px] p-0">
+                <PopoverContent className="sm:w-60% max-h-[300px] w-full p-0">
                   <Command>
                     <CommandInput placeholder="Почніть вводити текст і виберіть місто..." />
                     <CommandEmpty>Не вибрано жодного міста.</CommandEmpty>
@@ -185,9 +163,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
                               <Check
                                 className={cn(
                                   'mr-2 h-4 w-4',
-                                  city.city === field.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0',
+                                  city.city === field.value ? 'opacity-100' : 'opacity-0',
                                 )}
                               />
                               {city.city}, {city.admin_name}
@@ -205,18 +181,14 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({
         />
 
         <FormItem>
-          <FormLabel className="font-semibold text-base">Навички</FormLabel>
+          <FormLabel className="text-base font-semibold">Навички</FormLabel>
           <FormControl>
             <EditCandidateSkills candidateId={candidateId} />
           </FormControl>
           <FormMessage />
         </FormItem>
         <div className="inline-block">
-          <Button
-            isLoading={isCandidateLoading}
-            type="submit"
-            className="text-lg"
-          >
+          <Button isLoading={isCandidateLoading} type="submit" className="text-lg">
             Продовжити
           </Button>
         </div>

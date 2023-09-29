@@ -6,6 +6,4 @@ export const CandidateWizardStep2Validator = z.object({
   city: z.string().nonempty(),
 });
 
-export type CandidateWizardStep2Request = z.infer<
-  typeof CandidateWizardStep2Validator
->;
+export type CandidateWizardStep2Request = z.infer<typeof CandidateWizardStep2Validator>;

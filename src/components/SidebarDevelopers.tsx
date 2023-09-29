@@ -2,21 +2,17 @@ import React from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 
-import {
-  convertEnumObjToArray,
-  formatEmploymenOptions,
-  formatEnglishLevel,
-} from '@/lib/utils';
-import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 import { X } from 'lucide-react';
+import clsx from 'clsx';
+import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
+import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 
 import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
 import { type Category, type City } from '@/types';
 import ExperienceRange from './ExperienceRange';
 import SalaryRange from './SalaryRange';
-import clsx from 'clsx';
 
-interface SidebarDevelopersProps extends DevelopersPageProps {}
+type SidebarDevelopersProps = DevelopersPageProps;
 
 const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
   const {
@@ -33,9 +29,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
   const fetchCities = async () => {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + '/countries/popular',
-      );
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/countries/popular`);
 
       return data as City[];
     } catch (error) {
@@ -45,9 +39,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
 
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + '/categories',
-      );
+      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/categories`);
 
       return data as Category[];
     } catch (error) {
@@ -62,7 +54,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
     <aside className="col-span-1">
       <div className="flex flex-col gap-4">
         <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
+          <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
             Місто
             {location && (
               <Link
@@ -71,7 +63,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                   query: { ...searchParams, location: undefined },
                 }}
               >
-                <span className="w-4 h-4 text-gray font-bold text-2xl">×</span>
+                <span className="text-gray h-4 w-4 text-2xl font-bold">×</span>
               </Link>
             )}
           </h4>
@@ -100,7 +92,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
         </div>
 
         <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
+          <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
             Спеціалізація
             {title && (
               <Link
@@ -109,7 +101,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                   query: { ...searchParams, title: undefined },
                 }}
               >
-                <span className="w-4 h-4 text-gray font-bold text-2xl">×</span>
+                <span className="text-gray h-4 w-4 text-2xl font-bold">×</span>
               </Link>
             )}
           </h4>
@@ -118,9 +110,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
               !!categories.length &&
               categories.map((category) => (
                 <ul className="flex flex-col gap-1">
-                  <span className="block mb-1 font-semibold text-gray">
-                    {category.name}
-                  </span>
+                  <span className="text-gray mb-1 block font-semibold">{category.name}</span>
                   {category.subcategories.map((subcategory) => (
                     <li>
                       <Link
@@ -149,7 +139,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
         <SalaryRange />
 
         <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
+          <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
             Англійська
             {english_level && (
               <Link
@@ -158,12 +148,12 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                   query: { ...searchParams, english_level: undefined },
                 }}
               >
-                <span className="w-4 h-4 text-gray font-bold text-2xl">×</span>
+                <span className="text-gray h-4 w-4 text-2xl font-bold">×</span>
               </Link>
             )}
           </h4>
           <ul className="flex flex-col gap-1">
-            {convertEnumObjToArray(EnglishLevel).map((level) => (
+            {convertEnumObjToArray(EnglishLevel).map((level: EnglishLevel) => (
               <li>
                 <Link
                   href={{
@@ -185,7 +175,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
         </div>
 
         <div>
-          <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
+          <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
             Зайнятість
             {employment_options && (
               <Link
@@ -194,7 +184,7 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
                   query: { ...searchParams, employment_options: undefined },
                 }}
               >
-                <span className="w-4 h-4 text-gray font-bold text-2xl">×</span>
+                <span className="text-gray h-4 w-4 text-2xl font-bold">×</span>
               </Link>
             )}
           </h4>

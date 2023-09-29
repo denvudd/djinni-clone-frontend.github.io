@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { DollarSign } from 'lucide-react';
 import axios from '@/lib/axios';
 
 import {
@@ -28,29 +29,22 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Slider } from '@/components/ui/Slider';
 import { RadioGroup } from '@/components/ui/RadioGroup';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
 import ErrorAlert from '@/components/ui/ErrorAlert';
-import { DollarSign } from 'lucide-react';
 
 import { EnglishLevel } from '@/lib/enums';
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
 } from '@/lib/validators/candidate-wizard-step1';
-import { type Category } from '@/types';
+import { CandidateProfile, type Category } from '@/types';
 import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 interface CandidateWizardStep1Props {
   candidateId: string;
 }
 
-const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
-  candidateId,
-}) => {
+const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId }) => {
   const router = useRouter();
 
   const form = useForm<CandidateWizardStep1Request>({
@@ -86,7 +80,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
 
       const { data } = await axios.patch(`/candidate/${candidateId}`, payload);
 
-      return data;
+      return data as CandidateProfile;
     },
     onSuccess: () => {
       router.push('/my/wizard/step3');
@@ -99,9 +93,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
 
   const { data: categories } = useQuery({
     queryFn: async () => {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BACKEND_API_URL + '/categories',
-      );
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/categories`);
 
       const data = await response.json();
 
@@ -113,46 +105,46 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
     updateCandidate(values);
   }
 
+  function formatExperienceLabel(experience: number) {
+    if (experience === 0) {
+      return 'немає досвіду роботи';
+    }
+
+    if (experience === 11) {
+      return 'більше 10 років';
+    }
+
+    return `${experience} років`;
+  }
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 mt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-3">
         {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
-                Категорія
-              </FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Категорія</FormLabel>
               <div className="flex-1">
-                <Select
-                  onValueChange={(value) => field.onChange(value)}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="max-h-[300px]">
-                    {categories &&
-                      categories.map((category) => (
-                        <SelectGroup key={category.name}>
-                          <SelectLabel>{category.name}</SelectLabel>
-                          {category.subcategories.map((subcategory) => (
-                            <SelectItem
-                              value={subcategory.name}
-                              key={subcategory.id}
-                            >
-                              {subcategory.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      ))}
+                    {categories?.map((category) => (
+                      <SelectGroup key={category.name}>
+                        <SelectLabel>{category.name}</SelectLabel>
+                        {category.subcategories.map((subcategory) => (
+                          <SelectItem value={subcategory.name} key={subcategory.id}>
+                            {subcategory.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -165,9 +157,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="experience"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
-                Досвід роботи
-              </FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Досвід роботи</FormLabel>
               <div className="flex-1">
                 <FormControl>
                   <Slider
@@ -179,13 +169,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
                   />
                 </FormControl>
                 <FormMessage />
-                <span className="text-sm">
-                  {field.value === 0
-                    ? 'немає досвіду роботи'
-                    : field.value === 11
-                    ? 'більше 10 років'
-                    : `${field.value} років`}
-                </span>
+                <span className="text-sm">{formatExperienceLabel(field.value)}</span>
               </div>
             </FormItem>
           )}
@@ -195,25 +179,23 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="expectations"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
+              <FormLabel className="h-full flex-1 text-base font-semibold">
                 Зарплатні очікування
                 <Tooltip>
                   <TooltipTrigger>
                     <span className="text-link ml-1">[?]</span>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    Сума "на руки", після сплати податків
-                  </TooltipContent>
+                  <TooltipContent>Сума &quot;на руки&quot;, після сплати податків</TooltipContent>
                 </Tooltip>
               </FormLabel>
               <div className="flex-1">
                 <FormControl>
                   <div className="flex items-center">
-                    <span className="bg-gray-300 h-10 rounded-l-md py-1 px-3">
+                    <span className="h-10 rounded-l-md bg-gray-300 px-3 py-1">
                       <DollarSign className="text-gray-dark h-full w-4" />
                     </span>
                     <Input
-                      className="border-l-0 rounded-ss-none rounded-es-none"
+                      className="rounded-es-none rounded-ss-none border-l-0"
                       onChange={(e) => field.onChange(+e.target.value)}
                       value={field.value}
                       ref={field.ref}
@@ -231,9 +213,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="position"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
-                Посада
-              </FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Посада</FormLabel>
               <div className="flex-1">
                 <FormControl>
                   <Input placeholder="Наприклад, PHP розробник" {...field} />
@@ -248,7 +228,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           name="english"
           render={({ field }) => (
             <FormItem className="flex items-start justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
+              <FormLabel className="h-full flex-1 text-base font-semibold">
                 Рівень англійської
               </FormLabel>
               <div className="flex-1">
@@ -267,11 +247,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({
           )}
         />
         <div className="inline-block">
-          <Button
-            isLoading={isCandidateLoading}
-            type="submit"
-            className="text-lg"
-          >
+          <Button isLoading={isCandidateLoading} type="submit" className="text-lg">
             Продовжити
           </Button>
         </div>

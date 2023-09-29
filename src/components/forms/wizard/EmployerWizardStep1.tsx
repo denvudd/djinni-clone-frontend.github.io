@@ -25,14 +25,13 @@ import {
   type EmployerWizardStep1Request,
   EmployerWizardStep1Validator,
 } from '@/lib/validators/employer-wizard-step1';
+import { EmployerProfile } from '@/types';
 
 interface EmployerWizardStep1Props {
   employerId: string;
 }
 
-const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
-  employerId,
-}) => {
+const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId }) => {
   const router = useRouter();
   const { update } = useSession();
 
@@ -71,7 +70,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
 
       const updateSession = await update({ filled: true });
 
-      return data;
+      return data as EmployerProfile;
     },
     onSuccess: () => {
       router.push('/developers');
@@ -90,19 +89,14 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 mt-1"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-1 flex flex-col gap-3">
         {isEmployerError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="fullname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold h-full text-base">
-                Ім'я та прізвище
-              </FormLabel>
+              <FormLabel className="h-full text-base font-semibold">Ім&aposя та прізвище</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -115,9 +109,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
           name="positionAndCompany"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold h-full text-base">
-                Посада та компанія
-              </FormLabel>
+              <FormLabel className="h-full text-base font-semibold">Посада та компанія</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -132,12 +124,13 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
               name="linkedIn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold h-full text-base">
+                  <FormLabel className="h-full text-base font-semibold">
                     Посилання на ваш{' '}
                     <a
                       href="https://linkedin.com/in/"
                       target="_blank"
                       className="text-link"
+                      rel="noreferrer"
                     >
                       LinkedIn профіль
                     </a>
@@ -156,9 +149,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
               name="companyLink"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold h-full text-base">
-                    Сайт компанії
-                  </FormLabel>
+                  <FormLabel className="h-full text-base font-semibold">Сайт компанії</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -175,9 +166,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({
               <span>щоб заповнити профіль.</span>
             </>
           ) : (
-            <span className="text-green">
-              🎉 Чудово! Ваш профіль виглядає дивовижно.
-            </span>
+            <span className="text-green">🎉 Чудово! Ваш профіль виглядає дивовижно.</span>
           )}
         </p>
         <div className="inline-block">

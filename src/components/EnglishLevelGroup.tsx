@@ -7,8 +7,8 @@ import { convertEnumObjToArray, formatEnglishLevel } from '@/lib/utils';
 import { EnglishLevel } from '@/lib/enums';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/Tooltip';
 
-const EnglishLevelGroup: React.FC = ({}) => {
-  return convertEnumObjToArray(EnglishLevel).map((level) => (
+const EnglishLevelGroup: React.FC = () =>
+  convertEnumObjToArray(EnglishLevel).map((level) => (
     <FormItem className="flex items-center space-x-3 space-y-0">
       <FormControl>
         <RadioGroupItem value={level} />
@@ -22,6 +22,5 @@ const EnglishLevelGroup: React.FC = ({}) => {
       </FormLabel>
     </FormItem>
   ));
-};
 
 export default EnglishLevelGroup;

@@ -1,4 +1,4 @@
-# Djinni - A Modern Fullstack Djinni Clone 
+# Djinni - A Modern Fullstack Djinni Clone
 
 Built with the Next.js, Nest.js, TypeScript & Tailwind
 
@@ -10,7 +10,7 @@ Built with the Next.js, Nest.js, TypeScript & Tailwind
 ## Features
 
 - User authentication role system - candidate and employer
-- Authentication using Credentials & OAuth Providers 
+- Authentication using Credentials & OAuth Providers
 - Custom feed for employer & candidate
 - Customized profile data creation and design
 - Creation, editing, deletion, and archiving of job vacancies
@@ -23,6 +23,7 @@ Built with the Next.js, Nest.js, TypeScript & Tailwind
 - SEO setup and optimization
 
 ## Full Stack
+
 - Next.js 13
 - Typescript
 - Tailwind CSS
@@ -51,6 +52,5 @@ and copy these .env.example variables into a separate .env file:
 ```bash
 IN PROCESS
 ```
-
 
 and that's all you need to get started!

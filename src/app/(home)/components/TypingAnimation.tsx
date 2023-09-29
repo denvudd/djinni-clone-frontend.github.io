@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useIsComponentMounted } from '@/hooks/use-is-component-mounted';
 import Typewriter from 'typewriter-effect';
+import { useIsComponentMounted } from '@/hooks/use-is-component-mounted';
 
 const TypingAnimation = () => {
   const { isMounted } = useIsComponentMounted();

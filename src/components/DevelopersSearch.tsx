@@ -16,7 +16,7 @@ import {
   type DevelopersSearchRequest,
 } from '@/lib/validators/developers-search';
 
-const DevelopersSearch: React.FC = ({}) => {
+const DevelopersSearch: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentParams = qs.parse(searchParams.toString());
@@ -24,16 +24,14 @@ const DevelopersSearch: React.FC = ({}) => {
   const form = useForm<DevelopersSearchRequest>({
     resolver: zodResolver(DevelopersSearchValidator),
     defaultValues: {
-      keywords: currentParams.keywords
-        ? (currentParams.keywords as string)
-        : undefined,
+      keywords: currentParams.keywords ? (currentParams.keywords as string) : undefined,
     },
   });
 
   function onSubmit({ keywords }: DevelopersSearchRequest) {
     const query = {
       ...currentParams,
-      keywords: keywords ? keywords : undefined,
+      keywords: keywords || undefined,
     };
 
     const url = qs.stringifyUrl(
@@ -50,10 +48,7 @@ const DevelopersSearch: React.FC = ({}) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full max-w-full"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full max-w-full">
         <FormField
           control={form.control}
           name="keywords"
@@ -63,7 +58,7 @@ const DevelopersSearch: React.FC = ({}) => {
                 <Input
                   placeholder="Запит для пошуку, наприклад: Junior PHP Developer"
                   {...field}
-                  className="rounded-se-none rounded-ee-none border-r-0 h-10 text-base"
+                  className="h-10 rounded-ee-none rounded-se-none border-r-0 text-base"
                 />
               </FormControl>
               <FormMessage />
@@ -72,7 +67,7 @@ const DevelopersSearch: React.FC = ({}) => {
         />
         <Button
           type="submit"
-          className="rounded-ss-none rounded-es-none border-l-0 block h-10 px-4"
+          className="block h-10 rounded-es-none rounded-ss-none border-l-0 px-4"
         >
           →
         </Button>
