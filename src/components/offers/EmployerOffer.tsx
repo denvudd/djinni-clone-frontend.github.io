@@ -78,8 +78,8 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
   }
 
   return (
-    <li className="p-6 flex items-start gap-4 border-t border-borderColor group relative">
-      <div className="flex items-start gap-3 w-full md:flex-[0_0_33.333%] md:max-w-[33.333%]">
+    <li className="border-borderColor group relative flex items-start gap-4 border-t p-6">
+      <div className="flex w-full items-start gap-3 md:max-w-[33.333%] md:flex-[0_0_33.333%]">
         <UserAvatar
           user={{
             avatar,
@@ -93,30 +93,30 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
               'flex gap-1 items-center font-semibold': isFavorite,
             })}
           >
-            {isFavorite && <Bookmark className="w-4 h-4 fill-primary" />}
+            {isFavorite && <Bookmark className="fill-primary h-4 w-4" />}
             {fullname ?? '(Анонімний кандидат)'}
           </Link>
           <p className="text-gray">{position}</p>
-          <ul className="inline text-gray">
-            <li className="inline text-truncate">від ${expectations}</li>
+          <ul className="text-gray inline">
+            <li className="text-truncate inline">від ${expectations}</li>
             <span className="mx-1">·</span>
-            <li className="inline text-truncate">
+            <li className="text-truncate inline">
               {country}, {city}
             </li>
             <span className="mx-1">·</span>
-            <li className="inline text-truncate">{formatExperience(experience)}</li>
+            <li className="text-truncate inline">{formatExperience(experience)}</li>
             <span className="mx-1">·</span>
-            <li className="inline text-truncate">{formatEnglishLevel(english).label}</li>
+            <li className="text-truncate inline">{formatEnglishLevel(english).label}</li>
           </ul>
         </div>
       </div>
-      <div className="flex w-full md:flex-[0_0_77] md:max-w-[77]">
-        <Link href={`/home/inbox/${offerId}`} className="block w-full text-gray">
-          <span className="inline-flex items-center gap-2 float-right ml-4">
-            <Check className="w-4 h-4" />
+      <div className="flex w-full md:max-w-[77] md:flex-[0_0_77]">
+        <Link href={`/home/inbox/${offerId}`} className="text-gray block w-full">
+          <span className="float-right ml-4 inline-flex items-center gap-2">
+            <Check className="h-4 w-4" />
             {date}
           </span>
-          <p className="block hover:text-gray-dark transition-colors w-full">{content}</p>
+          <p className="hover:text-gray-dark block w-full transition-colors">{content}</p>
         </Link>
       </div>
       <OfferPanel

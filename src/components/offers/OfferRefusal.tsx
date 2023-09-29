@@ -16,7 +16,7 @@ interface OfferRefusalProps {
 }
 
 const OfferRefusal: React.FC<OfferRefusalProps> = ({ createdAt, message, reason }) => (
-  <div className="flex flex-col gap-2 mt-5">
+  <div className="mt-5 flex flex-col gap-2">
     <p className="text-gray text-sm">
       {format(new Date(createdAt), 'PPp', {
         locale: uk,

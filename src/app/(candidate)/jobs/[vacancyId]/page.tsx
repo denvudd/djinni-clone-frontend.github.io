@@ -98,7 +98,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
   return (
     <>
       <Breadcrumbs segments={segments} />
-      <h1 className="text-3xl font-semibold mt-4 mb-2">
+      <h1 className="mb-2 mt-4 text-3xl font-semibold">
         {name} {!active && <span className="text-danger font-normal">(неактивна)</span>}{' '}
         {(salaryForkGte ?? salaryForkLte) && (
           <span className="text-green">
@@ -106,14 +106,14 @@ const page: React.FC<PageProps> = async ({ params }) => {
           </span>
         )}
       </h1>
-      <div className="flex items-center gap-2 text-gray text-sm">
+      <div className="text-gray flex items-center gap-2 text-sm">
         <Link href={`/r/${employer.id}`}>
           <UserAvatar
             user={{
               avatar: employer.avatar,
               fullname: employer.fullname,
             }}
-            className="w-9 h-9"
+            className="h-9 w-9"
           />
         </Link>
         {employer.fullname}, {employer.positionAndCompany}
@@ -131,14 +131,14 @@ const page: React.FC<PageProps> = async ({ params }) => {
           Редагувати
         </Link>
       )}
-      <div className="w-full flex gap-6">
-        <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
+      <div className="flex w-full gap-6">
+        <div className="md:max-w-[66.666%] md:flex-[0_0_66.666%]">
           {youtube && <YoutubeEmbed url={youtube} className="mb-4" />}
           <div className="mb-4">
             <ReactMarkdown components={MarkdownRender}>{description}</ReactMarkdown>
           </div>
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Про компанію</h4>
+            <h4 className="mb-2 font-semibold">Про компанію</h4>
             {employer.aboutCompany ? (
               <div>{employer.aboutCompany}</div>
             ) : (
@@ -146,14 +146,14 @@ const page: React.FC<PageProps> = async ({ params }) => {
             )}
           </div>
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Сайт компанії</h4>
+            <h4 className="mb-2 font-semibold">Сайт компанії</h4>
             <a className="text-link" target="_blank" href={employer.companyLink} rel="noreferrer">
               {employer.companyLink}
             </a>
           </div>
           {employer.dou && (
             <div className="mb-4">
-              <h4 className="font-semibold mb-2">Компанія на DOU</h4>
+              <h4 className="mb-2 font-semibold">Компанія на DOU</h4>
               <a className="text-link" target="_blank" href={employer.dou} rel="noreferrer">
                 {employer.dou}
               </a>
@@ -161,7 +161,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
           )}
           {!active && (
             <div className="mb-4">
-              <p className="text-danger font-semibold mb-4">Ця вакансія зараз неактивна.</p>
+              <p className="text-danger mb-4 font-semibold">Ця вакансія зараз неактивна.</p>
               <p>
                 Дивитися актуальні вакансії{' '}
                 <Link className="text-link" href={`/jobs/title=${category}`}>
@@ -172,7 +172,7 @@ const page: React.FC<PageProps> = async ({ params }) => {
           )}
         </div>
 
-        <div className="md:flex-[0_0_33.333%] md:max-w-[33.333%]">
+        <div className="md:max-w-[33.333%] md:flex-[0_0_33.333%]">
           <EmployerVacancyInfo
             category={category}
             city={city}
@@ -199,19 +199,19 @@ const page: React.FC<PageProps> = async ({ params }) => {
         </Link>
       )}
       {active && (
-        <div className="flex flex-col gap-1 mt-6 text-gray">
+        <div className="text-gray mt-6 flex flex-col gap-1">
           <p className="inline-flex items-center gap-1">
-            <PenSquare className="w-4 h-4" />
+            <PenSquare className="h-4 w-4" />
             Вакансія опублікована {format(new Date(createdAt), 'PPP', { locale: uk })}
           </p>
           <p className="inline-flex items-center gap-1">
-            <Users className="w-4 h-4" />
+            <Users className="h-4 w-4" />
             {responsesCount} відгуків
           </p>
         </div>
       )}
       {session?.user.role === UserRole.Candidate && (
-        <Button className="text-lg my-6">Відгукнутись</Button>
+        <Button className="my-6 text-lg">Відгукнутись</Button>
       )}
     </>
   );

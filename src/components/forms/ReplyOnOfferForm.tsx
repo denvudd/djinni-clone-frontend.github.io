@@ -93,7 +93,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold mb-2 text-base">Відповісти</FormLabel>
+              <FormLabel className="mb-2 text-base font-semibold">Відповісти</FormLabel>
               <FormControl>
                 <Textarea lang="uk" className="text-base" rows={6} {...field} />
               </FormControl>

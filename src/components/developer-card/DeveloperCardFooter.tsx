@@ -82,13 +82,13 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
   }
 
   return (
-    <CardFooter className="px-5 py-5 border-t border-borderColor flex items-center justify-between">
+    <CardFooter className="border-borderColor flex items-center justify-between border-t p-5">
       <div className="flex items-center gap-3">
         <Link
           href={`/q/${candidateId}#poke_form`}
-          className="text-primary inline-flex gap-1 items-center"
+          className="text-primary inline-flex items-center gap-1"
         >
-          <MessageCircle className="w-5 h-5" /> Написати
+          <MessageCircle className="h-5 w-5" /> Написати
         </Link>
         <button
           className={clsx('text-primary inline-flex gap-1 items-center', {
@@ -104,8 +104,8 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
           Зберегти
         </button>
       </div>
-      <span className="inline-flex gap-1 items-center text-gray">
-        <Eye className="w-5 h-5" /> {views}
+      <span className="text-gray inline-flex items-center gap-1">
+        <Eye className="h-5 w-5" /> {views}
       </span>
     </CardFooter>
   );

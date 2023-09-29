@@ -5,7 +5,7 @@ import { Icons } from './ui/Icons';
 
 const Footer: React.FC = () => (
   <footer className="footer">
-    <div className="container text-xs pb-6 pt-8">
+    <div className="container pb-6 pt-8 text-xs">
       <div className="flex flex-col gap-2">
         <Image src="/logo_short.svg" alt="Djinni logo short" width={28} height={25} />
         <ul className="flex gap-5">
@@ -43,7 +43,7 @@ const Footer: React.FC = () => (
           </li>
           <li>
             <Button variant="ghost" size="sm" className="rounded-full">
-              <Icons.Telegram className="w-4 h-4 mr-1" />
+              <Icons.Telegram className="mr-1 h-4 w-4" />
               Зв&apos;язатися з нами
             </Button>
           </li>

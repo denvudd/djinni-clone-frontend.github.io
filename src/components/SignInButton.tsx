@@ -23,7 +23,7 @@ const SignInButton: React.FC = () => {
             className={buttonVariants({
               variant: 'outline',
               className: cn(
-                'rounded-full text-white border-gray-400 px-3 py-0 text-sm leading-loose',
+                'rounded-full border-gray-400 px-3 py-0 text-sm leading-loose text-white',
               ),
             })}
           >

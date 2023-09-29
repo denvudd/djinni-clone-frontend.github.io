@@ -80,7 +80,7 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({ candidateId, empl
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-0 flex flex-col gap-4 max-w-[75%]"
+        className="flex max-w-[75%] flex-col gap-4 space-y-0"
         id="poke_form"
       >
         {isOfferError && <ErrorAlert />}
@@ -88,8 +88,8 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({ candidateId, empl
           control={form.control}
           name="coverLetter"
           render={({ field }) => (
-            <FormItem className="space-y-0 flex flex-col gap-2">
-              <FormLabel className="font-semibold text-lg">Запропонувати вакансію</FormLabel>
+            <FormItem className="flex flex-col gap-2 space-y-0">
+              <FormLabel className="text-lg font-semibold">Запропонувати вакансію</FormLabel>
               <FormDescription className="mb-2">
                 Опишіть коротко вакансію та набір завдань, які буде вирішувати кандидат. Не пишіть
                 все, напишіть головне. Ваша мета - зацікавити вакансією. Більше про проект та

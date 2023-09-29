@@ -45,7 +45,7 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
 
   return (
     <>
-      <h1 className="text-3xl leading-5 font-semibold mb-4">
+      <h1 className="mb-4 text-3xl font-semibold leading-5">
         Кандидати <span className="text-gray">{count}</span>
       </h1>
       <PageTabs tabs={tabs} active={0} />
@@ -53,10 +53,10 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
         <SidebarDevelopers searchParams={searchParams} />
         <div className="col-span-3 bg-white px-3">
           <DevelopersSearch />
-          <div className="flex flex-col gap-4 mt-4">
+          <div className="mt-4 flex flex-col gap-4">
             {!candidates ||
               (!candidates.length && (
-                <p className="flex justify-center text-center text-gray">
+                <p className="text-gray flex justify-center text-center">
                   Кандидатів за заданими параметрами не знайдено.
                 </p>
               ))}

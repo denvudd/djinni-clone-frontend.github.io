@@ -58,7 +58,7 @@ const DevelopersSearch: React.FC = () => {
                 <Input
                   placeholder="Запит для пошуку, наприклад: Junior PHP Developer"
                   {...field}
-                  className="rounded-se-none rounded-ee-none border-r-0 h-10 text-base"
+                  className="h-10 rounded-ee-none rounded-se-none border-r-0 text-base"
                 />
               </FormControl>
               <FormMessage />
@@ -67,7 +67,7 @@ const DevelopersSearch: React.FC = () => {
         />
         <Button
           type="submit"
-          className="rounded-ss-none rounded-es-none border-l-0 block h-10 px-4"
+          className="block h-10 rounded-es-none rounded-ss-none border-l-0 px-4"
         >
           →
         </Button>

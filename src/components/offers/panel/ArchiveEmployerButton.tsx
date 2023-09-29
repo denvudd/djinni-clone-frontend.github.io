@@ -65,7 +65,7 @@ const ArchiveEmployerButton: React.FC<ArchiveEmployerButtonProps> = ({
         )}
         onClick={() => moveOfferToArchive()}
       >
-        <ThumbsDown className="w-5 h-5 text-gray" />
+        <ThumbsDown className="text-gray h-5 w-5" />
       </TooltipTrigger>
       <TooltipContent>Перемістити до Архіву</TooltipContent>
     </Tooltip>

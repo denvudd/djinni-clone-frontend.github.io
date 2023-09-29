@@ -66,7 +66,7 @@ const Page: React.FC = async () => {
 
   return (
     <>
-      <h1 className="text-3xl leading-5 font-semibold mb-4">
+      <h1 className="mb-4 text-3xl font-semibold leading-5">
         Кандидати <span className="text-gray">{count}</span>
       </h1>
       <PageTabs tabs={tabs} active={1} />
@@ -94,7 +94,7 @@ const Page: React.FC = async () => {
             />
           ))}
         {favoriteCandidates && !favoriteCandidates.length && (
-          <div className="text-center py-12 mx-auto">
+          <div className="mx-auto py-12 text-center">
             <Image
               src="https://djinni.co/static/images/icons/i-star.svg"
               width={48}
@@ -102,7 +102,7 @@ const Page: React.FC = async () => {
               alt="Favorite icon"
               className="mx-auto"
             />
-            <h3 className="font-semibold text-lg">Збережіть кандидатів на майбутнє</h3>
+            <h3 className="text-lg font-semibold">Збережіть кандидатів на майбутнє</h3>
             <p>
               Після додавання{' '}
               <Link href="/developers" className="text-link">

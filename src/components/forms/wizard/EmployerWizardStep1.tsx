@@ -89,14 +89,14 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId })
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3 mt-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-1 flex flex-col gap-3">
         {isEmployerError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="fullname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold h-full text-base">Ім&aposя та прізвище</FormLabel>
+              <FormLabel className="h-full text-base font-semibold">Ім&aposя та прізвище</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -109,7 +109,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId })
           name="positionAndCompany"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold h-full text-base">Посада та компанія</FormLabel>
+              <FormLabel className="h-full text-base font-semibold">Посада та компанія</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -124,7 +124,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId })
               name="linkedIn"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold h-full text-base">
+                  <FormLabel className="h-full text-base font-semibold">
                     Посилання на ваш{' '}
                     <a
                       href="https://linkedin.com/in/"
@@ -149,7 +149,7 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId })
               name="companyLink"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-semibold h-full text-base">Сайт компанії</FormLabel>
+                  <FormLabel className="h-full text-base font-semibold">Сайт компанії</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>

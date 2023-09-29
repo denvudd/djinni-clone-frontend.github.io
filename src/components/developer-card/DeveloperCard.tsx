@@ -60,11 +60,11 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
       <CardHeader className="p-5">
         <CardTitle>
           <Link href={`/q/${id}`} className="flex items-center justify-between">
-            <span className="text-2xl text-primary font-semibold leading-tight">{title}</span>
-            <span className="text-2xl text-green font-semibold leading-tight">${expectations}</span>
+            <span className="text-primary text-2xl font-semibold leading-tight">{title}</span>
+            <span className="text-green text-2xl font-semibold leading-tight">${expectations}</span>
           </Link>
         </CardTitle>
-        <ul className="flex items-center text-gray text-sm">
+        <ul className="text-gray flex items-center text-sm">
           <li>{country}</li>
           <span className="mx-1">·</span>
           <li>{city}</li>
@@ -93,12 +93,12 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
             </Link>
           )}
         </div>
-        <ul className="flex gap-1 flex-wrap items-center">
+        <ul className="flex flex-wrap items-center gap-1">
           {skills.map((skill) => (
             <li key={skill.id}>
               <Badge
                 className={cn(
-                  'pointer-events-none text-sm leading-[1.3] bg-transparent text-dark-gray dark:text-gray border-borderColor font-bold shadow-none',
+                  'text-dark-gray dark:text-gray border-borderColor pointer-events-none bg-transparent text-sm font-bold leading-[1.3] shadow-none',
                 )}
               >
                 {skill.name}

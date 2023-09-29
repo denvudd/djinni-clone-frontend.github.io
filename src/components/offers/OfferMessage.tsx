@@ -21,14 +21,14 @@ interface OfferMessageProps {
 }
 
 const OfferMessage: React.FC<OfferMessageProps> = ({ message, createdAt, author }) => (
-  <div className="w-full relative">
-    <div className="flex items-center gap-2 mb-2">
+  <div className="relative w-full">
+    <div className="mb-2 flex items-center gap-2">
       <UserAvatar
         user={{
           avatar: author.avatar,
           fullname: author.name,
         }}
-        className="w-9 h-9"
+        className="h-9 w-9"
       />
       <div className="flex flex-col">
         <strong>{author.name}</strong>
@@ -41,7 +41,7 @@ const OfferMessage: React.FC<OfferMessageProps> = ({ message, createdAt, author 
     <span className="absolute bottom-3 right-0">
       <Tooltip>
         <TooltipTrigger>
-          <Check className="w-4 h-4 text-gray" />
+          <Check className="text-gray h-4 w-4" />
         </TooltipTrigger>
         <TooltipContent>Повідомлення доставлено</TooltipContent>
       </Tooltip>

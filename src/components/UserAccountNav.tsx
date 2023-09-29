@@ -27,11 +27,11 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
     <DropdownMenuTrigger>
       <div className="flex items-center">
         {user.filled ? (
-          <span className="rounded-full bg-green text-white text-xs font-bold py-1 px-2 mr-1">
+          <span className="bg-green mr-1 rounded-full px-2 py-1 text-xs font-bold text-white">
             online
           </span>
         ) : (
-          <span className="rounded-full bg-danger text-white text-xs font-bold py-1 px-2 mr-1">
+          <span className="bg-danger mr-1 rounded-full px-2 py-1 text-xs font-bold text-white">
             Не заповнений профіль
           </span>
         )}
@@ -43,8 +43,8 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
           }}
           className="h-8 w-8"
         />
-        <span className="font-semibold dark:text-gray-400 text-gray-dark">{user.fullname}</span>
-        <ChevronDown className="ml-3 w-4 h-4" />
+        <span className="text-gray-dark font-semibold dark:text-gray-400">{user.fullname}</span>
+        <ChevronDown className="ml-3 h-4 w-4" />
       </div>
     </DropdownMenuTrigger>
     <DropdownMenuContent className="bg-white" align="end">
@@ -89,7 +89,7 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
       </DropdownMenuItem>
 
       <DropdownMenuItem asChild>
-        <Link href="/r/create" className="cursor-pointer text-dark-gray text-base">
+        <Link href="/r/create" className="text-dark-gray cursor-pointer text-base">
           <span className="text-dark-gray text-base">Запропонувати ідею</span>
         </Link>
       </DropdownMenuItem>

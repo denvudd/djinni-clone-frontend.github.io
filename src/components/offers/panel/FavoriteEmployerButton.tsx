@@ -65,7 +65,7 @@ const FavoriteEmployerButton: React.FC<FavoriteEmployerButtonProps> = ({
         )}
         onClick={() => moveOfferToArchive()}
       >
-        <Bookmark className="w-5 h-5 text-gray" />
+        <Bookmark className="text-gray h-5 w-5" />
       </TooltipTrigger>
       <TooltipContent>Зберегти</TooltipContent>
     </Tooltip>

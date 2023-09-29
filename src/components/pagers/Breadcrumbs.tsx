@@ -30,7 +30,7 @@ export function Breadcrumbs({
   return (
     <nav
       aria-label="breadcrumbs"
-      className={cn('flex w-full items-center overflow-auto text-primary', className)}
+      className={cn('text-primary flex w-full items-center overflow-auto', className)}
       {...props}
     >
       {segments.map((segment, index) => {
@@ -41,7 +41,7 @@ export function Breadcrumbs({
             <Link
               aria-current={isLastSegment ? 'page' : undefined}
               href={segment.href}
-              className={cn('truncate hover:text-foreground transition-colors')}
+              className={cn('hover:text-foreground truncate transition-colors')}
             >
               {truncationLength > 0 && segment.title
                 ? truncate(segment.title, truncationLength)

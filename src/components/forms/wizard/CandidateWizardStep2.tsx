@@ -94,14 +94,14 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-6">
         {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="employmentOptions"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="font-semibold mb-2 text-base">Варіанти зайнятості</FormLabel>
+              <FormLabel className="mb-2 text-base font-semibold">Варіанти зайнятості</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -144,7 +144,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-full sm:w-60% max-h-[300px] p-0">
+                <PopoverContent className="sm:w-60% max-h-[300px] w-full p-0">
                   <Command>
                     <CommandInput placeholder="Почніть вводити текст і виберіть місто..." />
                     <CommandEmpty>Не вибрано жодного міста.</CommandEmpty>
@@ -181,7 +181,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
         />
 
         <FormItem>
-          <FormLabel className="font-semibold text-base">Навички</FormLabel>
+          <FormLabel className="text-base font-semibold">Навички</FormLabel>
           <FormControl>
             <EditCandidateSkills candidateId={candidateId} />
           </FormControl>

@@ -29,8 +29,8 @@ const MobileMenu: React.FC = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="py-1 px-1 border border-stone-400 rounded-md">
-          <Menu className="text-white w-10 h-7" />
+        <button className="rounded-md border border-stone-400 p-1">
+          <Menu className="h-7 w-10 text-white" />
         </button>
       </SheetTrigger>
       <SheetContent side="top">

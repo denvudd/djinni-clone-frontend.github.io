@@ -119,14 +119,14 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-3">
         {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">Категорія</FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Категорія</FormLabel>
               <div className="flex-1">
                 <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
                   <FormControl>
@@ -157,7 +157,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
           name="experience"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">Досвід роботи</FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Досвід роботи</FormLabel>
               <div className="flex-1">
                 <FormControl>
                   <Slider
@@ -179,7 +179,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
           name="expectations"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
+              <FormLabel className="h-full flex-1 text-base font-semibold">
                 Зарплатні очікування
                 <Tooltip>
                   <TooltipTrigger>
@@ -191,11 +191,11 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
               <div className="flex-1">
                 <FormControl>
                   <div className="flex items-center">
-                    <span className="bg-gray-300 h-10 rounded-l-md py-1 px-3">
+                    <span className="h-10 rounded-l-md bg-gray-300 px-3 py-1">
                       <DollarSign className="text-gray-dark h-full w-4" />
                     </span>
                     <Input
-                      className="border-l-0 rounded-ss-none rounded-es-none"
+                      className="rounded-es-none rounded-ss-none border-l-0"
                       onChange={(e) => field.onChange(+e.target.value)}
                       value={field.value}
                       ref={field.ref}
@@ -213,7 +213,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
           name="position"
           render={({ field }) => (
             <FormItem className="flex items-center justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">Посада</FormLabel>
+              <FormLabel className="h-full flex-1 text-base font-semibold">Посада</FormLabel>
               <div className="flex-1">
                 <FormControl>
                   <Input placeholder="Наприклад, PHP розробник" {...field} />
@@ -228,7 +228,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
           name="english"
           render={({ field }) => (
             <FormItem className="flex items-start justify-between">
-              <FormLabel className="flex-1 font-semibold h-full text-base">
+              <FormLabel className="h-full flex-1 text-base font-semibold">
                 Рівень англійської
               </FormLabel>
               <div className="flex-1">

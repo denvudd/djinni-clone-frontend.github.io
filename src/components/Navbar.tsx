@@ -17,15 +17,15 @@ const Navbar: React.FC = async () => {
   console.log(session?.user);
 
   return (
-    <header className="w-full bg-gray-100 dark:bg-dark mb-12">
-      <div className="w-full min-h-[50px] container mx-auto py-2">
-        <nav className="min-w-[86px] min-h-[32px] h-full flex items-center justify-between">
+    <header className="dark:bg-dark mb-12 w-full bg-gray-100">
+      <div className="container mx-auto min-h-[50px] w-full py-2">
+        <nav className="flex h-full min-h-[32px] min-w-[86px] items-center justify-between">
           <div className="flex items-center justify-between gap-3">
-            <Link href="/" className="min-w-[86px] min-h-[25px]">
+            <Link href="/" className="min-h-[25px] min-w-[86px]">
               <Icons.Logo className="fill-black dark:fill-white" />
             </Link>
             {session?.user?.filled && (
-              <ul className="flex gap-4 dark:text-gray-400 text-gray-dark font-semibold">
+              <ul className="text-gray-dark flex gap-4 font-semibold dark:text-gray-400">
                 {session?.user?.role === UserRole.Candidate &&
                   candidateMenu.map((link) => (
                     <li key={link.title}>

@@ -13,7 +13,7 @@ const Page: React.FC = async () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex-[0_0_60%] max-w-[60%]">
+      <div className="max-w-[60%] flex-[0_0_60%]">
         <p>0% Заповнено</p>
         <Progress value={0} className="mt-1" />
         <CandidateWizardStep1 candidateId={session.user.candidate_id} />

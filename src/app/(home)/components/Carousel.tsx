@@ -21,10 +21,10 @@ const Carousel: React.FC = () => (
     loop
   >
     <SwiperSlide className="px-10 md:px-0">
-      <blockquote className="md:text-lg leading-6 max-w-xl mx-auto text-center">
+      <blockquote className="mx-auto max-w-xl text-center leading-6 md:text-lg">
         «Шукаю роботу тільки тут»
       </blockquote>
-      <div className="mt-5 text-gray flex gap-2 items-center justify-center flex-col md:flex-row text-center">
+      <div className="text-gray mt-5 flex flex-col items-center justify-center gap-2 text-center md:flex-row">
         <Image
           src="https://djinni.co/static/i/landing/jobs-push/feedback-photos/vlad.jpg"
           alt="Djinni review"
@@ -36,11 +36,11 @@ const Carousel: React.FC = () => (
       </div>
     </SwiperSlide>
     <SwiperSlide className="px-10 md:px-0">
-      <blockquote className="md:text-lg leading-6 max-w-xl mx-auto text-center">
+      <blockquote className="mx-auto max-w-xl text-center leading-6 md:text-lg">
         «Приголомшливий сервіс, допоміг мені за тиждень знайти постійного замовника, з яким працюю
         вже майже 3 роки».
       </blockquote>
-      <div className="mt-5 text-gray flex gap-2 items-center justify-center flex-col md:flex-row text-center">
+      <div className="text-gray mt-5 flex flex-col items-center justify-center gap-2 text-center md:flex-row">
         <Image
           src="https://djinni.co/static/i/landing/jobs-push/feedback-photos/scherbachenko.jpg"
           alt="Djinni review"
@@ -52,10 +52,10 @@ const Carousel: React.FC = () => (
       </div>
     </SwiperSlide>
     <SwiperSlide className="px-10 md:px-0">
-      <blockquote className="md:text-lg leading-6 max-w-xl mx-auto text-center">
+      <blockquote className="mx-auto max-w-xl text-center leading-6 md:text-lg">
         «Буває, що вам потрібно знайти нову роботу. Джин робить так, щоб робота сама вас шукала».
       </blockquote>
-      <div className="mt-5 text-gray flex gap-2 items-center justify-center flex-col md:flex-row text-center">
+      <div className="text-gray mt-5 flex flex-col items-center justify-center gap-2 text-center md:flex-row">
         <Image
           src="https://djinni.co/static/i/landing/jobs-push/feedback-photos/mikhail.jpg"
           alt="Djinni review"
@@ -67,10 +67,10 @@ const Carousel: React.FC = () => (
       </div>
     </SwiperSlide>
     <SwiperSlide className="px-10 md:px-0">
-      <blockquote className="md:text-lg leading-6 max-w-xl mx-auto text-center">
+      <blockquote className="mx-auto max-w-xl text-center leading-6 md:text-lg">
         «Я вже двічі знаходив роботу на Джині і кожного разу все краще :) Так тримати!»
       </blockquote>
-      <div className="mt-5 text-gray flex gap-2 items-center justify-center flex-col md:flex-row text-center">
+      <div className="text-gray mt-5 flex flex-col items-center justify-center gap-2 text-center md:flex-row">
         <Image
           src="https://djinni.co/static/i/landing/jobs-push/feedback-photos/tokar.jpg"
           alt="Djinni review"
@@ -82,11 +82,11 @@ const Carousel: React.FC = () => (
       </div>
     </SwiperSlide>
     <SwiperSlide className="px-10 md:px-0">
-      <blockquote className="md:text-lg leading-6 max-w-xl mx-auto text-center">
+      <blockquote className="mx-auto max-w-xl text-center leading-6 md:text-lg">
         «Джинн - це знахідка. Аналога в Україні немає. Дуже зручний анонімний пошук роботи і
         вакансій».
       </blockquote>
-      <div className="mt-5 text-gray flex gap-2 items-center justify-center flex-col md:flex-row text-center">
+      <div className="text-gray mt-5 flex flex-col items-center justify-center gap-2 text-center md:flex-row">
         <Image
           src="https://djinni.co/static/i/landing/jobs-push/feedback-photos/katya.jpg"
           alt="Djinni review"

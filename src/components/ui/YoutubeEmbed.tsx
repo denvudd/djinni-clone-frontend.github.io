@@ -6,7 +6,7 @@ interface YoutubeEmbedProps extends React.ComponentProps<'div'> {
 }
 
 const YoutubeEmbed: React.FC<YoutubeEmbedProps> = ({ url, className, ...props }) => (
-  <div className={cn('overflow-hidden pt-[56.25%] relative h-0 rounded-md', className)} {...props}>
+  <div className={cn('relative h-0 overflow-hidden rounded-md pt-[56.25%]', className)} {...props}>
     <iframe
       width="853"
       height="480"
@@ -15,7 +15,7 @@ const YoutubeEmbed: React.FC<YoutubeEmbedProps> = ({ url, className, ...props })
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       title="Embedded youtube"
-      className="left-0 top-0 h-full w-full absolute"
+      className="absolute left-0 top-0 h-full w-full"
     />
   </div>
 );

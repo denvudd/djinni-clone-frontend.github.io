@@ -102,7 +102,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="font-semibold mb-2 text-base">
+              <FormLabel className="mb-2 text-base font-semibold">
                 Чому кандидат вам не підходить?
               </FormLabel>
               <FormControl>
@@ -116,7 +116,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                       <FormControl>
                         <RadioGroupItem disabled={disabled} value={reason} />
                       </FormControl>
-                      <FormLabel className="font-normal text-base">
+                      <FormLabel className="text-base font-normal">
                         {formatRefusalReason(reason)}
                       </FormLabel>
                     </FormItem>
@@ -134,9 +134,9 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold mb-2 text-base">
+              <FormLabel className="mb-2 text-base font-semibold">
                 Додати повідомлення{' '}
-                <span className="font-normal text-gray">(не обов&apos;язково)</span>
+                <span className="text-gray font-normal">(не обов&apos;язково)</span>
               </FormLabel>
               <FormControl>
                 <Textarea lang="uk" className="text-base" rows={6} {...field} />
@@ -161,7 +161,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                     disabled={disabled}
                   />
                 </FormControl>
-                <FormLabel className="font-normal text-base leading-none">
+                <FormLabel className="text-base font-normal leading-none">
                   Я підтверджую, що ми <em>не найняли</em> цього кандидата
                 </FormLabel>
               </div>

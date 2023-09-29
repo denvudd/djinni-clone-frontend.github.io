@@ -71,10 +71,10 @@ const Page: React.FC = async () => {
   return (
     <div className="-mt-8">
       <PageTabs tabs={tabs} active={1} />
-      <h1 className="text-3xl font-semibold my-8">
+      <h1 className="my-8 text-3xl font-semibold">
         Архів <span className="text-gray">{count}</span>
       </h1>
-      <ul className="flex flex-col rounded-lg border border-borderColor">
+      <ul className="border-borderColor flex flex-col rounded-lg border">
         {offers &&
           !!offers.length &&
           offers.map(
@@ -110,7 +110,7 @@ const Page: React.FC = async () => {
             ),
           )}
         {offers && !offers.length && (
-          <div className="text-center py-12 mx-auto max-w-sm">
+          <div className="mx-auto max-w-sm py-12 text-center">
             <Image
               src="https://djinni.co/static/images/empty/ill_no_archive.svg"
               width={170}
@@ -118,7 +118,7 @@ const Page: React.FC = async () => {
               alt="No Archive icon"
               className="mx-auto mb-4"
             />
-            <h3 className="font-semibold text-2xl mb-2">Ті, з ким не відбувся метч</h3>
+            <h3 className="mb-2 text-2xl font-semibold">Ті, з ким не відбувся метч</h3>
             <p className="text-gray">
               Інколи кандидати вам не підходять. Відмовляйте їм та відправляйте в архів, щоб швидше
               розбирати листування.

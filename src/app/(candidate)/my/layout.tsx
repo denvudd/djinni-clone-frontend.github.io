@@ -5,7 +5,7 @@ import { getAuthServerSession } from '@/lib/next-auth';
 import { UserRole } from '@/lib/enums';
 
 interface CandidateMyLayoutProps {
-  children: React.ReactNode;
+  children: JSX.Element; // not React.ReactNode because of https://github.com/vercel/next.js/issues/49280
 }
 
 const CandidateMyLayout: React.FC<CandidateMyLayoutProps> = async ({ children }) => {

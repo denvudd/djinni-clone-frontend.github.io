@@ -72,11 +72,11 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   return (
     <div className="-mt-8">
       <PageTabs tabs={tabs} active={0} />
-      <h1 className="text-3xl font-semibold my-8">
+      <h1 className="my-8 text-3xl font-semibold">
         Усі відгуки <span className="text-gray">{count}</span>
       </h1>
       {error === 'true' && <ErrorAlert />}
-      <ul className="flex flex-col rounded-lg border border-borderColor">
+      <ul className="border-borderColor flex flex-col rounded-lg border">
         {offers &&
           !!offers.length &&
           offers.map(
@@ -101,7 +101,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             ),
           )}
         {offers && !offers.length && (
-          <div className="text-center py-12 mx-auto max-w-xs">
+          <div className="mx-auto max-w-xs py-12 text-center">
             <Image
               src="https://djinni.co/static/images/empty/ill_no_unread.svg"
               width={120}
@@ -109,7 +109,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
               alt="Favorite icon"
               className="mx-auto mb-4"
             />
-            <h3 className="font-semibold text-2xl mb-2">Ви все-все прочитали!</h3>
+            <h3 className="mb-2 text-2xl font-semibold">Ви все-все прочитали!</h3>
             <p className="text-gray">
               І ми вами дуже пишаємось. Мерщій танцювати, чи ще трохи попрацюємо?
             </p>

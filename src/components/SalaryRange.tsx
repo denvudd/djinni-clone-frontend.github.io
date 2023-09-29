@@ -49,7 +49,7 @@ const SalaryRange: React.FC = () => {
 
   return (
     <div>
-      <h4 className="leading-tight font-semibold mb-2 flex justify-between items-center">
+      <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
         Зарплатні очікування
         {(salary_min ?? salary_max) && (
           <button
@@ -70,7 +70,7 @@ const SalaryRange: React.FC = () => {
               router.refresh();
               form.reset();
             }}
-            className="inline text-gray font-bold text-2xl p-0 hover:bg-transparent"
+            className="text-gray inline p-0 text-2xl font-bold hover:bg-transparent"
           >
             ×
           </button>
@@ -79,9 +79,9 @@ const SalaryRange: React.FC = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="inline-flex items-center gap-1 relative"
+          className="relative inline-flex items-center gap-1"
         >
-          <span className="absolute top-0.5 -left-4">$</span>
+          <span className="absolute -left-4 top-0.5">$</span>
           <FormField
             control={form.control}
             name="salary_min"
@@ -92,7 +92,7 @@ const SalaryRange: React.FC = () => {
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(+e.target.value)}
-                    className="w-12 h-7 pl-1 pr-0.5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="h-7 w-12 pl-1 pr-0.5 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                     placeholder="Від"
                   />
                 </FormControl>
@@ -111,7 +111,7 @@ const SalaryRange: React.FC = () => {
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(+e.target.value)}
-                    className="w-12 h-7 pl-1 pr-0.5 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="h-7 w-12 pl-1 pr-0.5 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                     placeholder="До"
                   />
                 </FormControl>
@@ -119,7 +119,7 @@ const SalaryRange: React.FC = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" size="sm" variant="outline" className="w-12 h-7">
+          <Button type="submit" size="sm" variant="outline" className="h-7 w-12">
             →
           </Button>
         </form>
