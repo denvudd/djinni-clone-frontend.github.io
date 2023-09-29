@@ -1,3 +1,4 @@
+/* eslint-disable no-misleading-character-class */
 import { z } from 'zod';
 
 export const EmployerWizardStep1Validator = z.object({
@@ -9,10 +10,7 @@ export const EmployerWizardStep1Validator = z.object({
       'Будь ласка, вкажіть правильний формат імʼя та прізвище',
     )
     .min(3),
-  positionAndCompany: z
-    .string()
-    .nonempty('Це поле не може бути порожнім')
-    .min(10),
+  positionAndCompany: z.string().nonempty('Це поле не може бути порожнім').min(10),
   linkedIn: z
     .string()
     .nonempty('Це поле не може бути порожнім')
@@ -20,12 +18,7 @@ export const EmployerWizardStep1Validator = z.object({
       /^(http(s)?:\/\/)?(www\.)?linkedin\.com\/in\/.{3,}$/,
       'Будь ласка, вкажіть правильне посилання на ваш профіль LinkedIn',
     ),
-  companyLink: z
-    .string()
-    .nonempty('Це поле не може бути порожнім')
-    .url('URL не є дійсним'),
+  companyLink: z.string().nonempty('Це поле не може бути порожнім').url('URL не є дійсним'),
 });
 
-export type EmployerWizardStep1Request = z.infer<
-  typeof EmployerWizardStep1Validator
->;
+export type EmployerWizardStep1Request = z.infer<typeof EmployerWizardStep1Validator>;

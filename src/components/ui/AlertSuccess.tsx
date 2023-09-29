@@ -10,12 +10,10 @@ const AlertSuccess: React.FC<AlertSuccessProps> = ({
   message = 'Повідомлення надіслано.',
   className,
   ...props
-}) => {
-  return (
-    <Alert className={cn('bg-green-subtle w-full', className)}>
-      <AlertDescription className="text-base">{message}</AlertDescription>
-    </Alert>
-  );
-};
+}) => (
+  <Alert className={cn('bg-green-subtle w-full', className)}>
+    <AlertDescription className="text-base">{message}</AlertDescription>
+  </Alert>
+);
 
 export default AlertSuccess;

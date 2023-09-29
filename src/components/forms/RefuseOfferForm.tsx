@@ -1,31 +1,33 @@
 'use client';
 
-import { RefusalReason } from '@/lib/enums';
-import {
-  RefuseOfferValidator,
-  type RefuseOfferRequest,
-} from '@/lib/validators/refuse-offer';
+import React from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/Form';
-import ErrorAlert from '../ui/ErrorAlert';
+import axios from '@/lib/axios';
+
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/Form';
 import { Textarea } from '../ui/Textarea';
 import { Button } from '../ui/Button';
-import { cn, convertEnumObjToArray, formatRefusalReason } from '@/lib/utils';
-import { RadioGroup, RadioGroupItem } from '../ui/RadioGroup';
 import { Checkbox } from '../ui/Checkbox';
+import { RadioGroup, RadioGroupItem } from '../ui/RadioGroup';
+import ErrorAlert from '../ui/ErrorAlert';
+
+import { RefuseOfferValidator, type RefuseOfferRequest } from '@/lib/validators/refuse-offer';
+import { RefusalReason } from '@/lib/enums';
+import { cn, convertEnumObjToArray, formatRefusalReason } from '@/lib/utils';
+
+interface RefuseResponse {
+  success: boolean;
+  candidateId: string;
+  employerId: string;
+  offerId: string;
+  reason: RefusalReason;
+  message: string;
+}
 
 interface RefuseOfferFormProps extends React.ComponentPropsWithoutRef<'form'> {
   offerId: string;
@@ -70,7 +72,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
         throw new Error();
       }
 
-      return data;
+      return data as RefuseResponse;
     },
     onSuccess: () => {
       router.push(`/home/inbox/${offerId}?msgsent=ok`);
@@ -84,7 +86,6 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
 
   function onSubmit(values: RefuseOfferRequest) {
     refuseOffer(values);
-    // console.log(values);
   }
 
   return (
@@ -101,7 +102,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="font-semibold mb-2 text-base">
+              <FormLabel className="mb-2 text-base font-semibold">
                 Чому кандидат вам не підходить?
               </FormLabel>
               <FormControl>
@@ -115,7 +116,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                       <FormControl>
                         <RadioGroupItem disabled={disabled} value={reason} />
                       </FormControl>
-                      <FormLabel className="font-normal text-base">
+                      <FormLabel className="text-base font-normal">
                         {formatRefusalReason(reason)}
                       </FormLabel>
                     </FormItem>
@@ -133,9 +134,9 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
           disabled={disabled}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold mb-2 text-base">
+              <FormLabel className="mb-2 text-base font-semibold">
                 Додати повідомлення{' '}
-                <span className="font-normal text-gray">(не обов'язково)</span>
+                <span className="text-gray font-normal">(не обов&apos;язково)</span>
               </FormLabel>
               <FormControl>
                 <Textarea lang="uk" className="text-base" rows={6} {...field} />
@@ -160,7 +161,7 @@ const RefuseOfferForm: React.FC<RefuseOfferFormProps> = ({
                     disabled={disabled}
                   />
                 </FormControl>
-                <FormLabel className="font-normal text-base leading-none">
+                <FormLabel className="text-base font-normal leading-none">
                   Я підтверджую, що ми <em>не найняли</em> цього кандидата
                 </FormLabel>
               </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
 import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
@@ -24,7 +24,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   const session = await getAuthServerSession();
 
-  if (!session || !session.user?.employer_id) redirect('/');
+  if (!session?.user?.employer_id) redirect('/');
 
   async function getEmployer() {
     try {
@@ -53,8 +53,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     }
   }
 
-  const { fullname, positionAndCompany, telegram, phone, linkedIn } =
-    await getEmployer();
+  const { fullname, positionAndCompany, telegram, phone, linkedIn } = await getEmployer();
   const { avatar } = session.user;
 
   const tabs: PageTabProp = [
@@ -82,7 +81,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold mb-4">Мій профіль</h1>
+      <h1 className="mb-4 text-3xl font-semibold">Мій профіль</h1>
       <PageTabs tabs={tabs} active={0} />
 
       {updated === 'ok' && (
@@ -90,10 +89,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
           message={
             <span>
               Профіль оновлено.{' '}
-              <Link
-                href={`/r/${session.user.employer_id}`}
-                className="text-link"
-              >
+              <Link href={`/r/${session.user.employer_id}`} className="text-link">
                 Дивитися на Джині →
               </Link>
             </span>
@@ -112,7 +108,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             linkedIn={linkedIn}
             employerId={session.user.employer_id}
           />
-          <Separator className="mt-12 mb-4" />
+          <Separator className="mb-4 mt-12" />
           <p>
             <strong>Шукаєте роботу?</strong>{' '}
             <Link href="/account_select" className="text-link">

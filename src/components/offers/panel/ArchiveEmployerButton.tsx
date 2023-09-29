@@ -4,16 +4,12 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip';
-
 import { ThumbsDown } from 'lucide-react';
+import axios from '@/lib/axios';
+
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
+
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '../../ui/Button';
 
@@ -32,16 +28,21 @@ const ArchiveEmployerButton: React.FC<ArchiveEmployerButtonProps> = ({
 
   const { mutate: moveOfferToArchive } = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.patch(
-        `/employer/${employerId}/offer/${offerId}/archive`,
-        { candidateId },
-      );
+      const { data } = await axios.patch(`/employer/${employerId}/offer/${offerId}/archive`, {
+        candidateId,
+      });
 
       if (data instanceof AxiosError) {
         throw new Error();
       }
 
-      return data;
+      return data as {
+        success: boolean;
+        active: boolean;
+        isArchive: boolean;
+        isFavorite: boolean;
+        offerId: string;
+      };
     },
     onSuccess: (data) => {
       if (data.success) {
@@ -64,7 +65,7 @@ const ArchiveEmployerButton: React.FC<ArchiveEmployerButtonProps> = ({
         )}
         onClick={() => moveOfferToArchive()}
       >
-        <ThumbsDown className="w-5 h-5 text-gray" />
+        <ThumbsDown className="text-gray h-5 w-5" />
       </TooltipTrigger>
       <TooltipContent>Перемістити до Архіву</TooltipContent>
     </Tooltip>

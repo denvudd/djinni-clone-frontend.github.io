@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import axios from '@/lib/axios';
 import { AxiosError } from 'axios';
+import axios from '@/lib/axios';
 
 import {
   Form,
@@ -26,6 +26,8 @@ import {
   EmployerProfileValidator,
   type EmployerProfileRequest,
 } from '@/lib/validators/employer-profile/employer-profile';
+import { type EmployerProfile } from '@/types';
+
 interface EmployerProfileFormProps {
   employerId: string;
   fullname: string | undefined;
@@ -48,11 +50,11 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
   const form = useForm<EmployerProfileRequest>({
     resolver: zodResolver(EmployerProfileValidator),
     defaultValues: {
-      fullname: fullname,
-      linkedIn: linkedIn,
-      phone: phone,
-      positionAndCompany: positionAndCompany,
-      telegram: telegram,
+      fullname,
+      linkedIn,
+      phone,
+      positionAndCompany,
+      telegram,
     },
   });
 
@@ -71,9 +73,9 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
       const payload = {
         fullname,
         positionAndCompany,
-        linkedIn: linkedIn || null,
+        linkedIn: linkedIn ?? null,
         phone,
-        telegram: telegram || null,
+        telegram: telegram ?? null,
       };
 
       const { data } = await axios.patch(`/employer/${employerId}`, payload);
@@ -82,10 +84,10 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
         throw new Error();
       }
 
-      return data;
+      return data as EmployerProfile;
     },
     onSuccess: () => {
-      router.push(`/home/profile?updated=ok`);
+      router.push('/home/profile?updated=ok');
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -106,9 +108,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
           name="fullname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-base">
-                Ім'я та прізвище
-              </FormLabel>
+              <FormLabel className="text-base font-semibold">Ім&apos;я та прізвище</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -122,9 +122,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
           name="positionAndCompany"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-semibold text-base">
-                Посада та компанія
-              </FormLabel>
+              <FormLabel className="text-base font-semibold">Посада та компанія</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -139,9 +137,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
             name="telegram"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="font-semibold text-base">
-                  Telegram
-                </FormLabel>
+                <FormLabel className="text-base font-semibold">Telegram</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -154,14 +150,9 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
             name="phone"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="font-semibold text-base">
-                  Телефон
-                </FormLabel>
+                <FormLabel className="text-base font-semibold">Телефон</FormLabel>
                 <FormControl>
-                  <PhoneInput
-                    value={field.value + ''}
-                    onChange={field.onChange}
-                  />
+                  <PhoneInput value={field.value + ''} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -173,9 +164,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
           name="linkedIn"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel className="font-semibold text-base">
-                Ваш профіль LinkedIn
-              </FormLabel>
+              <FormLabel className="text-base font-semibold">Ваш профіль LinkedIn</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -185,6 +174,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
                   href="https://www.linkedin.com/in/?_l=en_US"
                   target="_blank"
                   className="text-link"
+                  rel="noreferrer"
                 >
                   LinkedIn профіль
                 </a>

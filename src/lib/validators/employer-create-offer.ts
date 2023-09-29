@@ -9,6 +9,4 @@ export const EmployerCreateOfferValidator = z.object({
     .max(3000, 'Це поле не може бути більше 3000 символів'),
 });
 
-export type EmployerCreateOfferRequest = z.infer<
-  typeof EmployerCreateOfferValidator
->;
+export type EmployerCreateOfferRequest = z.infer<typeof EmployerCreateOfferValidator>;

@@ -1,6 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { formatDistance } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import ReactMarkdown from 'react-markdown';
 import { type EnglishLevel } from '@/lib/enums';
 import { type Skill } from '@/types';
 
@@ -8,10 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { MarkdownRender } from '../renderers/MarkdownRender';
 import { Badge } from '../ui/Badge';
 
-import { formatDistance } from 'date-fns';
-import { uk } from 'date-fns/locale';
 import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
-import ReactMarkdown from 'react-markdown';
 import DeveloperCardFooter from './DeveloperCardFooter';
 
 const TRUNCATE_TEXT_LENGTH = 450;
@@ -52,7 +52,7 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
 }) => {
   const isDescriptionTruncated = description.length > TRUNCATE_TEXT_LENGTH;
   const truncateDescription = isDescriptionTruncated
-    ? description.slice(0, TRUNCATE_TEXT_LENGTH) + '...'
+    ? `${description.slice(0, TRUNCATE_TEXT_LENGTH)}...`
     : description;
 
   return (
@@ -60,15 +60,11 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
       <CardHeader className="p-5">
         <CardTitle>
           <Link href={`/q/${id}`} className="flex items-center justify-between">
-            <span className="text-2xl text-primary font-semibold leading-tight">
-              {title}
-            </span>
-            <span className="text-2xl text-green font-semibold leading-tight">
-              ${expectations}
-            </span>
+            <span className="text-primary text-2xl font-semibold leading-tight">{title}</span>
+            <span className="text-green text-2xl font-semibold leading-tight">${expectations}</span>
           </Link>
         </CardTitle>
-        <ul className="flex items-center text-gray text-sm">
+        <ul className="text-gray flex items-center text-sm">
           <li>{country}</li>
           <span className="mx-1">·</span>
           <li>{city}</li>
@@ -89,9 +85,7 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
       <CardContent className="flex flex-col gap-1 p-5 pt-0">
         <div className="pb-3">
           <div className="overflow-hidden text-ellipsis">
-            <ReactMarkdown components={MarkdownRender}>
-              {truncateDescription}
-            </ReactMarkdown>
+            <ReactMarkdown components={MarkdownRender}>{truncateDescription}</ReactMarkdown>
           </div>
           {isDescriptionTruncated && (
             <Link href={`/q/${id}`} className="text-primary">
@@ -99,12 +93,12 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
             </Link>
           )}
         </div>
-        <ul className="flex gap-1 flex-wrap items-center">
+        <ul className="flex flex-wrap items-center gap-1">
           {skills.map((skill) => (
             <li key={skill.id}>
               <Badge
                 className={cn(
-                  'pointer-events-none text-sm leading-[1.3] bg-transparent text-dark-gray dark:text-gray border-borderColor font-bold shadow-none',
+                  'text-dark-gray dark:text-gray border-borderColor pointer-events-none bg-transparent text-sm font-bold leading-[1.3] shadow-none',
                 )}
               >
                 {skill.name}

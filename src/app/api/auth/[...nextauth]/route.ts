@@ -1,17 +1,17 @@
-import { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 async function refreshToken(token: JWT): Promise<JWT> {
-  const res = await fetch(process.env.BACKEND_API_URL + '/auth/refresh', {
+  const res = await fetch(`${process.env.BACKEND_API_URL}/auth/refresh`, {
     method: 'POST',
     headers: {
       authorization: `Refresh ${token.refreshToken}`,
     },
   });
 
-  const response = await res.json();
+  const response = (await res.json()) as Pick<JWT, 'accessToken' | 'refreshToken'>;
 
   return {
     ...token,
@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
 
         const { username, password } = credentials;
 
-        const res = await fetch(process.env.BACKEND_API_URL + '/auth/login', {
+        const res = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
           method: 'POST',
           body: JSON.stringify({
             username,
@@ -56,12 +56,23 @@ export const authOptions: NextAuthOptions = {
 
         const user = await res.json();
 
-        return user;
+        return user as User;
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      user: User;
+      trigger?: 'signIn' | 'signUp' | 'update' | undefined;
+      session?: { filled: boolean };
+    }) {
+      session as { filled: boolean };
       if (trigger === 'update' && session?.filled) {
         token.user.filled = session.filled;
       }
@@ -75,7 +86,7 @@ export const authOptions: NextAuthOptions = {
 
       if (new Date().getTime() < token.expiresIn) return token; // check if token is expired
 
-      return await refreshToken(token);
+      return refreshToken(token);
     },
     async session({ token, session }) {
       session.user = token.user;

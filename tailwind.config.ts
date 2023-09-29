@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable global-require */
+/** @type {import('tailwindcss').Config} */
+
 const { withUt } = require('uploadthing/tw');
 
-/** @type {import('tailwindcss').Config} */
 module.exports = withUt({
   darkMode: ['class'],
   content: [
@@ -61,9 +65,6 @@ module.exports = withUt({
           dark: 'var(--gray-dark)',
         },
         brand: 'var(--brand)',
-        primary: 'var(--primary)',
-        secondary: 'var(--secondary)',
-        success: 'var(--success)',
         info: 'var(--info)',
         warning: 'var(--warning)',
         danger: 'var(--danger)',
@@ -118,8 +119,7 @@ module.exports = withUt({
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       keyframes: {
         'accordion-down': {

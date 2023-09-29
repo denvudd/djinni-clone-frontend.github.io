@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable quotes */
 import { z } from 'zod';
 import validator from 'validator';
 
@@ -9,14 +12,9 @@ export const EmployerProfileValidator = z.object({
     .nonempty("Це поле обов'язкове до заповнення")
     .min(5, 'Повне ім’я не може бути менше 5 символів.')
     .max(120, 'Повне ім’я не може бути більше 120 символів.'),
-  positionAndCompany: z
-    .string()
-    .max(200, 'Максимальна допустима кількість символів - 200'),
+  positionAndCompany: z.string().max(200, 'Максимальна допустима кількість символів - 200'),
   telegram: z
-    .union([
-      z.string().max(200, 'Максимальна допустима кількість символів - 200'),
-      z.null(),
-    ])
+    .union([z.string().max(200, 'Максимальна допустима кількість символів - 200'), z.null()])
     .optional()
     .transform((e) => (e === null ? undefined : e)),
   phone: z

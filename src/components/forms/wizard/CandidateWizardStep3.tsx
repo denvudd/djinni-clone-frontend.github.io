@@ -26,14 +26,13 @@ import {
   CandidateWizardStep3Request,
   CandidateWizardStep3Validator,
 } from '@/lib/validators/wizard/candidate-wizard-step3';
+import { type CandidateProfile } from '@/types';
 
 interface CandidateWizardStep3Props {
   candidateId: string;
 }
 
-const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
-  candidateId,
-}) => {
+const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({ candidateId }) => {
   const router = useRouter();
   const { update } = useSession();
 
@@ -59,9 +58,9 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
 
       const updateSession = await update({ filled: true });
 
-      return data;
+      return data as CandidateProfile;
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       router.push('/my/wizard/finish');
       form.reset();
     },
@@ -76,24 +75,20 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-6 mt-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-6">
         {isCandidateError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="experienceDescr"
           render={({ field }) => (
-            <FormItem className="space-y-0 flex flex-col gap-4">
+            <FormItem className="flex flex-col gap-4 space-y-0">
               <div>
-                <FormLabel className="font-semibold text-base mt-0">
+                <FormLabel className="mt-0 text-base font-semibold">
                   Розкажіть про ваш досвід роботи
                 </FormLabel>
                 <FormDescription>
-                  Розкажіть, які проекти та задачі виконували, які технології
-                  використовували, ваша роль у команді зараз, і куди бажаєте
-                  розвиватися
+                  Розкажіть, які проекти та задачі виконували, які технології використовували, ваша
+                  роль у команді зараз, і куди бажаєте розвиватися
                 </FormDescription>
               </div>
               <FormControl>
@@ -104,11 +99,7 @@ const CandidateWizardStep3: React.FC<CandidateWizardStep3Props> = ({
           )}
         />
         <div className="inline-block">
-          <Button
-            isLoading={isCandidateLoading}
-            type="submit"
-            className="text-lg"
-          >
+          <Button isLoading={isCandidateLoading} type="submit" className="text-lg">
             Продовжити
           </Button>
         </div>

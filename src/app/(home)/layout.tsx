@@ -1,39 +1,34 @@
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import LandMobileMenu from './components/LandMobileMenu';
 import SignInButton from '@/components/SignInButton';
 import { Icons } from '@/components/ui/Icons';
+import { UserRole } from '@/lib/enums';
 
 export const dynamic = 'force-dynamic'; // for update token.user.filled property fron next-auth update session
 export const fetchCache = 'force-no-store'; // for update token.user.filled property fron next-auth update session
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getAuthServerSession();
 
   if (session) {
     // if user has not filled his profile then redirect on wizard
     if (!session.user.filled) {
-      redirect(
-        session.user.role === 'Candidate' ? '/my/wizard' : '/home/wizard',
-      );
+      redirect(session.user.role === UserRole.Candidate ? '/my/wizard' : '/home/wizard');
     }
 
-    redirect(session.user.role === 'Candidate' ? '/jobs' : '/developers');
+    redirect(session.user.role === UserRole.Candidate ? '/jobs' : '/developers');
   }
 
   return (
     <>
-      <header className="w-full bg-primary">
-        <div className="w-full container mx-auto flex justify-between items-center py-2">
-          <Link href="/" className="min-w-[86px] min-h-[25px]">
+      <header className="bg-primary w-full">
+        <div className="container mx-auto flex w-full items-center justify-between py-2">
+          <Link href="/" className="min-h-[25px] min-w-[86px]">
             <Image src="/logo.svg" alt="Djinni logo" width={86} height={25} />
           </Link>
           <nav className="hidden md:block">
@@ -48,14 +43,14 @@ export default async function RootLayout({
       <main>{children}</main>
       <footer className="py-10">
         <div className="container">
-          <div className="flex justify-between flex-wrap gap-8 md:gap-2">
+          <div className="flex flex-wrap justify-between gap-8 md:gap-2">
             <div className="md:flex-1">
-              <h5 className="font-medium text-sm mb-2">
+              <h5 className="mb-2 text-sm font-medium">
                 <a href="mailto:magic@djinni.co" className="text-gray-dark">
                   magic@djinni.co
                 </a>
               </h5>
-              <ul className="flex flex-col gap-2 text-blue text-sm">
+              <ul className="text-blue flex flex-col gap-2 text-sm">
                 <li>
                   <Link href="/salaries">Зарплати</Link>
                 </li>
@@ -72,10 +67,8 @@ export default async function RootLayout({
             </div>
 
             <div className="md:flex-1">
-              <h5 className="font-medium text-sm mb-2 text-gray-dark">
-                Вакансії за містом
-              </h5>
-              <ul className="flex flex-col gap-2 text-blue text-sm">
+              <h5 className="text-gray-dark mb-2 text-sm font-medium">Вакансії за містом</h5>
+              <ul className="text-blue flex flex-col gap-2 text-sm">
                 <li>
                   <Link href="/jobs/?location=kyiv">Київ</Link>
                 </li>
@@ -95,11 +88,9 @@ export default async function RootLayout({
             </div>
 
             <div className="md:flex-1">
-              <h5 className="font-medium text-sm mb-2 text-gray-dark">
-                За спеціальністю
-              </h5>
-              <div className="flex justify-between flex-wrap gap-3">
-                <ul className="flex flex-col gap-2 text-blue text-sm">
+              <h5 className="text-gray-dark mb-2 text-sm font-medium">За спеціальністю</h5>
+              <div className="flex flex-wrap justify-between gap-3">
+                <ul className="text-blue flex flex-col gap-2 text-sm">
                   <li>
                     <Link href="/jobs/primary_keyword=iOS">iOS</Link>
                   </li>
@@ -121,11 +112,9 @@ export default async function RootLayout({
                     </Link>
                   </li>
                 </ul>
-                <ul className="flex flex-col gap-2 text-blue text-sm">
+                <ul className="text-blue flex flex-col gap-2 text-sm">
                   <li>
-                    <Link href="/jobs/primary_keyword=javascript">
-                      JavaScript
-                    </Link>
+                    <Link href="/jobs/primary_keyword=javascript">JavaScript</Link>
                   </li>
                   <li>
                     <Link href="/jobs/primary_keyword=php">PHP</Link>
@@ -147,20 +136,15 @@ export default async function RootLayout({
             </div>
           </div>
 
-          <div className="flex w-full max-h-5 gap-2 mt-8">
+          <div className="mt-8 flex max-h-5 w-full gap-2">
             <Link href="/">
-              <Image
-                src="/logo_short.svg"
-                alt="Djinni logo"
-                height={20}
-                width={20}
-              />
+              <Image src="/logo_short.svg" alt="Djinni logo" height={20} width={20} />
             </Link>
             <a href="https://t.me/djinni_official">
-              <Icons.telegram height={20} width={20} />
+              <Icons.Telegram height={20} width={20} />
             </a>
             <a href="https://www.linkedin.com/company/djinni-co">
-              <Icons.linkedin height={20} width={20} />
+              <Icons.Linkedin height={20} width={20} />
             </a>
           </div>
 

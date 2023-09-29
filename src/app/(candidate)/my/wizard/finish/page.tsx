@@ -1,23 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { getAuthServerSession } from '@/lib/next-auth';
 import { redirect } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import { getAuthServerSession } from '@/lib/next-auth';
 import axios from '@/lib/axios';
 
 import CandidateInfo from '@/components/CandidateInfo';
 import { type CandidateProfile } from '@/types';
 import { Separator } from '@/components/ui/Separator';
-import ReactMarkdown from 'react-markdown';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/Button';
 
-const Page: React.FC = async ({}) => {
+const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.candidate_id) redirect('/');
+  if (!session?.user.candidate_id) redirect('/');
 
   async function fetchFullfilledCandidate(candidateId: string) {
     const { data } = await axios.get(`/candidate/${candidateId}`);
@@ -41,22 +41,18 @@ const Page: React.FC = async ({}) => {
 
   return (
     <div className="flex flex-col">
-      <p className="text-xl mb-4">
-        Джин готовий приступити до пошуку пропозицій! (/◔ ◡ ◔)/
-      </p>
-      <div className="w-full flex gap-6 mb-10">
-        <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
+      <p className="mb-4 text-xl">Джин готовий приступити до пошуку пропозицій! (/◔ ◡ ◔)/</p>
+      <div className="mb-10 flex w-full gap-6">
+        <div className="md:max-w-[66.666%] md:flex-[0_0_66.666%]">
           <p className="text-gray mb-4">Категорія: {category}</p>
-          <div className="space-y-2 mb-4">
+          <div className="mb-4 space-y-2">
             <h2 className="text-2xl font-semibold">{position}</h2>
             <h4 className="font-semibold">Досвід роботи</h4>
             <div>
-              <ReactMarkdown components={MarkdownRender}>
-                {experienceDescr!}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{experienceDescr}</ReactMarkdown>
             </div>
           </div>
-          <h4 className="font-semibold mb-2">Навички</h4>
+          <h4 className="mb-2 font-semibold">Навички</h4>
           <ul className="flex flex-wrap gap-2">
             {skills.map((skill) => (
               <li key={skill.id}>{skill.name}</li>
@@ -64,7 +60,7 @@ const Page: React.FC = async ({}) => {
           </ul>
         </div>
 
-        <div className="md:flex-[0_0_33.333%] md:max-w-[33.333%]">
+        <div className="md:max-w-[33.333%] md:flex-[0_0_33.333%]">
           <CandidateInfo
             city={city}
             country={country}
@@ -77,17 +73,15 @@ const Page: React.FC = async ({}) => {
         </div>
       </div>
       <Separator />
-      <div className="inline-block mt-10">
+      <div className="mt-10 inline-block">
         <Link
           href="/my/profile?publish=true"
-          className={cn(
-            buttonVariants({ variant: 'default', className: 'text-lg' }),
-          )}
+          className={cn(buttonVariants({ variant: 'default', className: 'text-lg' }))}
         >
           Опубліковати зараз
         </Link>
       </div>
-      <div className="flex items-center space-x-2 mt-4">
+      <div className="mt-4 flex items-center space-x-2">
         <label
           htmlFor="privacy_politics"
           className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"

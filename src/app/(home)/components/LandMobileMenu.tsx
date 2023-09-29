@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/Sheet';
 import { Menu } from 'lucide-react';
+import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/Sheet';
 import { useIsComponentMounted } from '@/hooks/use-is-component-mounted';
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -19,8 +19,8 @@ const LandMobileMenu: React.FC = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="py-1 px-1 border border-stone-400 rounded-md">
-          <Menu className="text-white w-10 h-7" />
+        <button className="rounded-md border border-stone-400 p-1">
+          <Menu className="h-7 w-10 text-white" />
         </button>
       </SheetTrigger>
       <SheetContent side="top">
@@ -31,9 +31,7 @@ const LandMobileMenu: React.FC = () => {
                 href="/login"
                 className={buttonVariants({
                   variant: 'outline',
-                  className: cn(
-                    'rounded-full border-gray-400 px-3 py-0 text-sm leading-loose',
-                  ),
+                  className: cn('rounded-full border-gray-400 px-3 py-0 text-sm leading-loose'),
                 })}
               >
                 Увійти
@@ -44,9 +42,7 @@ const LandMobileMenu: React.FC = () => {
                 href="/signup"
                 className={buttonVariants({
                   variant: 'outline',
-                  className: cn(
-                    'rounded-full border-gray-400 px-3 py-1 text-sm',
-                  ),
+                  className: cn('rounded-full border-gray-400 px-3 py-1 text-sm'),
                 })}
               >
                 Зареєструватись

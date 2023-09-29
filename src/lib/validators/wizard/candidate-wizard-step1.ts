@@ -9,6 +9,4 @@ export const CandidateWizardStep1Validator = z.object({
   english: z.nativeEnum(EnglishLevel),
 });
 
-export type CandidateWizardStep1Request = z.infer<
-  typeof CandidateWizardStep1Validator
->;
+export type CandidateWizardStep1Request = z.infer<typeof CandidateWizardStep1Validator>;

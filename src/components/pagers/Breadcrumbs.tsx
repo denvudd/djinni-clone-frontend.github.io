@@ -2,8 +2,8 @@ import * as React from 'react';
 import Link from 'next/link';
 import { SlashIcon } from '@radix-ui/react-icons';
 
-import { cn, truncate } from '@/lib/utils';
 import { IconProps } from '@radix-ui/react-icons/dist/types';
+import { cn, truncate } from '@/lib/utils';
 
 interface BreadcrumbsProps extends React.ComponentPropsWithoutRef<'nav'> {
   segments: {
@@ -12,9 +12,7 @@ interface BreadcrumbsProps extends React.ComponentPropsWithoutRef<'nav'> {
   }[];
   separator?:
     | React.ComponentType<{ className?: string }>
-    | React.ForwardRefExoticComponent<
-        IconProps & React.RefAttributes<SVGSVGElement>
-      >;
+    | React.ForwardRefExoticComponent<IconProps & React.RefAttributes<SVGSVGElement>>;
   truncationLength?: number;
 }
 
@@ -32,10 +30,7 @@ export function Breadcrumbs({
   return (
     <nav
       aria-label="breadcrumbs"
-      className={cn(
-        'flex w-full items-center overflow-auto text-primary',
-        className,
-      )}
+      className={cn('text-primary flex w-full items-center overflow-auto', className)}
       {...props}
     >
       {segments.map((segment, index) => {
@@ -46,15 +41,13 @@ export function Breadcrumbs({
             <Link
               aria-current={isLastSegment ? 'page' : undefined}
               href={segment.href}
-              className={cn('truncate hover:text-foreground transition-colors')}
+              className={cn('hover:text-foreground truncate transition-colors')}
             >
               {truncationLength > 0 && segment.title
                 ? truncate(segment.title, truncationLength)
                 : segment.title}
             </Link>
-            {!isLastSegment && (
-              <SeparatorIcon className="mx-2 h-4 w-4" aria-hidden="true" />
-            )}
+            {!isLastSegment && <SeparatorIcon className="mx-2 h-4 w-4" aria-hidden="true" />}
           </React.Fragment>
         );
       })}

@@ -3,8 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 
 import { redirect } from 'next/navigation';
-import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import EmployerOffer from '@/components/offers/EmployerOffer';
@@ -12,20 +12,19 @@ import EmployerOffer from '@/components/offers/EmployerOffer';
 import { EmployerOffer as EmployerOfferType } from '@/types';
 import { RefusalReason } from '@/lib/enums';
 
-type Refusal = {
+interface Refusal {
   reason: RefusalReason;
   createdAt: Date;
-};
+}
 
 const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
-  if (!session || !session.user.employer_id) redirect('/');
+  if (!session?.user.employer_id) redirect('/');
   async function getOffers() {
     try {
       const { data } = await axios.get(
-        process.env.BACKEND_API_URL +
-          `/employer/${session?.user.employer_id}/offers/favorite`,
+        `${process.env.BACKEND_API_URL}/employer/${session?.user.employer_id}/offers/favorite`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -73,10 +72,10 @@ const Page: React.FC = async () => {
   return (
     <div className="-mt-8">
       <PageTabs tabs={tabs} active={2} />
-      <h1 className="text-3xl font-semibold my-8">
+      <h1 className="my-8 text-3xl font-semibold">
         Збережене <span className="text-gray">{count}</span>
       </h1>
-      <ul className="flex flex-col rounded-lg border border-borderColor">
+      <ul className="border-borderColor flex flex-col rounded-lg border">
         {offers &&
           !!offers.length &&
           offers.map(
@@ -89,32 +88,30 @@ const Page: React.FC = async () => {
               replies,
               refusal,
               isArchive,
-            }) => {
-              return (
-                <EmployerOffer
-                  candidateId={candidateId}
-                  offerId={id}
-                  employerId={session.user.employer_id!}
-                  avatar={candidate.user[0].avatar}
-                  city={candidate.city}
-                  country={candidate.country}
-                  coverLetter={coverLetter}
-                  english={candidate.english}
-                  expectations={candidate.expectations}
-                  experience={candidate.experience}
-                  fullname={candidate.fullname}
-                  position={candidate.position}
-                  replies={replies}
-                  refusals={refusal}
-                  updatedAt={updatedAt}
-                  isArchived={isArchive}
-                  isFavorite
-                />
-              );
-            },
+            }) => (
+              <EmployerOffer
+                candidateId={candidateId}
+                offerId={id}
+                employerId={session.user.employer_id!}
+                avatar={candidate.user[0].avatar}
+                city={candidate.city}
+                country={candidate.country}
+                coverLetter={coverLetter}
+                english={candidate.english}
+                expectations={candidate.expectations}
+                experience={candidate.experience}
+                fullname={candidate.fullname}
+                position={candidate.position}
+                replies={replies}
+                refusals={refusal}
+                updatedAt={updatedAt}
+                isArchived={isArchive}
+                isFavorite
+              />
+            ),
           )}
         {offers && !offers.length && (
-          <div className="text-center py-12 mx-auto max-w-sm">
+          <div className="mx-auto max-w-sm py-12 text-center">
             <Image
               src="https://djinni.co/static/images/empty/ill_no_fav.svg"
               width={170}
@@ -122,12 +119,10 @@ const Page: React.FC = async () => {
               alt="No Archive icon"
               className="mx-auto mb-4"
             />
-            <h3 className="font-semibold text-2xl mb-2">
-              Ті, хто особливо зацікавили
-            </h3>
+            <h3 className="mb-2 text-2xl font-semibold">Ті, хто особливо зацікавили</h3>
             <p className="text-gray">
-              Деякі кандидати — на вагу золота. Зберігайте кандидатів, щоб не
-              загубити листування з ними та відкласти на майбутнє.
+              Деякі кандидати — на вагу золота. Зберігайте кандидатів, щоб не загубити листування з
+              ними та відкласти на майбутнє.
             </p>
           </div>
         )}

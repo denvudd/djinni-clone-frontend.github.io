@@ -2,27 +2,24 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
-import { getAuthServerSession } from '@/lib/next-auth';
 import axios, { AxiosError } from 'axios';
-
-import {
-  Breadcrumbs,
-  type BreadcrumbsSegment,
-} from '@/components/pagers/Breadcrumbs';
-import CandidateInfo from '@/components/CandidateInfo';
-import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
 import ReactMarkdown from 'react-markdown';
-import { MarkdownRender } from '@/components/renderers/MarkdownRender';
-import { Badge } from '@/components/ui/Badge';
-
-import { buttonVariants } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { Clock } from 'lucide-react';
-import { type CandidateProfile } from '@/types';
-import { Alert, AlertDescription } from '@/components/ui/Alert';
+import { getAuthServerSession } from '@/lib/next-auth';
+
+import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
+import CandidateInfo from '@/components/CandidateInfo';
+import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
+import { MarkdownRender } from '@/components/renderers/MarkdownRender';
+import { Badge } from '@/components/ui/Badge';
 import AlertSuccess from '@/components/ui/AlertSuccess';
+
+import { buttonVariants } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+import { type CandidateProfile } from '@/types';
+import { PreferableLanguage, UserRole } from '@/lib/enums';
 
 interface PageProps {
   params: {
@@ -40,7 +37,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   async function getCandidate() {
     try {
       const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/candidate/${candidateId}/public`,
+        `${process.env.BACKEND_API_URL}/candidate/${candidateId}/public`,
       );
 
       if (data instanceof AxiosError) {
@@ -96,7 +93,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   const isOwner =
     session &&
-    session.user.role === 'Candidate' &&
+    session.user.role === UserRole.Candidate &&
     session.user.candidate_id === candidateId;
 
   const dialog =
@@ -110,35 +107,30 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     <>
       {msgsent === 'ok' && <AlertSuccess className="mb-4 md:max-w-[66.666%]" />}
       <Breadcrumbs segments={segments} />
-      <h1 className="text-3xl font-semibold mt-4 mb-2">{position}</h1>
+      <h1 className="mb-2 mt-4 text-3xl font-semibold">{position}</h1>
       {isOwner && (
         <div className="text-success mb-3">
           Це ваш публічний профіль на Джині
-          <Link
-            href="/my/profile"
-            className="ml-2 underline inline-block text-link"
-          >
+          <Link href="/my/profile" className="text-link ml-2 inline-block underline">
             Редагувати
           </Link>
         </div>
       )}
 
-      <div className="w-full flex gap-6">
-        <div className="md:flex-[0_0_66.666%] md:max-w-[66.666%]">
+      <div className="flex w-full gap-6">
+        <div className="md:max-w-[66.666%] md:flex-[0_0_66.666%]">
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Досвід роботи</h4>
-            <ReactMarkdown components={MarkdownRender}>
-              {experienceDescr}
-            </ReactMarkdown>
+            <h4 className="mb-2 font-semibold">Досвід роботи</h4>
+            <ReactMarkdown components={MarkdownRender}>{experienceDescr}</ReactMarkdown>
           </div>
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Навички</h4>
-            <ul className="flex gap-1 flex-wrap items-center">
+            <h4 className="mb-2 font-semibold">Навички</h4>
+            <ul className="flex flex-wrap items-center gap-1">
               {skills.map((skill) => (
                 <li key={skill.id}>
                   <Badge
                     className={cn(
-                      'pointer-events-none text-sm leading-[1.3] bg-transparent text-dark-gray dark:text-gray border-borderColor font-bold shadow-none',
+                      'text-dark-gray dark:text-gray border-borderColor pointer-events-none bg-transparent text-sm font-bold leading-[1.3] shadow-none',
                     )}
                   >
                     {skill.name}
@@ -148,36 +140,29 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
             </ul>
           </div>
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Досягнення</h4>
+            <h4 className="mb-2 font-semibold">Досягнення</h4>
             {achievementsDescr ? (
-              <ReactMarkdown components={MarkdownRender}>
-                {achievementsDescr}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{achievementsDescr}</ReactMarkdown>
             ) : (
               <p className="text-gray">Інформації не додано</p>
             )}
           </div>
           <div className="mb-4">
-            <h4 className="font-semibold mb-2">Очікування від роботи</h4>
+            <h4 className="mb-2 font-semibold">Очікування від роботи</h4>
             {expectationsDescr ? (
-              <ReactMarkdown components={MarkdownRender}>
-                {expectationsDescr}
-              </ReactMarkdown>
+              <ReactMarkdown components={MarkdownRender}>{expectationsDescr}</ReactMarkdown>
             ) : (
               <p className="text-gray">Інформації не додано</p>
             )}
           </div>
           <div className="mb-10">
-            <h4 className="font-semibold mb-2">Мова спілкування</h4>
-            {preferableLang === 'Ukrainian' ? 'Українська' : 'English'}
+            <h4 className="mb-2 font-semibold">Мова спілкування</h4>
+            {preferableLang === PreferableLanguage.Ukrainian ? 'Українська' : 'English'}
           </div>
 
           {/* if employer don't have dialog with candidate yet */}
           {!isDialogExist && !isOwner && session?.user.employer_id && (
-            <EmployerOfferForm
-              employerId={session?.user.employer_id}
-              candidateId={id}
-            />
+            <EmployerOfferForm employerId={session?.user.employer_id} candidateId={id} />
           )}
 
           {/* if employer does have dialog with candidate */}
@@ -196,7 +181,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
           )}
         </div>
 
-        <div className="flex flex-col gap-4 md:flex-[0_0_33.333%] md:max-w-[33.333%]">
+        <div className="flex flex-col gap-4 md:max-w-[33.333%] md:flex-[0_0_33.333%]">
           <CandidateInfo
             city={city}
             country={country}
@@ -207,7 +192,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
             isRelocate={isRelocate}
           />
           <p className="text-gray inline-flex items-center gap-1">
-            <Clock className="w-4 h-4" />
+            <Clock className="h-4 w-4" />
             Опубліковано {format(new Date(updatedAt), 'PPP', { locale: uk })}
           </p>
         </div>
