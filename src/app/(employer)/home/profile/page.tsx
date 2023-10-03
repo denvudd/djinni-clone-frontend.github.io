@@ -117,11 +117,12 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
           </p>
         </div>
 
-        <div className="w-full">
+        <div className="w-full lg:col-span-1">
           <EmployerAvatarForm
             avatar={session.user.avatar}
             fullname={session.user.fullname}
-            employerId={session.user.employer_id}
+            userId={session.user.id}
+            accessToken={session.accessToken}
           />
         </div>
       </div>

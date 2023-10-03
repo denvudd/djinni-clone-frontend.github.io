@@ -41,7 +41,7 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
             avatar: user.avatar ?? null,
             fullname: user.fullname ?? null,
           }}
-          className="h-8 w-8"
+          className="mr-2 h-8 w-8"
         />
         <span className="text-gray-dark font-semibold dark:text-gray-400">{user.fullname}</span>
         <ChevronDown className="ml-3 h-4 w-4" />
