@@ -1,8 +1,17 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
+import { getAuthServerSession } from '@/lib/next-auth';
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: 'fakeId' }); // Fake auth function
+const auth = async (req: Request) => {
+  const session = await getAuthServerSession();
+
+  if (!session?.user) {
+    throw new Error('You must be logged in to upload a profile picture');
+  }
+
+  return { userId: session.user.id };
+}; // Fake auth function
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
@@ -14,10 +23,10 @@ export const ourFileRouter = {
       const user = await auth(req);
 
       // If you throw, the user will not be able to upload
-      if (!user) throw new Error('Unauthorized');
+      if (!user.userId) throw new Error('Unauthorized');
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id };
+      return { userId: user.userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload

@@ -2,16 +2,18 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { getAuthServerSession } from '@/lib/next-auth';
+import axios from '@/lib/axios';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
-import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
+import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
+import PageTabs from '@/components/pagers/PageTabs';
 import { Separator } from '@/components/ui/Separator';
+import AlertSuccess from '@/components/ui/AlertSuccess';
 
 import { type EmployerProfile } from '@/types';
-import AlertSuccess from '@/components/ui/AlertSuccess';
-import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
+import { tabs } from '../tabs';
 
 interface PageProps {
   searchParams: {
@@ -30,11 +32,6 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     try {
       const { data } = await axios.get(
         process.env.BACKEND_API_URL + `/employer/${session?.user.employer_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
-        },
       );
 
       if (data instanceof AxiosError) {
@@ -54,30 +51,6 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   }
 
   const { fullname, positionAndCompany, telegram, phone, linkedIn } = await getEmployer();
-  const { avatar } = session.user;
-
-  const tabs: PageTabProp = [
-    {
-      title: 'Мій профіль',
-      path: '/home/profile',
-    },
-    {
-      title: 'Про компанію',
-      path: '/home/about',
-    },
-    {
-      title: 'Підписки',
-      path: '/home/searches',
-    },
-    {
-      title: 'Налаштування',
-      path: '/home/settings',
-    },
-    {
-      title: 'Реквізити',
-      path: '/home/billing',
-    },
-  ];
 
   return (
     <>
