@@ -14,11 +14,11 @@ import CandidateInfo from '@/components/CandidateInfo';
 import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { Badge } from '@/components/ui/Badge';
+import AlertSuccess from '@/components/ui/AlertSuccess';
 
 import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { type CandidateProfile } from '@/types';
-import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { PreferableLanguage, UserRole } from '@/lib/enums';
 
 interface PageProps {
@@ -105,11 +105,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   return (
     <>
-      {msgsent === 'ok' && (
-        <Alert className="bg-green-subtle mb-4 md:max-w-[66.666%]">
-          <AlertDescription className="text-base">Повідомлення надіслано.</AlertDescription>
-        </Alert>
-      )}
+      {msgsent === 'ok' && <AlertSuccess className="mb-4 md:max-w-[66.666%]" />}
       <Breadcrumbs segments={segments} />
       <h1 className="mb-2 mt-4 text-3xl font-semibold">{position}</h1>
       {isOwner && (

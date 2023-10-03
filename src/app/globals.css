@@ -110,6 +110,10 @@ body {
   width: auto !important;
 }
 
+.cropper-move {
+  border-radius: 100%;
+}
+
 .footer {
   margin-top: auto;
   display: block;

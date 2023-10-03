@@ -36,8 +36,8 @@ import { EnglishLevel } from '@/lib/enums';
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
-} from '@/lib/validators/candidate-wizard-step1';
-import { CandidateProfile, type Category } from '@/types';
+} from '@/lib/validators/wizard/candidate-wizard-step1';
+import { type CandidateProfile, type Category } from '@/types';
 import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 interface CandidateWizardStep1Props {

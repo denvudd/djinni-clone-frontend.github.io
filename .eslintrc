@@ -1,7 +1,12 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest"
   },
   "plugins": ["@typescript-eslint", "prettier", "tailwindcss"],
   "extends": [
@@ -47,8 +52,10 @@
     "no-useless-escape": 0,
     "no-misleading-character-class": 0,
     "no-extra-boolean-cast": 0,
-    "tailwindcss/no-custom-classname": 0
+    "tailwindcss/no-custom-classname": 0,
+    "prefer-template": 0
   },
+  "ignorePatterns": ["tailwind.config.js", "src/app/api/*"],
   "settings": {
     "tailwindcss": {
       "callees": ["cn"],

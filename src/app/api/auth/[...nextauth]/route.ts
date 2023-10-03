@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable no-param-reassign */
 import { NextAuthOptions, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
@@ -72,11 +70,18 @@ export const authOptions: NextAuthOptions = {
       token: JWT;
       user: User;
       trigger?: 'signIn' | 'signUp' | 'update' | undefined;
-      session?: { filled: boolean };
+      session?: { filled?: boolean; avatar?: string };
     }) {
       session as { filled: boolean };
       if (trigger === 'update' && session?.filled) {
         token.user.filled = session.filled;
+      }
+
+      if (
+        trigger === 'update' &&
+        (session?.avatar === null || typeof session?.avatar === 'string')
+      ) {
+        token.user.avatar = session.avatar;
       }
 
       if (user) {

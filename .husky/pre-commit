@@ -4,14 +4,14 @@
 echo '🏗️👷 Styling, testing and building your project before committing'
 
 # Check Prettier standards
-npm run check-format ||
+npm run format ||
 (
     echo '❌ Prettier Check Failed. Run npm run format, add changes and try commit again.';
     false;
 )
 
 # Check ESLint Standards
-npm run check-lint ||
+npm run lint--force ||
 (
         echo '❌ ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
         false; 

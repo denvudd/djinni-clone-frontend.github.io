@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ['class'],
   content: [

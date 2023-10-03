@@ -15,7 +15,7 @@ export const EmployerWizardStep1Validator = z.object({
     .string()
     .nonempty('Це поле не може бути порожнім')
     .regex(
-      /^https:\/\/linkedin\.com\/in\/[^\/\s]+$/,
+      /^(http(s)?:\/\/)?(www\.)?linkedin\.com\/in\/.{3,}$/,
       'Будь ласка, вкажіть правильне посилання на ваш профіль LinkedIn',
     ),
   companyLink: z.string().nonempty('Це поле не може бути порожнім').url('URL не є дійсним'),

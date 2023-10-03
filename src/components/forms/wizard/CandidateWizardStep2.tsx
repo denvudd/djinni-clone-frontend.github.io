@@ -23,7 +23,7 @@ import EditCandidateSkills from '@/components/EditCandidateSkills';
 import {
   type CandidateWizardStep2Request,
   CandidateWizardStep2Validator,
-} from '@/lib/validators/candidate-wizard-step2';
+} from '@/lib/validators/wizard/candidate-wizard-step2';
 
 import { EmploymentOption } from '@/lib/enums';
 import { CandidateProfile, City } from '@/types';

@@ -25,7 +25,7 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import {
   CandidateWizardStep3Request,
   CandidateWizardStep3Validator,
-} from '@/lib/validators/candidate-wizard-step3';
+} from '@/lib/validators/wizard/candidate-wizard-step3';
 import { type CandidateProfile } from '@/types';
 
 interface CandidateWizardStep3Props {
