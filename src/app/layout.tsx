@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: {
     default: 'Джин для пошуку роботи',
-    template: '%s - Джинні',
+    template: '%s - Джин',
   },
   description: 'Вакансії в українському ІТ і ремоут, анонімний пошук роботи для розробників.',
 };

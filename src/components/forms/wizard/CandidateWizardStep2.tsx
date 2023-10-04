@@ -16,7 +16,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/Form';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/Command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { Button } from '@/components/ui/Button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import ErrorAlert from '@/components/ui/ErrorAlert';
 import EditCandidateSkills from '@/components/EditCandidateSkills';
 
@@ -27,17 +37,7 @@ import {
 
 import { EmploymentOption } from '@/lib/enums';
 import { CandidateProfile, City } from '@/types';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
 import { cn, convertEnumObjToArray, formatEmploymenOptions } from '@/lib/utils';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/Command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 
 interface CandidateWizardStep2Props {
   candidateId: string;
@@ -88,6 +88,13 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
     },
   });
 
+  const onChangeCity = React.useCallback(
+    (city: string) => () => {
+      form.setValue('city', city);
+    },
+    [],
+  );
+
   function onSubmit(values: CandidateWizardStep2Request) {
     updateCandidate(values);
   }
@@ -135,6 +142,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
                     <Button
                       variant="outline"
                       role="combobox"
+                      isLoading={isCitiesLoading}
                       className={cn('justify-between', !field.value && 'text-muted-foreground')}
                     >
                       {field.value
@@ -156,9 +164,7 @@ const CandidateWizardStep2: React.FC<CandidateWizardStep2Props> = ({ candidateId
                             <CommandItem
                               value={city.city}
                               key={city.city}
-                              onSelect={() => {
-                                form.setValue('city', city.city);
-                              }}
+                              onSelect={onChangeCity(city.city)}
                             >
                               <Check
                                 className={cn(

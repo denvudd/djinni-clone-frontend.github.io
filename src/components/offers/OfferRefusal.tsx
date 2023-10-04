@@ -1,8 +1,9 @@
 import React from 'react';
 
-import ReactMarkdown from 'react-markdown';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
+
+import ReactMarkdown from 'react-markdown';
 import { Alert, AlertDescription, AlertTitle } from '../ui/Alert';
 import { MarkdownRender } from '../renderers/MarkdownRender';
 

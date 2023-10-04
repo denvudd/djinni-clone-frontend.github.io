@@ -32,6 +32,7 @@ const EmployerAvatarForm: React.FC<EmployerAvatarFormProps> = ({
 
   const [image, setImage] = React.useState<FileWithPreview | undefined>(undefined);
   const [isPreview, setIsPreview] = React.useState<boolean>(false);
+
   const { isUploading, startUpload } = useUploadThing('userAvatarUploader');
   const { update } = useSession();
 

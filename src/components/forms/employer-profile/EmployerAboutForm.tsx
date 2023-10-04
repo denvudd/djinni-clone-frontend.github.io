@@ -20,13 +20,13 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Button } from '@/components/ui/Button';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 
 import {
   EmployerAboutRequest,
   EmployerAboutValidator,
 } from '@/lib/validators/employer-profile/employer-about';
 import { type EmployerProfile } from '@/types';
-import ErrorAlert from '@/components/ui/ErrorAlert';
 
 interface EmployerAboutFormProps {
   employerId: string;
@@ -81,7 +81,6 @@ const EmployerAboutForm: React.FC<EmployerAboutFormProps> = ({
   });
 
   function onSubmit(values: EmployerAboutRequest) {
-    console.log(values);
     updateProfile(values);
   }
 

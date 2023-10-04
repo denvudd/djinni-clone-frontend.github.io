@@ -2,12 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
+import { type Metadata } from 'next';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { getEmployer } from '@/actions/get-employer';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
 import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
 import PageTabs from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
 import { Separator } from '@/components/ui/Separator';
 import AlertSuccess from '@/components/ui/AlertSuccess';
 
@@ -32,7 +34,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold">Мій профіль</h1>
+      <PageTitle>Мій профіль</PageTitle>
       <PageTabs tabs={tabs} active={0} />
 
       {updated === 'ok' && (
@@ -82,3 +84,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 };
 
 export default Page;
+
+export const metadata: Metadata = {
+  title: 'Редагування профілю',
+};

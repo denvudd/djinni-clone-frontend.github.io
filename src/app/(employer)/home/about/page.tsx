@@ -1,12 +1,14 @@
 import React from 'react';
 
 import Link from 'next/link';
+import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { getEmployer } from '@/actions/get-employer';
 
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
 import EmployerAboutForm from '@/components/forms/employer-profile/EmployerAboutForm';
 
 import { tabs } from '../tabs';
@@ -28,7 +30,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold">Про компанію</h1>
+      <PageTitle>Про компанію</PageTitle>
       <PageTabs tabs={tabs} active={1} />
 
       {updated === 'ok' && (
@@ -60,3 +62,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 };
 
 export default Page;
+
+export const metadata: Metadata = {
+  title: 'Про компанію',
+};

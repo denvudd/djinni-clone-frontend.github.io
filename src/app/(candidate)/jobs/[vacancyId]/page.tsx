@@ -1,19 +1,22 @@
 import React from 'react';
 
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import axios, { AxiosError } from 'axios';
+import { type Metadata } from 'next';
 import ReactMarkdown from 'react-markdown';
 import { PenSquare, Users } from 'lucide-react';
+import axios, { AxiosError } from 'axios';
+
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
+import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
 
-import EmployerVacancyInfo from '@/components/EmployerVacancyInfo';
 import UserAvatar from '@/components/UserAvatar';
-import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
-import { Button, buttonVariants } from '@/components/ui/Button';
 import YoutubeEmbed from '@/components/ui/YoutubeEmbed';
+import { Button, buttonVariants } from '@/components/ui/Button';
+import EmployerVacancyInfo from '@/components/EmployerVacancyInfo';
+import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
+import PageTitle from '@/components/pagers/PageTitle';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 
 import { cn } from '@/lib/utils';
@@ -26,14 +29,16 @@ interface PageProps {
   };
 }
 
-const page: React.FC<PageProps> = async ({ params }) => {
+const Page: React.FC<PageProps> = async ({ params }) => {
   const { vacancyId } = params;
 
   const session = await getAuthServerSession();
 
   async function getVacancy() {
     try {
-      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/vacancies/${vacancyId}`);
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/vacancies/${vacancyId}`,
+      );
 
       if (data instanceof AxiosError) {
         if (data.status === 404) {
@@ -63,7 +68,6 @@ const page: React.FC<PageProps> = async ({ params }) => {
     english,
     experience,
     id,
-    isRelocate,
     name,
     responsesCount,
     city,
@@ -72,7 +76,6 @@ const page: React.FC<PageProps> = async ({ params }) => {
     youtube,
     employer,
     clarifiedData,
-    keywords,
   } = await getVacancy();
 
   const segments: BreadcrumbsSegment = [
@@ -98,14 +101,14 @@ const page: React.FC<PageProps> = async ({ params }) => {
   return (
     <>
       <Breadcrumbs segments={segments} />
-      <h1 className="mb-2 mt-4 text-3xl font-semibold">
+      <PageTitle className="mb-2 mt-4">
         {name} {!active && <span className="text-danger font-normal">(неактивна)</span>}{' '}
         {(salaryForkGte ?? salaryForkLte) && (
           <span className="text-green">
             ${salaryForkGte}-${salaryForkLte}
           </span>
         )}
-      </h1>
+      </PageTitle>
       <div className="text-gray flex items-center gap-2 text-sm">
         <Link href={`/r/${employer.id}`}>
           <UserAvatar
@@ -217,4 +220,22 @@ const page: React.FC<PageProps> = async ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { vacancyId } = params;
+
+  async function getVacancy() {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/vacancies/${vacancyId}`,
+    );
+
+    return data as Vacancy;
+  }
+
+  const { name } = await getVacancy();
+
+  return {
+    title: name,
+  };
+}

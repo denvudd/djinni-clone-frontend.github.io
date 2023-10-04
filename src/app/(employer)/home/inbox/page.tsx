@@ -2,10 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 
 import { redirect } from 'next/navigation';
+import { type Metadata } from 'next';
 import axios, { AxiosError } from 'axios';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
 import EmployerOffer from '@/components/offers/EmployerOffer';
 
 import { EmployerOffer as EmployerOfferType } from '@/types';
@@ -25,7 +27,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   async function getOffers() {
     try {
       const { data } = await axios.get(
-        `${process.env.BACKEND_API_URL}/employer/${session?.user.employer_id}/offers`,
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/employer/${session?.user.employer_id}/offers`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -72,9 +74,9 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   return (
     <div className="-mt-8">
       <PageTabs tabs={tabs} active={0} />
-      <h1 className="my-8 text-3xl font-semibold">
+      <PageTitle>
         Усі відгуки <span className="text-gray">{count}</span>
-      </h1>
+      </PageTitle>
       {error === 'true' && <ErrorAlert />}
       <ul className="border-borderColor flex flex-col rounded-lg border">
         {offers &&
@@ -121,3 +123,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 };
 
 export default Page;
+
+export const metadata: Metadata = {
+  title: 'Відгуки',
+};

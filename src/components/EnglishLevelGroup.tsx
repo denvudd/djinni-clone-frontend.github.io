@@ -13,7 +13,7 @@ const EnglishLevelGroup: React.FC = () =>
       <FormControl>
         <RadioGroupItem value={level} />
       </FormControl>
-      <FormLabel>
+      <FormLabel className="text-base">
         {formatEnglishLevel(level).label}
         <Tooltip>
           <TooltipTrigger className="text-link ml-1">[?]</TooltipTrigger>

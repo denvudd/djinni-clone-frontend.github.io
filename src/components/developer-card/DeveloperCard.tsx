@@ -4,15 +4,14 @@ import Link from 'next/link';
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import ReactMarkdown from 'react-markdown';
-import { type EnglishLevel } from '@/lib/enums';
-import { type Skill } from '@/types';
-
+import DeveloperCardFooter from './DeveloperCardFooter';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
 import { MarkdownRender } from '../renderers/MarkdownRender';
 import { Badge } from '../ui/Badge';
 
+import { type EnglishLevel } from '@/lib/enums';
+import { type Skill } from '@/types';
 import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
-import DeveloperCardFooter from './DeveloperCardFooter';
 
 const TRUNCATE_TEXT_LENGTH = 450;
 interface DeveloperCardProps {
@@ -23,7 +22,6 @@ interface DeveloperCardProps {
   city: string;
   experience: number;
   english: EnglishLevel;
-  updatedAt: Date;
   createdAt: Date;
   description: string;
   skills: Skill[];
@@ -37,7 +35,6 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
   id,
   city,
   country,
-  updatedAt,
   createdAt,
   description,
   english,

@@ -113,7 +113,7 @@ const EmployerOfferForm: React.FC<EmployerOfferFormProps> = ({ candidateId, empl
           )}
         />
         <div className="inline-block">
-          <Button type="submit" className="text-lg">
+          <Button isLoading={isOfferLoading} type="submit" className="text-lg">
             Запропонувати вакансію
           </Button>
         </div>

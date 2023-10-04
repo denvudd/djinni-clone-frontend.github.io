@@ -31,7 +31,8 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
     if (!session) return null;
 
     const { data } = await axios.get(
-      process.env.BACKEND_API_URL + `/employer/${session?.user?.employer_id}/subscriptions`,
+      process.env.NEXT_PUBLIC_BACKEND_API_URL +
+        `/employer/${session?.user?.employer_id}/subscriptions`,
       {
         headers: {
           Authorization: `Bearer ${session?.accessToken}`,

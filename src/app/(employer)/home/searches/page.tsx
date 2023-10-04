@@ -1,19 +1,17 @@
 import React from 'react';
 
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { type Metadata } from 'next';
 import axios, { AxiosError } from 'axios';
-import { Trash } from 'lucide-react';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
 
 import { tabs } from '../tabs';
 import { EmployerSubscribe } from '@/types';
 import EmployerSubscribeForm from '@/components/forms/employer-profile/EmployerSubscribeForm';
-import { Button } from '@/components/ui/Button';
-import { formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
 import EmployerSubscriptionsList from '@/components/EmployerSubscriptionsList';
 
 interface PageProps {
@@ -33,7 +31,8 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   async function getEmployerSubscriptions() {
     try {
       const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/employer/${session?.user?.employer_id}/subscriptions`,
+        process.env.NEXT_PUBLIC_BACKEND_API_URL +
+          `/employer/${session?.user?.employer_id}/subscriptions`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -61,7 +60,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold">Підписки</h1>
+      <PageTitle>Підписки</PageTitle>
       <PageTabs tabs={tabs} active={2} />
 
       {subscription_saved === 'ok' && (
@@ -90,3 +89,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 };
 
 export default Page;
+
+export const metadata: Metadata = {
+  title: 'Мої підписки',
+};

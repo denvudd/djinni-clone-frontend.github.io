@@ -25,7 +25,6 @@ const CandidateInfo: React.FC<CandidateInfoProps> = ({
   english,
   expectations,
   experience,
-  isRelocate,
   ...props
 }) => (
   <Card

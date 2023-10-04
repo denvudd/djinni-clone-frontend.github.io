@@ -4,7 +4,9 @@ import { type EmployerProfile } from '@/types';
 
 export const getEmployer = async (employerId: string) => {
   try {
-    const { data } = await axios.get(process.env.BACKEND_API_URL + `/employer/${employerId}`);
+    const { data } = await axios.get(
+      process.env.NEXT_PUBLIC_BACKEND_API_URL + `/employer/${employerId}`,
+    );
 
     if (data instanceof AxiosError) {
       if (data.status === 404) {

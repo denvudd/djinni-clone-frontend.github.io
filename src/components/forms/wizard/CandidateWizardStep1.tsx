@@ -32,12 +32,12 @@ import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
 import ErrorAlert from '@/components/ui/ErrorAlert';
 
-import { EnglishLevel } from '@/lib/enums';
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
 } from '@/lib/validators/wizard/candidate-wizard-step1';
 import { type CandidateProfile, type Category } from '@/types';
+import { EnglishLevel } from '@/lib/enums';
 import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 interface CandidateWizardStep1Props {
@@ -105,7 +105,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
     updateCandidate(values);
   }
 
-  function formatExperienceLabel(experience: number) {
+  const formatExperienceLabel = React.useCallback((experience: number) => {
     if (experience === 0) {
       return 'немає досвіду роботи';
     }
@@ -115,7 +115,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
     }
 
     return `${experience} років`;
-  }
+  }, []);
 
   return (
     <Form {...form}>
