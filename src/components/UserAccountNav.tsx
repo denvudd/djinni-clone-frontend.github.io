@@ -66,6 +66,8 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
           </DropdownMenuItem>
         ))}
 
+      <DropdownMenuSeparator />
+
       <DropdownMenuItem
         className="cursor-pointer"
         onSelect={async (event) => {
@@ -77,8 +79,6 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
       >
         <span className="text-dark-gray text-base">Вийти</span>
       </DropdownMenuItem>
-
-      <DropdownMenuSeparator />
 
       <DropdownMenuItem asChild>
         <Link href="/r/create" className="cursor-pointer">

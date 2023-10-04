@@ -38,16 +38,12 @@ export const employerUserMenu = [
     href: '/home/profile',
   },
   {
-    title: 'Оплата',
+    title: 'Реквізити',
     href: '/home/pay',
   },
   {
     title: 'Компанія',
     href: '/home/about',
-  },
-  {
-    title: 'Команда',
-    href: '/home/team',
   },
   {
     title: 'Підписки',

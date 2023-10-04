@@ -90,13 +90,13 @@ const EmployerSubscriptionsList: React.FC<EmployerSubscriptionsListProps> = ({
                 href={qs.stringifyUrl({
                   url: '/developers',
                   query: {
-                    title: category,
-                    experience,
+                    title: category ?? undefined,
+                    exp_from: experience ?? undefined,
                     english_level: english ?? undefined,
                     employment_options: employmentOptions ?? undefined,
                     location: locate ?? undefined,
-                    salaryForkGte: salaryForkGte ?? undefined,
-                    salaryForkLte: salaryForkLte ?? undefined,
+                    salary_min: salaryForkGte ?? undefined,
+                    salary_max: salaryForkLte ?? undefined,
                     keywords: keywords ?? undefined,
                   },
                 })}
