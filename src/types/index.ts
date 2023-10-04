@@ -81,12 +81,12 @@ export interface EmployerProfile {
   updatedAt: Date;
   userId: string;
 
-  fullname?: string;
-  companyName?: string;
-  positionAndCompany?: string;
+  fullname: string;
+  companyName: string | null;
+  positionAndCompany: string;
   telegram?: string;
-  linkedIn?: string;
-  companyLink?: string;
+  linkedIn: string;
+  companyLink: string;
   dou?: string;
   phone?: string;
   aboutCompany?: string;

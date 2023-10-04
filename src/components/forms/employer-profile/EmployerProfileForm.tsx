@@ -21,6 +21,7 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import PhoneInput from '@/components/ui/PhoneInput';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 
 import {
   EmployerProfileValidator,
@@ -30,11 +31,11 @@ import { type EmployerProfile } from '@/types';
 
 interface EmployerProfileFormProps {
   employerId: string;
-  fullname: string | undefined;
-  positionAndCompany: string | undefined;
+  fullname: string;
+  positionAndCompany: string;
   telegram: string | undefined;
   phone: string | undefined;
-  linkedIn: string | undefined;
+  linkedIn: string;
 }
 
 const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
@@ -103,6 +104,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {isProfileError && <ErrorAlert />}
         <FormField
           control={form.control}
           name="fullname"
