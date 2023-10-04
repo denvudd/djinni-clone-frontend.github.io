@@ -20,7 +20,7 @@ export const getCandidatesList = async (searchParams: DevelopersPageProps['searc
   } = searchParams;
 
   try {
-    const { data } = await axios.get(`${process.env.BACKEND_API_URL}/candidate/list`, {
+    const { data } = await axios.get(process.env.BACKEND_API_URL + '/candidate/list', {
       params: {
         location,
         title,

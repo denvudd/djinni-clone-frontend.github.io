@@ -5,7 +5,7 @@ import { type Vacancy } from '@/types';
 export const getEmployerVacancies = async (employerId: string) => {
   try {
     const { data } = await axios.get(
-      `${process.env.BACKEND_API_URL}/employer/${employerId}/vacancies`,
+      process.env.BACKEND_API_URL + `/employer/${employerId}/vacancies`,
     );
 
     if (data instanceof AxiosError) {

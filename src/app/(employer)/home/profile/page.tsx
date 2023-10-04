@@ -2,9 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
-import { AxiosError } from 'axios';
 import { getAuthServerSession } from '@/lib/next-auth';
-import axios from '@/lib/axios';
+import { getEmployer } from '@/actions/get-employer';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
 import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
@@ -12,7 +11,6 @@ import PageTabs from '@/components/pagers/PageTabs';
 import { Separator } from '@/components/ui/Separator';
 import AlertSuccess from '@/components/ui/AlertSuccess';
 
-import { type EmployerProfile } from '@/types';
 import { tabs } from '../tabs';
 
 interface PageProps {
@@ -28,29 +26,9 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   if (!session?.user?.employer_id) redirect('/');
 
-  async function getEmployer() {
-    try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/employer/${session?.user.employer_id}`,
-      );
-
-      if (data instanceof AxiosError) {
-        if (data.status === 404) {
-          redirect('/not-found');
-        } else {
-          throw new Error();
-        }
-      }
-
-      return data as EmployerProfile;
-    } catch (error) {
-      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
-
-      redirect('/error');
-    }
-  }
-
-  const { fullname, positionAndCompany, telegram, phone, linkedIn } = await getEmployer();
+  const { fullname, positionAndCompany, telegram, phone, linkedIn } = await getEmployer(
+    session.user.employer_id,
+  );
 
   return (
     <>
