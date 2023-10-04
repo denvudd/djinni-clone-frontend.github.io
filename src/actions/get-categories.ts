@@ -3,7 +3,7 @@ import { type Category } from '@/types';
 
 export const getCategories = async () => {
   try {
-    const { data } = await axios.get(process.env.BACKEND_API_URL + '/categories');
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_BACKEND_API_URL + '/categories');
 
     return data as Category[];
   } catch (error) {

@@ -23,14 +23,14 @@ import { cn } from '@/lib/utils';
 interface ReplyOnOfferFormProps extends React.ComponentPropsWithoutRef<'form'> {
   offerId: string;
   /** IMPORTANT: This is should be userId and NOT employerId or candidateId. */
-  authorId: string;
+  userId: string;
   employerId?: string;
   candidateId?: string;
   disabled?: boolean;
 }
 
 const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
-  authorId,
+  userId,
   offerId,
   candidateId,
   employerId,
@@ -56,7 +56,7 @@ const ReplyOnOfferForm: React.FC<ReplyOnOfferFormProps> = ({
     isError: isMessageError,
   } = useMutation({
     mutationFn: async ({ text }: ReplyOnOfferFormRequest) => {
-      const payload = { text, authorId, replyToId: authorId };
+      const payload = { text, authorId: userId, replyToId: userId };
       const { data } = await axios.post(`/${replyAs}/${roleId}/offer/${offerId}/reply`, payload);
 
       if (data instanceof AxiosError) {

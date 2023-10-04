@@ -1,18 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { Bookmark, Check } from 'lucide-react';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
+import { Bookmark, Check } from 'lucide-react';
 import clsx from 'clsx';
+
 import UserAvatar from '../UserAvatar';
-import ArchiveEmployerButton from './panel/ArchiveEmployerButton';
+import OfferPanel from './panel/OfferPanel';
 
 import { EnglishLevel } from '@/lib/enums';
 import { formatEnglishLevel, formatExperience, formatRefusalReason } from '@/lib/utils';
-import { type EmployerOffer } from '@/types';
-import FavoriteEmployerButton from './panel/FavoriteEmployerButton';
-import OfferPanel from './panel/OfferPanel';
+import { type EmployerOffer as EmployerOfferType } from '@/types';
 
 interface EmployerOfferProps {
   candidateId: string;
@@ -26,8 +25,8 @@ interface EmployerOfferProps {
   city: string;
   experience: number;
   english: EnglishLevel;
-  replies: EmployerOffer['replies'];
-  refusals?: EmployerOffer['refusal'];
+  replies: EmployerOfferType['replies'];
+  refusals?: EmployerOfferType['refusal'];
   coverLetter: string;
   updatedAt: Date;
 
@@ -35,8 +34,6 @@ interface EmployerOfferProps {
   isFavorite?: boolean;
 }
 
-// some es-lint bug idk
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 const EmployerOffer: React.FC<EmployerOfferProps> = ({
   employerId,
   candidateId,
@@ -66,6 +63,7 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
       });
 
   const isRefused = !!refusals?.length;
+
   // if offer refused show refusal reason -> if not show last reply message -> if there is no replies then show cover letter
   let content;
 

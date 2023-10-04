@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/navigation';
+import { type Metadata } from 'next';
 import axios, { AxiosError } from 'axios';
 import { ChevronRight, Globe, Mail, MessageCircle, Send, UserCheck2 } from 'lucide-react';
 import { getAuthServerSession } from '@/lib/next-auth';
@@ -43,11 +44,14 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 
   async function getOffer() {
     try {
-      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/offer/${offerId}`, {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/offer/${offerId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
         },
-      });
+      );
 
       if (data instanceof AxiosError) {
         if (data.status === 404) {
@@ -243,7 +247,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
             {!archive ? (
               <ReplyOnOfferForm
                 offerId={offerId}
-                authorId={employer.user[0].id}
+                userId={employer.user[0].id}
                 candidateId={candidateId}
                 employerId={employerId}
                 disabled={refusal && !!refusal.length}
@@ -265,3 +269,28 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
 };
 
 export default Page;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { offerId } = params;
+
+  const session = await getAuthServerSession();
+
+  async function getOffer() {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/offer/${offerId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      },
+    );
+
+    return data as ExtendedEmployerOffer;
+  }
+
+  const { candidate } = await getOffer();
+
+  return {
+    title: `${candidate.position}, від $${candidate.expectations}, ${candidate.city}`,
+  };
+}

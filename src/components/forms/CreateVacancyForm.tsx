@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
+
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueries } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { TagsInput } from 'react-tag-input-component';
-import axios from '@/lib/axios';
 
 import {
   Form,
@@ -36,6 +36,7 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import ErrorAlert from '@/components/ui/ErrorAlert';
 import { Separator } from '@/components/ui/Separator';
 
+import axios from '@/lib/axios';
 import { CreateVacancyValidator, type CreateVacancyRequest } from '@/lib/validators/create-vacancy';
 import { Vacancy, type Category, type City, type Domain } from '@/types';
 import {
@@ -45,6 +46,8 @@ import {
   formatEnglishLevel,
 } from '@/lib/utils';
 import { ClarifiedDataEnum, CompanyType, EmploymentOption, EnglishLevel } from '@/lib/enums';
+import { getCategories } from '@/actions/get-categories';
+import { getCities } from '@/actions/get-cities';
 
 interface CreateVacancyFormProps {
   employerId: string;
@@ -57,7 +60,14 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
   const [selectedKeywords, setSelectedKeywords] = React.useState<string[]>(
     existVacancy?.keywords.map((keyword) => keyword.name) ?? [],
   );
-  const clarifiedDataArr: ClarifiedDataEnum[] = convertEnumObjToArray(ClarifiedDataEnum);
+  const existClarifiedData = React.useMemo(
+    () => existVacancy?.clarifiedData.map((data) => data.name),
+    [existVacancy?.clarifiedData],
+  );
+  const clarifiedDataArr: ClarifiedDataEnum[] = React.useMemo(
+    () => convertEnumObjToArray(ClarifiedDataEnum),
+    [],
+  );
 
   const form = useForm<CreateVacancyRequest>({
     resolver: zodResolver(CreateVacancyValidator),
@@ -78,9 +88,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
       keywords: selectedKeywords,
       employmentOptions: existVacancy?.employmentOptions ?? EmploymentOption.Office,
       english: existVacancy?.english ?? EnglishLevel.NoEnglish,
-      clarifiedData: existVacancy?.clarifiedData.map((data) => data.name) ?? [
-        ClarifiedDataEnum.Test_task,
-      ],
+      clarifiedData: existClarifiedData ?? [ClarifiedDataEnum.Test_task],
       isRelocate: existVacancy?.isRelocate ?? true,
     },
   });
@@ -105,27 +113,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
       },
       {
         queryKey: ['categories'],
-        queryFn: async () => {
-          const { data } = await axios.get('/categories');
-
-          if (data instanceof AxiosError) {
-            throw new Error();
-          }
-
-          return data as Category[];
-        },
+        queryFn: async () => getCategories(),
       },
       {
         queryKey: ['cities'],
-        queryFn: async () => {
-          const { data } = await axios.get('/countries');
-
-          if (data instanceof AxiosError) {
-            throw new Error();
-          }
-
-          return data as City[];
-        },
+        queryFn: async () => getCities(),
       },
     ],
   });
@@ -377,7 +369,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
                     onChange={(tags) => {
                       field.onChange(tags);
                     }}
-                    name="fruits"
+                    name="keywords"
                     onRemoved={(tag) => {
                       if (field.value) {
                         field.onChange(field.value.filter((t) => t !== tag));

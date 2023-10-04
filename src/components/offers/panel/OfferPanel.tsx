@@ -1,12 +1,14 @@
 import React from 'react';
 
-import { MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import { MessageCircle } from 'lucide-react';
+
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
+import { buttonVariants } from '@/components/ui/Button';
 import ArchiveEmployerButton from './ArchiveEmployerButton';
 import FavoriteEmployerButton from './FavoriteEmployerButton';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
+
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/Button';
 
 interface OfferPanelProps {
   offerId: string;

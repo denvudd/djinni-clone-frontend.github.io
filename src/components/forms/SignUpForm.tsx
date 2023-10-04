@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type RegisterRequest, RegisterValidator } from '@/lib/validators/auth/register';
 
+import PageTitle from '../pagers/PageTitle';
 import {
   Form,
   FormControl,
@@ -21,8 +22,8 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/RadioGroup';
-import ErrorAlert from '@/components/ui/ErrorAlert';
 import { Icons } from '@/components/ui/Icons';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 
 import { UserRole } from '@/lib/enums';
 
@@ -77,7 +78,7 @@ const SignUpForm: React.FC = () => {
   return (
     <div className="mx-auto flex max-w-2xl flex-col">
       {isRegisterError && <ErrorAlert />}
-      <h1 className="mb-5 text-4xl font-semibold">Зареєструватись на Джині</h1>
+      <PageTitle className="mb-5 text-4xl">Зареєструватись на Джині</PageTitle>
       <div className="flex">
         <div className="border-borderColor flex-1 border-r pr-9">
           <Form {...form}>

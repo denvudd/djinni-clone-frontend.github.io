@@ -1,14 +1,17 @@
 'use client';
 
 import React from 'react';
+
 import Link from 'next/link';
-import { Bookmark, Eye, MessageCircle } from 'lucide-react';
-import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import axios from '@/lib/axios';
+import clsx from 'clsx';
+
+import { Bookmark, Eye, MessageCircle } from 'lucide-react';
 import { CardFooter } from '../ui/Card';
+
+import axios from '@/lib/axios';
 import { type EmployerProfile, type FavoriteCandidate } from '@/types';
 
 interface DeveloperCardFooterProps {
@@ -69,7 +72,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
     },
   });
 
-  function onFavorite() {
+  const onFavorite = React.useCallback(() => {
     if (access) {
       if (isFavorite) {
         removeFromFavorite();
@@ -79,7 +82,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
     } else {
       router.push('/login');
     }
-  }
+  }, [access, isFavorite]);
 
   return (
     <CardFooter className="border-borderColor flex items-center justify-between border-t p-5">
@@ -94,7 +97,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
           className={clsx('text-primary inline-flex gap-1 items-center', {
             'font-semibold': isFavorite,
           })}
-          onClick={() => onFavorite()}
+          onClick={onFavorite}
         >
           <Bookmark
             className={clsx('w-5 h-5', {

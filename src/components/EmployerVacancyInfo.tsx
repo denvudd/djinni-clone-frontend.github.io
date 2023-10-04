@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { Building2, ShoppingBasket, MapPin, PenSquare } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
+import { Separator } from './ui/Separator';
 
 import { CompanyType, EmploymentOption, EnglishLevel } from '@/lib/enums';
 import {
@@ -11,7 +12,6 @@ import {
   formatEnglishLevel,
   formatExperience,
 } from '@/lib/utils';
-import { Separator } from './ui/Separator';
 import { type ClarifiedData } from '@/types';
 
 interface EmployerVacancyInfoProps extends React.ComponentProps<typeof Card> {

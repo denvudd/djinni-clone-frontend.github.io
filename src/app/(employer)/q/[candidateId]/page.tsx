@@ -10,6 +10,7 @@ import { Clock } from 'lucide-react';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import { Breadcrumbs, type BreadcrumbsSegment } from '@/components/pagers/Breadcrumbs';
+import PageTitle from '@/components/pagers/PageTitle';
 import CandidateInfo from '@/components/CandidateInfo';
 import EmployerOfferForm from '@/components/forms/EmployerOfferForm';
 import { MarkdownRender } from '@/components/renderers/MarkdownRender';
@@ -37,7 +38,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
   async function getCandidate() {
     try {
       const { data } = await axios.get(
-        `${process.env.BACKEND_API_URL}/candidate/${candidateId}/public`,
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/candidate/${candidateId}/public`,
       );
 
       if (data instanceof AxiosError) {
@@ -107,7 +108,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     <>
       {msgsent === 'ok' && <AlertSuccess className="mb-4 md:max-w-[66.666%]" />}
       <Breadcrumbs segments={segments} />
-      <h1 className="mb-2 mt-4 text-3xl font-semibold">{position}</h1>
+      <PageTitle className="mb-2 mt-4">{position}</PageTitle>
       {isOwner && (
         <div className="text-success mb-3">
           Це ваш публічний профіль на Джині

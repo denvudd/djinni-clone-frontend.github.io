@@ -85,7 +85,10 @@ const EmployerWizardStep1: React.FC<EmployerWizardStep1Props> = ({ employerId })
     updateEmployer(values);
   }
 
-  const fieldsLeft = -Object.keys(form.formState.touchedFields).length + 4;
+  const fieldsLeft = React.useMemo(
+    () => -Object.keys(form.formState.touchedFields).length + 4,
+    [form.formState.touchedFields],
+  );
 
   return (
     <Form {...form}>

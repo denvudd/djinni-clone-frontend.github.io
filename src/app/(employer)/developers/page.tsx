@@ -7,6 +7,7 @@ import SidebarDevelopers from '@/components/SidebarDevelopers';
 import DevelopersSearch from '@/components/DevelopersSearch';
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
 
 import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
 
@@ -45,9 +46,9 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold leading-5">
+      <PageTitle>
         Кандидати <span className="text-gray">{count}</span>
-      </h1>
+      </PageTitle>
       <PageTabs tabs={tabs} active={0} />
       <div className="grid grid-cols-4 gap-4">
         <SidebarDevelopers searchParams={searchParams} />
@@ -68,7 +69,6 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
                   key={candidate.id}
                   city={candidate.city}
                   country={candidate.country}
-                  updatedAt={candidate.updatedAt}
                   createdAt={candidate.createdAt}
                   description={candidate.experienceDescr}
                   expectations={candidate.expectations}

@@ -8,6 +8,8 @@ import { getAuthServerSession } from '@/lib/next-auth';
 
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
+import PageTitle from '@/components/pagers/PageTitle';
+
 import { type CandidateProfile } from '@/types';
 
 const Page: React.FC = async () => {
@@ -18,7 +20,7 @@ const Page: React.FC = async () => {
   async function getFavoriteCandidates() {
     try {
       const { data } = await axios.get(
-        `${process.env.BACKEND_API_URL}/employer/${session?.user.employer_id}/favorite-candidates`,
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/employer/${session?.user.employer_id}/favorite-candidates`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
@@ -66,9 +68,9 @@ const Page: React.FC = async () => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold leading-5">
+      <PageTitle>
         Кандидати <span className="text-gray">{count}</span>
-      </h1>
+      </PageTitle>
       <PageTabs tabs={tabs} active={1} />
       <div className="flex flex-col gap-6">
         {favoriteCandidates &&
@@ -79,7 +81,6 @@ const Page: React.FC = async () => {
               key={candidate.id}
               city={candidate.city}
               country={candidate.country}
-              updatedAt={candidate.updatedAt}
               createdAt={candidate.createdAt}
               description={candidate.experienceDescr}
               expectations={candidate.expectations}

@@ -1,11 +1,15 @@
+import React from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import React from 'react';
 import { getEmployerVacancies } from '@/actions/get-employer-vacancies';
+import { getAuthServerSession } from '@/lib/next-auth';
+
+import PageTitle from '@/components/pagers/PageTitle';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
 import { buttonVariants } from '@/components/ui/Button';
-import { getAuthServerSession } from '@/lib/next-auth';
 import { cn } from '@/lib/utils';
 
 const Page: React.FC = async () => {
@@ -17,7 +21,7 @@ const Page: React.FC = async () => {
 
   return (
     <>
-      <h1 className="mb-4 text-3xl font-semibold leading-5">Мої вакансії</h1>
+      <PageTitle>Мої вакансії</PageTitle>
       {vacancies && !vacancies.length && (
         <Alert className="bg-brand mb-8 flex items-center gap-2 p-3">
           <div className="animate-bounce">
@@ -88,3 +92,7 @@ const Page: React.FC = async () => {
 };
 
 export default Page;
+
+export const metadata: Metadata = {
+  title: 'Вакансії',
+};

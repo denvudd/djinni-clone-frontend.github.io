@@ -96,8 +96,6 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
   });
 
   function onSubmit(values: EmployerProfileRequest) {
-    // console.log(form.getFieldState('phone').isTouched);
-    console.log(values);
     updateProfile(values);
   }
 
