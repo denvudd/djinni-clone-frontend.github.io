@@ -2,16 +2,14 @@ import React from 'react';
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { AxiosError } from 'axios';
-import axios from '@/lib/axios';
 import { getAuthServerSession } from '@/lib/next-auth';
+import { getEmployer } from '@/actions/get-employer';
 
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
 import EmployerAboutForm from '@/components/forms/employer-profile/EmployerAboutForm';
 
 import { tabs } from '../tabs';
-import { type EmployerProfile } from '@/types';
 
 interface PageProps {
   searchParams: {
@@ -26,29 +24,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
   if (!session?.user?.employer_id) redirect('/');
 
-  async function getEmployer() {
-    try {
-      const { data } = await axios.get(
-        process.env.BACKEND_API_URL + `/employer/${session?.user.employer_id}`,
-      );
-
-      if (data instanceof AxiosError) {
-        if (data.status === 404) {
-          redirect('/not-found');
-        } else {
-          throw new Error();
-        }
-      }
-
-      return data as EmployerProfile;
-    } catch (error) {
-      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
-
-      redirect('/error');
-    }
-  }
-
-  const { aboutCompany, dou, companyLink } = await getEmployer();
+  const { aboutCompany, dou, companyLink } = await getEmployer(session.user.employer_id);
 
   return (
     <>

@@ -93,6 +93,7 @@ export interface EmployerProfile {
   filled?: string;
 
   vacancies: Vacancy[];
+  subscriptions: EmployerSubscribe[];
   // offers    Offer[]
 }
 
@@ -104,6 +105,21 @@ export interface FavoriteCandidate {
   userId: string;
   employerId: string;
   candidateId: string;
+}
+
+export interface EmployerSubscribe {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  category: string;
+  experience: number;
+  salaryForkGte?: number;
+  salaryForkLte?: number;
+  english: EnglishLevel;
+  employmentOptions: EmploymentOption;
+  locate: string;
+  keywords: string;
 }
 
 export interface Vacancy {

@@ -1,54 +1,50 @@
 import React from 'react';
+
 import Link from 'next/link';
-import axios from 'axios';
-
-import { X } from 'lucide-react';
+import axios, { AxiosError } from 'axios';
+import qs from 'query-string';
 import clsx from 'clsx';
-import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
-import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 
-import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
-import { type Category, type City } from '@/types';
+import { Mail } from 'lucide-react';
+import { getAuthServerSession } from '@/lib/next-auth';
+import { getPopularCities } from '@/actions/get-popular-cities';
+import { getCategories } from '@/actions/get-categories';
 import ExperienceRange from './ExperienceRange';
 import SalaryRange from './SalaryRange';
+
+import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
+import { EmploymentOption, EnglishLevel } from '@/lib/enums';
+import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
+import { type EmployerSubscribe } from '@/types';
 
 type SidebarDevelopersProps = DevelopersPageProps;
 
 const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
-  const {
-    employment_options,
-    english_level,
-    exp_from,
-    exp_to,
-    location,
-    ready_to_relocate,
-    salary_max,
-    salary_min,
-    title,
-  } = searchParams;
+  const { employment_options, english_level, location, title } = searchParams;
 
-  const fetchCities = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/countries/popular`);
+  const cities = await getPopularCities();
+  const categories = await getCategories();
 
-      return data as City[];
-    } catch (error) {
-      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
-    }
-  };
+  async function getEmployerSubscriptions() {
+    const session = await getAuthServerSession();
 
-  const fetchCategories = async () => {
-    try {
-      const { data } = await axios.get(`${process.env.BACKEND_API_URL}/categories`);
+    if (!session) return null;
 
-      return data as Category[];
-    } catch (error) {
-      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
-    }
-  };
+    const { data } = await axios.get(
+      process.env.BACKEND_API_URL + `/employer/${session?.user?.employer_id}/subscriptions`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.accessToken}`,
+        },
+      },
+    );
 
-  const cities = await fetchCities();
-  const categories = await fetchCategories();
+    if (data instanceof AxiosError) throw new Error();
+
+    return data as EmployerSubscribe[];
+  }
+
+  const subscriptions = await getEmployerSubscriptions();
 
   return (
     <aside className="col-span-1">
@@ -209,6 +205,66 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
             ))}
           </ul>
         </div>
+
+        {!!subscriptions?.length && (
+          <div>
+            <h4 className="mb-2 flex items-center justify-between font-semibold leading-tight">
+              Мої підписки
+            </h4>
+            <ul className="mb-4 flex flex-col gap-2">
+              {subscriptions.map(
+                ({
+                  category,
+                  employmentOptions,
+                  english,
+                  experience,
+                  id,
+                  keywords,
+                  locate,
+                  salaryForkGte,
+                  salaryForkLte,
+                }) => {
+                  const elementsToRender = [
+                    category && `${category}`,
+                    employmentOptions && formatEmploymenOptions(employmentOptions),
+                    locate && `${locate}`,
+                    experience && `${experience}y`,
+                    english && formatEnglishLevel(english).label,
+                    salaryForkGte && `від $${salaryForkGte}`,
+                    salaryForkLte && `до $${salaryForkLte}`,
+                    keywords && `${keywords}`,
+                  ].filter((e) => Boolean(e));
+
+                  return (
+                    <li key={id} className="text-primary">
+                      <Link
+                        href={qs.stringifyUrl({
+                          url: '/developers',
+                          query: {
+                            title: category ?? undefined,
+                            exp_from: experience ?? undefined,
+                            english_level: english ?? undefined,
+                            employment_options: employmentOptions ?? undefined,
+                            location: locate ?? undefined,
+                            salary_min: salaryForkGte ?? undefined,
+                            salary_max: salaryForkLte ?? undefined,
+                            keywords: keywords ?? undefined,
+                          },
+                        })}
+                      >
+                        {elementsToRender.join(', ')}
+                      </Link>
+                    </li>
+                  );
+                },
+              )}
+            </ul>
+            <Link href="/home/searches" className="text-primary flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              Керування підписками
+            </Link>
+          </div>
+        )}
       </div>
     </aside>
   );
