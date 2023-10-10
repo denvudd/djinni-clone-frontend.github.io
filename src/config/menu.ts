@@ -39,7 +39,7 @@ export const employerUserMenu = [
   },
   {
     title: 'Реквізити',
-    href: '/home/pay',
+    href: '/home/billing',
   },
   {
     title: 'Компанія',

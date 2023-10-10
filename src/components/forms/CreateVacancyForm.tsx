@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueries } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { TagsInput } from 'react-tag-input-component';
+import { getCategories } from '@/actions/get-categories';
+import { getCities } from '@/actions/get-cities';
 
 import {
   Form,
@@ -38,7 +40,7 @@ import { Separator } from '@/components/ui/Separator';
 
 import axios from '@/lib/axios';
 import { CreateVacancyValidator, type CreateVacancyRequest } from '@/lib/validators/create-vacancy';
-import { Vacancy, type Category, type City, type Domain } from '@/types';
+import { Vacancy, type Domain } from '@/types';
 import {
   convertEnumObjToArray,
   formatClarifiedData,
@@ -46,8 +48,6 @@ import {
   formatEnglishLevel,
 } from '@/lib/utils';
 import { ClarifiedDataEnum, CompanyType, EmploymentOption, EnglishLevel } from '@/lib/enums';
-import { getCategories } from '@/actions/get-categories';
-import { getCities } from '@/actions/get-cities';
 
 interface CreateVacancyFormProps {
   employerId: string;
@@ -177,12 +177,10 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
   });
 
   function onSubmit(values: CreateVacancyRequest) {
-    console.log(values);
     createVacancy(values);
   }
 
   function onSubmitUpdate(values: CreateVacancyRequest) {
-    console.log(values);
     updateVacancy(values);
   }
 
