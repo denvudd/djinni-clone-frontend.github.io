@@ -32,13 +32,19 @@ export const EmployerBillingValidator = z.object({
       required_error: "Це поле обов'язкове до заповнення",
     })
     .nonempty("Це поле обов'язкове до заповнення"),
-  company: z.string().optional(),
+  company: z
+    .union([z.string().nullable(), z.string()])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
   firstStreet: z
     .string({
       required_error: "Це поле обов'язкове до заповнення",
     })
     .nonempty("Це поле обов'язкове до заповнення"),
-  secondStreet: z.string().optional(),
+  secondStreet: z
+    .union([z.string().nullable(), z.string()])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
   city: z
     .string({
       required_error: "Це поле обов'язкове до заповнення",
@@ -47,7 +53,10 @@ export const EmployerBillingValidator = z.object({
   postalCode: z.number({
     required_error: "Це поле обов'язкове до заповнення",
   }),
-  vatId: z.string().optional(),
+  vatId: z
+    .union([z.string().nullable(), z.string()])
+    .optional()
+    .transform((e) => (e === '' || e === null ? undefined : e)),
 });
 
 export type EmployerBillingRequest = z.infer<typeof EmployerBillingValidator>;

@@ -8,6 +8,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
+import { getCountries } from '@/actions/get-countries';
+import { getCities } from '@/actions/get-cities';
 
 import {
   Form,
@@ -27,30 +29,61 @@ import {
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import ErrorAlert from '@/components/ui/ErrorAlert';
+import PhoneInput from '@/components/ui/PhoneInput';
 
 import {
   type EmployerBillingRequest,
   EmployerBillingValidator,
 } from '@/lib/validators/employer-profile/employer-billing';
 import { type EmployerBilling } from '@/types';
-import { getCountries } from '@/actions/get-countries';
-import { getCities } from '@/actions/get-cities';
-import PhoneInput from '@/components/ui/PhoneInput';
 
 interface EmployerBillingFormProps {
   employerId: string;
+  isBillingExist: boolean;
+  firstName: string;
+  lastName: string;
   email: string;
+  phone: string;
+  country: string;
+  city: string;
+  company: string | null;
+  firstStreet: string;
+  secondStreet: string | null;
+  postalCode: number;
+  vatId: string | null;
 }
 
-const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({ employerId, email }) => {
+const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({
+  employerId,
+  isBillingExist,
+  email,
+  city,
+  country,
+  firstName,
+  firstStreet,
+  lastName,
+  phone,
+  postalCode,
+  company,
+  secondStreet,
+  vatId,
+}) => {
   const router = useRouter();
 
   const form = useForm<EmployerBillingRequest>({
     resolver: zodResolver(EmployerBillingValidator),
     defaultValues: {
       email,
-      country: 'Ukraine',
-      city: 'Kyiv',
+      country: country ?? 'Ukraine',
+      city: city ?? 'Kyiv',
+      company: company ?? undefined,
+      firstName,
+      firstStreet,
+      lastName,
+      phone,
+      postalCode,
+      secondStreet: secondStreet ?? undefined,
+      vatId: vatId ?? undefined,
     },
   });
 
@@ -70,8 +103,30 @@ const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({ employerId, e
     },
     onSuccess: () => {
       router.push('/home/billing?updated=ok');
-      router.refresh();
-      form.reset();
+      window.location.reload();
+    },
+    onError: (error) => {
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+    },
+  });
+
+  const {
+    mutate: updateBilling,
+    isLoading: isUpdateBillingLoading,
+    isError: isUpdateBillingError,
+  } = useMutation({
+    mutationFn: async (payload: EmployerBillingRequest) => {
+      const { data } = await axios.patch(`/employer/${employerId}/billing`, payload);
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data as EmployerBilling;
+    },
+    onSuccess: () => {
+      router.push('/home/billing?updated=ok');
+      window.location.reload();
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -90,13 +145,16 @@ const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({ employerId, e
 
   function onSubmit(values: EmployerBillingRequest) {
     createBilling(values);
-    // console.log('SUBMIT', values);
+  }
+
+  function onSubmitUpdate(values: EmployerBillingRequest) {
+    updateBilling(values);
   }
 
   return (
     <Form {...form}>
       <h4 className="mb-6 font-semibold">Реквізити для оплати картою</h4>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-2 space-y-6">
+      <form className="mt-2 space-y-6">
         {isCreateBillingError && <ErrorAlert />}
 
         <FormField
@@ -260,6 +318,7 @@ const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({ employerId, e
                   {...field}
                   className="text-base"
                   onChange={(e) => field.onChange(+e.target.value)}
+                  type="number"
                 />
               </FormControl>
               <FormMessage />
@@ -282,13 +341,14 @@ const EmployerBillingForm: React.FC<EmployerBillingFormProps> = ({ employerId, e
         />
 
         <Button
-          isLoading={isCreateBillingLoading}
-          disabled={isCreateBillingLoading}
+          isLoading={isCreateBillingLoading || isUpdateBillingLoading}
+          disabled={isCreateBillingLoading || isUpdateBillingLoading}
           className="text-lg"
           size="lg"
           type="submit"
+          onClick={isBillingExist ? form.handleSubmit(onSubmitUpdate) : form.handleSubmit(onSubmit)}
         >
-          Оновити мої реквізити
+          {isBillingExist ? 'Оновити мої реквізити' : 'Створити нові реквізити'}
         </Button>
       </form>
     </Form>

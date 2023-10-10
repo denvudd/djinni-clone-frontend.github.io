@@ -20,9 +20,15 @@ export const EmployerProfileValidator = z.object({
   phone: z
     .union([
       z.string().nullable(),
-      z.string().refine((value) => validator.isMobilePhone(value), {
-        message: 'Некоректний номер телефону',
-      }),
+      z
+        .string()
+        .refine(
+          (value) =>
+            validator.isMobilePhone(value.replace(/[^0-9+]/g, ''), undefined, { strictMode: true }),
+          {
+            message: 'Некоректний номер телефону',
+          },
+        ),
     ])
     .optional()
     .transform((e) => (e === '' || e === null ? undefined : e)),

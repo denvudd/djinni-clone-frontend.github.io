@@ -138,11 +138,11 @@ export interface EmployerBilling {
   phone: string;
   country: string;
   city: string;
-  company?: string;
+  company: string | null;
   firstStreet: string;
-  secondStreet?: string;
+  secondStreet: string | null;
   postalCode: number;
-  vatId: string;
+  vatId: string | null;
 }
 
 export interface Vacancy {

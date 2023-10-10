@@ -11,7 +11,7 @@ import PageTitle from '@/components/pagers/PageTitle';
 import EmployerBillingForm from '@/components/forms/employer-profile/EmployerBillingForm';
 
 import { tabs } from '../tabs';
-import { EmployerBilling, EmployerSubscribe } from '@/types';
+import { EmployerBilling } from '@/types';
 
 interface PageProps {
   searchParams: {
@@ -53,7 +53,8 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     }
   }
 
-  const subscriptions = await getEmployerBilling();
+  const { email: billingEmail, ...employerBilling } = await getEmployerBilling();
+  const isBillingExist = !!billingEmail;
 
   return (
     <>
@@ -69,7 +70,12 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
       <div className="grid lg:grid-cols-3 lg:gap-6">
         <div className="w-full lg:col-span-1">
-          <EmployerBillingForm employerId={session.user.employer_id} email={session.user.email} />
+          <EmployerBillingForm
+            employerId={session.user.employer_id}
+            email={billingEmail ?? session.user.email}
+            isBillingExist={isBillingExist}
+            {...employerBilling}
+          />
         </div>
       </div>
       <p className="mt-6">Ця інформація буде у вашому рахунку про оплату.</p>
