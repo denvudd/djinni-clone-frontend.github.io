@@ -33,6 +33,10 @@ export interface City {
   admin_name: string;
 }
 
+export interface Country {
+  name: string;
+}
+
 export interface CandidateProfile {
   id: string;
   createdAt: Date;
@@ -95,6 +99,7 @@ export interface EmployerProfile {
   vacancies: Vacancy[];
   subscriptions: EmployerSubscribe[];
   // offers    Offer[]
+  billing?: EmployerBilling;
 }
 
 export interface FavoriteCandidate {
@@ -120,6 +125,24 @@ export interface EmployerSubscribe {
   employmentOptions: EmploymentOption;
   locate: string;
   keywords: string;
+}
+
+export interface EmployerBilling {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  country: string;
+  city: string;
+  company?: string;
+  firstStreet: string;
+  secondStreet?: string;
+  postalCode: number;
+  vatId: string;
 }
 
 export interface Vacancy {

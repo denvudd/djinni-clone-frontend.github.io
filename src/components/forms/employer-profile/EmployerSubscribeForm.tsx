@@ -8,6 +8,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios';
+import { getCategories } from '@/actions/get-categories';
+import { getCities } from '@/actions/get-cities';
 
 import {
   Form,
@@ -36,7 +38,7 @@ import {
 } from '@/lib/validators/employer-profile/employer-subscribe';
 import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
-import { Category, City, type EmployerProfile } from '@/types';
+import { type EmployerProfile } from '@/types';
 
 interface EmployerSubscribeFormProps {
   employerId: string;
@@ -80,20 +82,12 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => {
-      const { data } = await axios.get('/categories');
-
-      return data as Category[];
-    },
+    queryFn: async () => getCategories(),
   });
 
   const { data: cities } = useQuery({
     queryKey: ['cities'],
-    queryFn: async () => {
-      const { data } = await axios.get('/countries/popular');
-
-      return data as City[];
-    },
+    queryFn: async () => getCities(),
   });
 
   function onSubmit(values: EmployerSubscribeRequest) {
