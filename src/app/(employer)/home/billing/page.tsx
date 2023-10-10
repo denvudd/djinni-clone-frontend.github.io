@@ -53,8 +53,10 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
     }
   }
 
-  const { email: billingEmail, ...employerBilling } = await getEmployerBilling();
-  const isBillingExist = !!billingEmail;
+  const employerBilling = await getEmployerBilling();
+  const { email: billingEmail, ...employerBillingRest } = employerBilling;
+
+  const isBillingExist = !!employerBilling;
 
   return (
     <>
@@ -74,7 +76,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             employerId={session.user.employer_id}
             email={billingEmail ?? session.user.email}
             isBillingExist={isBillingExist}
-            {...employerBilling}
+            {...employerBillingRest}
           />
         </div>
       </div>
