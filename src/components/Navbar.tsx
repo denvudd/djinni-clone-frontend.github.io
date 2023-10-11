@@ -24,7 +24,7 @@ const Navbar: React.FC = async () => {
   console.log(session?.user);
 
   return (
-    <header className="dark:bg-dark mb-6 sm:mb-12 w-full bg-gray-100">
+    <header className="dark:bg-dark mb-6 w-full bg-gray-100 sm:mb-12">
       <div className="container mx-auto min-h-[50px] w-full py-2">
         <nav className="flex h-full min-h-[32px] min-w-[86px] items-center justify-between">
           <div className="flex items-center justify-between gap-3">

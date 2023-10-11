@@ -83,6 +83,9 @@ export function formatEmploymenOptions(option: EmploymentOption) {
 }
 
 export function formatExperience(years: number) {
+  if (years === 0) {
+    return 'немає досвіду роботи';
+  }
   if (years === 1) {
     return '1 рік досвіду';
   }
