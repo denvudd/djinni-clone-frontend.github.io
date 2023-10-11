@@ -58,7 +58,7 @@ const Page: React.FC = async () => {
                   <span className="text-danger">(неактивна)</span>
                 )}
               </h4>
-              <div className="mt-1 flex gap-2 text-sm">
+              <div className="mt-1 flex flex-wrap gap-2 text-sm">
                 <Link className="text-link" href={`/home/post_job?job=${vacancy.id}`}>
                   Редагувати
                 </Link>

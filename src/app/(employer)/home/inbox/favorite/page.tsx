@@ -72,9 +72,9 @@ const Page: React.FC = async () => {
   ];
 
   return (
-    <div className="-mt-8">
+    <div className="sm:-mt-8">
       <PageTabs tabs={tabs} active={2} />
-      <PageTitle className="my-8">
+      <PageTitle className="sm:my-8">
         Збережене <span className="text-gray">{count}</span>
       </PageTitle>
       <ul className="border-borderColor flex flex-col rounded-lg border">

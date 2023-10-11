@@ -56,7 +56,7 @@ const Page = async ({ searchParams }: PageProps) => {
         › Нова вакансія
       </PageTitle>
       <div className="flex flex-col">
-        <div className="max-w-[83.33333%] flex-[0_0_83.33333%]">
+        <div className="sm:max-w-[83.33333%] sm:flex-[0_0_83.33333%]">
           <CreateVacancyForm employerId={session!.user.employer_id!} existVacancy={existVacancy} />
         </div>
       </div>

@@ -26,7 +26,7 @@ const FavoriteEmployerButton: React.FC<FavoriteEmployerButtonProps> = ({
 }) => {
   const router = useRouter();
 
-  const { mutate: moveOfferToArchive } = useMutation({
+  const { mutate: moveOfferToFavorite } = useMutation({
     mutationFn: async () => {
       const { data } = await axios.patch(`/employer/${employerId}/offer/${offerId}/favorite`, {
         candidateId,
@@ -55,17 +55,20 @@ const FavoriteEmployerButton: React.FC<FavoriteEmployerButtonProps> = ({
     },
   });
 
+  const handleMoveOfferToFavorite = React.useCallback(() => moveOfferToFavorite(), []);
+
   return (
     <Tooltip>
       <TooltipTrigger
         className={cn(
           buttonVariants({
             variant: 'ghost',
+            className: 'pl-0 sm:px-2 sm:py-4',
           }),
         )}
-        onClick={() => moveOfferToArchive()}
+        onClick={handleMoveOfferToFavorite}
       >
-        <Bookmark className="text-gray h-5 w-5" />
+        <Bookmark className="text-gray h-6 w-6 sm:h-5 sm:w-5" />
       </TooltipTrigger>
       <TooltipContent>Зберегти</TooltipContent>
     </Tooltip>

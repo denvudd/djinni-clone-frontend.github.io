@@ -76,7 +76,7 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
   }
 
   return (
-    <li className="border-borderColor group relative flex items-start gap-4 border-t p-6">
+    <li className="border-borderColor group relative flex flex-col items-start gap-4 border-t p-6 md:flex-row">
       <div className="flex w-full items-start gap-3 md:max-w-[33.333%] md:flex-[0_0_33.333%]">
         <UserAvatar
           user={{
@@ -108,9 +108,9 @@ const EmployerOffer: React.FC<EmployerOfferProps> = ({
           </ul>
         </div>
       </div>
-      <div className="flex w-full md:max-w-[77] md:flex-[0_0_77]">
+      <div className="flex w-full flex-col md:max-w-[77] md:flex-[0_0_77] md:flex-row">
         <Link href={`/home/inbox/${offerId}`} className="text-gray block w-full">
-          <span className="float-right ml-4 inline-flex items-center gap-2">
+          <span className="inline-flex items-center gap-2 md:float-right md:ml-4">
             <Check className="h-4 w-4" />
             {date}
           </span>

@@ -9,8 +9,8 @@ import { Mail } from 'lucide-react';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { getPopularCities } from '@/actions/get-popular-cities';
 import { getCategories } from '@/actions/get-categories';
-import ExperienceRange from './ExperienceRange';
-import SalaryRange from './SalaryRange';
+import ExperienceRange from '../ExperienceRange';
+import SalaryRange from '../SalaryRange';
 
 import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
 import { EmploymentOption, EnglishLevel } from '@/lib/enums';

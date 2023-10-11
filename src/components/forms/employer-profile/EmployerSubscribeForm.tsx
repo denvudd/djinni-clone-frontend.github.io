@@ -72,8 +72,8 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
     },
     onSuccess: () => {
       router.push('/home/searches?subscription_saved=ok');
-      router.refresh();
       form.reset();
+      router.refresh();
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -104,9 +104,11 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="category"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Спеціалізація</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
+                Спеціалізація
+              </FormLabel>
+              <div className="md:flex-1">
                 <Select onValueChange={(value) => field.onChange(value)}>
                   <FormControl>
                     <SelectTrigger>
@@ -136,8 +138,10 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="experience"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Досвід роботи</FormLabel>
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
+                Досвід роботи
+              </FormLabel>
               <div className="flex-1">
                 <Select onValueChange={(value) => field.onChange(+value)} defaultValue="0">
                   <FormControl>
@@ -159,17 +163,17 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           )}
         />
 
-        <div className="flex items-center justify-between space-y-0">
-          <FormLabel className="h-full flex-1 text-base font-semibold">Зарплата</FormLabel>
-          <div className="flex-1">
+        <div className="flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0">
+          <FormLabel className="h-full text-base font-semibold md:flex-1">Зарплата</FormLabel>
+          <div className="md:flex-1">
             <div className="flex items-center">
               <FormField
                 control={form.control}
                 name="salaryForkGte"
                 render={({ field }) => (
-                  <FormItem className="flex flex-1 items-baseline space-x-1">
+                  <FormItem className="flex w-full items-baseline space-x-1 md:flex-1">
                     <FormControl>
-                      <div className="relative grid gap-1">
+                      <div className="relative grid md:gap-1">
                         <div className="absolute left-0 top-0 grid h-10 w-8 place-items-center">
                           <span className="text-sm text-zinc-400">$</span>
                         </div>
@@ -184,14 +188,13 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="salaryForkLte"
                 render={({ field }) => (
-                  <FormItem className="flex flex-1 items-baseline space-x-1">
+                  <FormItem className="flex w-full items-baseline space-x-1 md:flex-1">
                     <FormControl>
-                      <div className="relative grid gap-1">
+                      <div className="relative grid md:gap-1">
                         <div className="absolute left-0 top-0 grid h-10 w-8 place-items-center">
                           <span className="text-sm text-zinc-400">...</span>
                         </div>
@@ -215,9 +218,9 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="english"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Англійська</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">Англійська</FormLabel>
+              <div className="md:flex-1">
                 <Select onValueChange={(value) => field.onChange(value)}>
                   <FormControl>
                     <SelectTrigger>
@@ -242,9 +245,9 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="employmentOptions"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Зайнятість</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">Зайнятість</FormLabel>
+              <div className="md:flex-1">
                 <Select onValueChange={(value) => field.onChange(value)}>
                   <FormControl>
                     <SelectTrigger>
@@ -269,9 +272,9 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="locate"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Місто</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">Місто</FormLabel>
+              <div className="md:flex-1">
                 <Select onValueChange={(value) => field.onChange(value)}>
                   <FormControl>
                     <SelectTrigger>
@@ -297,9 +300,11 @@ const EmployerSubscribeForm: React.FC<EmployerSubscribeFormProps> = ({ employerI
           control={form.control}
           name="keywords"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Ключові слова</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between md:space-y-0">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
+                Ключові слова
+              </FormLabel>
+              <div className="md:flex-1">
                 <Input
                   {...field}
                   className="text-base"

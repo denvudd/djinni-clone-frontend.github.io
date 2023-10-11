@@ -16,8 +16,8 @@ export type PageTabProp = PageTabsProps['tabs'];
 const PageTabs: React.FC<PageTabsProps> = ({ tabs, active, className, ...props }) => (
   <ul
     className={cn(
-      `before:border-b-borderColor relative mb-5 flex flex-wrap gap-4 before:absolute before:bottom-0 before:left-0 
-      before:h-[2px] before:w-full before:border-b`,
+      `before:border-b-borderColor relative mb-5 flex gap-4 overflow-x-auto whitespace-nowrap before:absolute before:bottom-0 
+      before:left-0 before:h-[2px] before:w-full before:border-b sm:whitespace-normal`,
       className,
     )}
     {...props}

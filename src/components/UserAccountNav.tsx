@@ -23,11 +23,11 @@ interface UserAccountNavProps {
 }
 
 const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger>
+  <DropdownMenu modal={false}>
+    <DropdownMenuTrigger className="mt-6 md:mt-0">
       <div className="flex items-center">
         {user.filled ? (
-          <span className="bg-green mr-1 rounded-full px-2 py-1 text-xs font-bold text-white">
+          <span className="bg-green order-last ml-2 mr-1 rounded-full px-2 py-1 text-xs font-bold text-white md:order-first md:ml-0">
             online
           </span>
         ) : (
@@ -47,7 +47,7 @@ const UserAccountNav: React.FC<UserAccountNavProps> = ({ user }) => (
         <ChevronDown className="ml-3 h-4 w-4" />
       </div>
     </DropdownMenuTrigger>
-    <DropdownMenuContent className="bg-white" align="end">
+    <DropdownMenuContent className="overflow-y-scroll bg-white" align="end">
       {user.role === UserRole.Candidate &&
         candidateUserMenu.map((link) => (
           <DropdownMenuItem key={link.title} asChild>

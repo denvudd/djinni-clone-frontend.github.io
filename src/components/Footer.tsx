@@ -6,9 +6,9 @@ import { Icons } from './ui/Icons';
 const Footer: React.FC = () => (
   <footer className="footer">
     <div className="container pb-6 pt-8 text-xs">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-5 md:gap-2">
         <Image src="/logo_short.svg" alt="Djinni logo short" width={28} height={25} />
-        <ul className="flex gap-5">
+        <ul className="flex flex-col gap-2 md:flex-row md:gap-5">
           <li>
             <a href="https://djinniblog.substack.com/" target="_blank" rel="noreferrer">
               Блог
@@ -35,14 +35,18 @@ const Footer: React.FC = () => (
             </a>
           </li>
         </ul>
-        <ul className="flex items-center gap-3">
+        <ul className="flex flex-col gap-3 md:flex-row md:items-center">
           <li>З гордістю зроблено в Україні 🇺🇦</li>
           <li>
             © 2023 Djinni.co
             <a href="mailto:magic@djinni.co">magic@djinni.co</a>
           </li>
           <li>
-            <Button variant="ghost" size="sm" className="rounded-full">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="rounded-full bg-gray-400 md:bg-transparent"
+            >
               <Icons.Telegram className="mr-1 h-4 w-4" />
               Зв&apos;язатися з нами
             </Button>

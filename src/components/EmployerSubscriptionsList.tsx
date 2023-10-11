@@ -55,10 +55,9 @@ const EmployerSubscriptionsList: React.FC<EmployerSubscriptionsListProps> = ({
     [subscriptions, deleteSubscribe],
   );
 
-  return (
-    <ul className="flex flex-col gap-2">
-      {isSubscribeError && <ErrorAlert />}
-      {subscriptions.map(
+  const subscriptionList = React.useMemo(
+    () =>
+      subscriptions.map(
         ({
           category,
           employmentOptions,
@@ -108,13 +107,21 @@ const EmployerSubscriptionsList: React.FC<EmployerSubscriptionsListProps> = ({
                 size="icon"
                 variant="outline"
                 disabled={isSubscribeLoading}
+                className="px-2 sm:px-0"
               >
                 <Trash className="h-4 w-4" />
               </Button>
             </li>
           );
         },
-      )}
+      ),
+    [subscriptions, deleteSubscribe, isSubscribeError, isSubscribeLoading],
+  );
+
+  return (
+    <ul className="flex flex-col gap-2">
+      {isSubscribeError && <ErrorAlert />}
+      {subscriptionList}
     </ul>
   );
 };

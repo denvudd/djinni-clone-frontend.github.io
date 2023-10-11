@@ -14,6 +14,7 @@ import { type Skill } from '@/types';
 import { cn, formatEnglishLevel, formatExperience } from '@/lib/utils';
 
 const TRUNCATE_TEXT_LENGTH = 450;
+
 interface DeveloperCardProps {
   id: string;
   title: string;
@@ -56,12 +57,15 @@ const DeveloperCard: React.FC<DeveloperCardProps> = ({
     <Card>
       <CardHeader className="p-5">
         <CardTitle>
-          <Link href={`/q/${id}`} className="flex items-center justify-between">
+          <Link
+            href={`/q/${id}`}
+            className="flex flex-col items-start justify-between sm:flex-row sm:items-center"
+          >
             <span className="text-primary text-2xl font-semibold leading-tight">{title}</span>
             <span className="text-green text-2xl font-semibold leading-tight">${expectations}</span>
           </Link>
         </CardTitle>
-        <ul className="text-gray flex items-center text-sm">
+        <ul className="text-gray flex flex-wrap items-center text-sm">
           <li>{country}</li>
           <span className="mx-1">·</span>
           <li>{city}</li>

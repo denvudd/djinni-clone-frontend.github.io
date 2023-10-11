@@ -192,11 +192,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="name"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Хто вам потрібен?
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -213,11 +213,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="domain"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Домен
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   disabled={isDomainsLoading}
@@ -249,11 +249,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Детальний опис
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <FormControl>
                   <Textarea rows={12} {...field} />
                 </FormControl>
@@ -277,8 +277,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="youtube"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 YouTube відео{' '}
                 <Tooltip>
                   <TooltipTrigger className="text-link">[?]</TooltipTrigger>
@@ -289,7 +289,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
                 </Tooltip>
                 <span className="block font-normal">(не обов&apos;язково)</span>
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <FormControl>
                   <Input {...field} placeholder="https://www.youtube.com/watch?v=6Zbhvaac68Y" />
                 </FormControl>
@@ -312,11 +312,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="category"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Спеціалізація
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   disabled={isCategoriesLoading}
@@ -350,8 +350,8 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="keywords"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Ключові слова{' '}
                 <Tooltip>
                   <TooltipTrigger className="text-link">[?]</TooltipTrigger>
@@ -360,7 +360,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
                   </TooltipContent>
                 </Tooltip>
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <FormControl>
                   <TagsInput
                     value={field.value}
@@ -391,11 +391,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="employmentOptions"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Ремоут / Офіс
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   defaultValue={existVacancy?.employmentOptions}
@@ -423,11 +423,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="city"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Місто
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   disabled={isCitiesLoading}
                   onValueChange={(value) => field.onChange(value)}
@@ -456,16 +456,16 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="isRelocate"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Релокейт
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <RadioGroup
                   onValueChange={(value) => field.onChange(value === 'yes')}
                   defaultValue="yes"
                   defaultChecked={existVacancy?.isRelocate}
-                  className="flex gap-2"
+                  className="flex flex-col gap-2 sm:flex-row"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
@@ -491,12 +491,12 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           )}
         />
 
-        <div className="flex items-start justify-between gap-3">
-          <div className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+        <div className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+          <div className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
             <label>Зарплатна вилка (у місяць), $</label>
           </div>
-          <div className="flex max-w-[63.33333%] flex-[0_0_63.33333%] items-center">
-            <div className="max-w-[50%] flex-1 p-4 pt-2">
+          <div className="flex flex-col items-center sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%] sm:flex-row">
+            <div className="w-full p-4 pt-2 sm:max-w-[50%] sm:flex-1">
               <label className="mb-1 font-semibold">Приватна</label>
               <p className="text-gray mb-2 h-10 text-sm">Кандидати ці цифри не побачать</p>
               <div className="flex items-center">
@@ -540,7 +540,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
               </div>
             </div>
 
-            <div className="bg-teal-subtle max-w-[50%] flex-1 rounded-md p-4 pt-2">
+            <div className="bg-teal-subtle w-full flex-1 rounded-md p-4 pt-2 sm:max-w-[50%]">
               <label className="mb-1 font-semibold">
                 Публічна <span className="text-green">(не обов&apos;язково)</span>
               </label>
@@ -591,11 +591,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="experience"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Досвід роботи, мінімум
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(+value)}
                   defaultValue={existVacancy?.experience.toString()}
@@ -623,11 +623,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="english"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Англійська
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   defaultValue={existVacancy?.english}
@@ -655,11 +655,11 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="companyType"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between gap-3">
-              <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+            <FormItem className="flex flex-col items-start sm:flex-row sm:justify-between sm:gap-3">
+              <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                 Тип компанії
               </FormLabel>
-              <div className="max-w-[63.33333%] flex-[0_0_63.33333%]">
+              <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 <Select
                   onValueChange={(value) => field.onChange(value)}
                   defaultValue={existVacancy?.companyType}
@@ -687,14 +687,14 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           control={form.control}
           name="clarifiedData"
           render={() => (
-            <FormItem className="flex items-center justify-between gap-3">
+            <FormItem className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-3">
               <div className="mb-4">
-                <FormLabel className="h-full max-w-[33.33333%] flex-[0_0_33.33333%] pt-2 text-base font-semibold">
+                <FormLabel className="h-full pt-2 text-base font-semibold sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]">
                   Уточнюючі дані
                   <span className="block font-normal">(не обов&apos;язково)</span>
                 </FormLabel>
               </div>
-              <div className="flex max-w-[63.33333%] flex-[0_0_63.33333%] flex-wrap gap-3">
+              <div className="flex w-full flex-wrap gap-3 sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
                 {clarifiedDataArr.slice(1, 4).map((item) => (
                   <FormField
                     key={item}
@@ -725,7 +725,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           )}
         />
 
-        <div className="mt-4 flex justify-end gap-2">
+        <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
           <Button
             type="submit"
             variant="outline"
@@ -764,7 +764,7 @@ const CreateVacancyForm: React.FC<CreateVacancyFormProps> = ({ employerId, exist
           </Button>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex flex-col sm:flex-row sm:justify-end">
           <Button
             type="submit"
             isLoading={isVacancyLoading || isVacancyUpdating}

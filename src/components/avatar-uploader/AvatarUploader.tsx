@@ -165,8 +165,8 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
         className="h-52 w-52"
       />
       <Popover>
-        <PopoverTrigger className="absolute right-0 top-0">
-          <MoreHorizontal className="h-4 w-4" />
+        <PopoverTrigger className="absolute right-2 top-2 sm:right-0 sm:top-0">
+          <MoreHorizontal className="h-5 w-5 sm:h-4 sm:w-4" />
         </PopoverTrigger>
         <PopoverContent align="end" className="max-w-[220px]">
           <div className="flex flex-col justify-center gap-2">
