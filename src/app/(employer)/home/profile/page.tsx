@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { type Metadata } from 'next';
 import { getAuthServerSession } from '@/lib/next-auth';
-import { getEmployer } from '@/actions/get-employer';
+import { getEmployer } from '@/actions/server/get-employer';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
 import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';
@@ -51,7 +51,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         />
       )}
 
-      <div className="grid lg:grid-cols-3 lg:gap-6">
+      <div className="grid gap-6 sm:gap-0 lg:grid-cols-3">
         <div className="w-full lg:col-span-2">
           <EmployerProfileForm
             fullname={fullname}

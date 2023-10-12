@@ -42,7 +42,7 @@ const Page: React.FC = async () => {
   return (
     <div className="flex flex-col">
       <p className="mb-4 text-xl">Джин готовий приступити до пошуку пропозицій! (/◔ ◡ ◔)/</p>
-      <div className="mb-10 flex w-full gap-6">
+      <div className="mb-10 flex w-full flex-col-reverse gap-6 md:flex-row">
         <div className="md:max-w-[66.666%] md:flex-[0_0_66.666%]">
           <p className="text-gray mb-4">Категорія: {category}</p>
           <div className="mb-4 space-y-2">
@@ -54,9 +54,7 @@ const Page: React.FC = async () => {
           </div>
           <h4 className="mb-2 font-semibold">Навички</h4>
           <ul className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <li key={skill.id}>{skill.name}</li>
-            ))}
+            {skills?.map((skill) => <li key={skill.id}>{skill.name}</li>)}
           </ul>
         </div>
 

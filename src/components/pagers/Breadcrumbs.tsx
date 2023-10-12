@@ -30,7 +30,7 @@ export function Breadcrumbs({
   return (
     <nav
       aria-label="breadcrumbs"
-      className={cn('text-primary flex w-full items-center overflow-auto', className)}
+      className={cn('text-primary flex w-full flex-wrap items-center overflow-auto', className)}
       {...props}
     >
       {segments.map((segment, index) => {
@@ -47,7 +47,9 @@ export function Breadcrumbs({
                 ? truncate(segment.title, truncationLength)
                 : segment.title}
             </Link>
-            {!isLastSegment && <SeparatorIcon className="mx-2 h-4 w-4" aria-hidden="true" />}
+            {!isLastSegment && (
+              <SeparatorIcon className="mx-1 h-4 w-4 sm:mx-2" aria-hidden="true" />
+            )}
           </React.Fragment>
         );
       })}

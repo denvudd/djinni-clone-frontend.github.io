@@ -18,7 +18,7 @@ import { EmployerSubscribe } from '@/types';
 
 interface EmployerSubscriptionsListProps {
   employerId: string;
-  subscriptions: EmployerSubscribe[];
+  subscriptions: EmployerSubscribe[] | undefined;
 }
 
 const EmployerSubscriptionsList: React.FC<EmployerSubscriptionsListProps> = ({
@@ -55,66 +55,76 @@ const EmployerSubscriptionsList: React.FC<EmployerSubscriptionsListProps> = ({
     [subscriptions, deleteSubscribe],
   );
 
+  const subscriptionList = !!subscriptions?.length
+    ? React.useMemo(
+        () =>
+          subscriptions.map(
+            ({
+              category,
+              employmentOptions,
+              english,
+              experience,
+              id,
+              keywords,
+              locate,
+              salaryForkGte,
+              salaryForkLte,
+            }) => {
+              const elementsToRender = [
+                category && `${category}`,
+                employmentOptions && formatEmploymenOptions(employmentOptions),
+                locate && `${locate}`,
+                experience && `${experience}y`,
+                english && formatEnglishLevel(english).label,
+                salaryForkGte && `від $${salaryForkGte}`,
+                salaryForkLte && `до $${salaryForkLte}`,
+                keywords && `${keywords}`,
+              ].filter((e) => Boolean(e));
+
+              return (
+                <li
+                  key={id}
+                  className="text-primary border-borderColor flex items-baseline justify-between gap-4 rounded-md border p-2"
+                >
+                  <Link
+                    href={qs.stringifyUrl({
+                      url: '/developers',
+                      query: {
+                        title: category ?? undefined,
+                        exp_from: experience ?? undefined,
+                        english_level: english ?? undefined,
+                        employment_options: employmentOptions ?? undefined,
+                        location: locate ?? undefined,
+                        salary_min: salaryForkGte ?? undefined,
+                        salary_max: salaryForkLte ?? undefined,
+                        keywords: keywords ?? undefined,
+                      },
+                    })}
+                  >
+                    {elementsToRender.join(', ')}
+                  </Link>
+                  <Button
+                    onClick={onDelete(id)}
+                    size="icon"
+                    variant="outline"
+                    disabled={isSubscribeLoading}
+                    className="px-2 sm:px-0"
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </li>
+              );
+            },
+          ),
+        [subscriptions, deleteSubscribe, isSubscribeError, isSubscribeLoading],
+      )
+    : null;
+
   return (
     <ul className="flex flex-col gap-2">
       {isSubscribeError && <ErrorAlert />}
-      {subscriptions.map(
-        ({
-          category,
-          employmentOptions,
-          english,
-          experience,
-          id,
-          keywords,
-          locate,
-          salaryForkGte,
-          salaryForkLte,
-        }) => {
-          const elementsToRender = [
-            category && `${category}`,
-            employmentOptions && formatEmploymenOptions(employmentOptions),
-            locate && `${locate}`,
-            experience && `${experience}y`,
-            english && formatEnglishLevel(english).label,
-            salaryForkGte && `від $${salaryForkGte}`,
-            salaryForkLte && `до $${salaryForkLte}`,
-            keywords && `${keywords}`,
-          ].filter((e) => Boolean(e));
-
-          return (
-            <li
-              key={id}
-              className="text-primary border-borderColor flex items-baseline justify-between gap-4 rounded-md border p-2"
-            >
-              <Link
-                href={qs.stringifyUrl({
-                  url: '/developers',
-                  query: {
-                    title: category ?? undefined,
-                    exp_from: experience ?? undefined,
-                    english_level: english ?? undefined,
-                    employment_options: employmentOptions ?? undefined,
-                    location: locate ?? undefined,
-                    salary_min: salaryForkGte ?? undefined,
-                    salary_max: salaryForkLte ?? undefined,
-                    keywords: keywords ?? undefined,
-                  },
-                })}
-              >
-                {elementsToRender.join(', ')}
-              </Link>
-              <Button
-                onClick={onDelete(id)}
-                size="icon"
-                variant="outline"
-                disabled={isSubscribeLoading}
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            </li>
-          );
-        },
-      )}
+      {!subscriptionList?.length && <ErrorAlert />}
+      {subscriptionList}
     </ul>
   );
 };

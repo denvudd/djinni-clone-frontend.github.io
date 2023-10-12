@@ -118,8 +118,8 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
         </div>
       )}
 
-      <div className="flex w-full gap-6">
-        <div className="md:max-w-[66.666%] md:flex-[0_0_66.666%]">
+      <div className="flex w-full flex-col gap-6 md:flex-row">
+        <div className="order-last md:order-first md:max-w-[66.666%] md:flex-[0_0_66.666%]">
           <div className="mb-4">
             <h4 className="mb-2 font-semibold">Досвід роботи</h4>
             <ReactMarkdown components={MarkdownRender}>{experienceDescr}</ReactMarkdown>

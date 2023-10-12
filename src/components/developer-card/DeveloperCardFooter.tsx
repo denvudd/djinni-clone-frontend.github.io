@@ -85,7 +85,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
   }, [access, isFavorite]);
 
   return (
-    <CardFooter className="border-borderColor flex items-center justify-between border-t p-5">
+    <CardFooter className="border-borderColor flex flex-col items-start justify-between gap-2 border-t p-5 sm:flex-row sm:items-center sm:gap-0">
       <div className="flex items-center gap-3">
         <Link
           href={`/q/${candidateId}#poke_form`}
@@ -107,7 +107,7 @@ const DeveloperCardFooter: React.FC<DeveloperCardFooterProps> = ({
           Зберегти
         </button>
       </div>
-      <span className="text-gray inline-flex items-center gap-1">
+      <span className="text-gray inline-flex w-full items-center justify-end gap-1 sm:w-auto sm:justify-start">
         <Eye className="h-5 w-5" /> {views}
       </span>
     </CardFooter>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
-import { getEmployer } from '@/actions/get-employer';
+import { getEmployer } from '@/actions/server/get-employer';
 
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';

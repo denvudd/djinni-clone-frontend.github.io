@@ -85,11 +85,10 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
     },
     {
       title: `${candidate.position}, від $${candidate.expectations}, ${candidate.city}`,
-      href: `/home/${offerId}`,
+      href: `/home/inbox/${offerId}`,
     },
   ];
 
-  // TODO: pretiffy this with query-string
   const tabs: PageTabProp = [
     {
       title: 'Відповісти',
@@ -109,7 +108,7 @@ const Page: React.FC<PageProps> = async ({ params, searchParams }) => {
         separator={ChevronRight}
       />
       <Separator className="my-4" />
-      <div className="flex gap-16">
+      <div className="flex flex-col-reverse gap-16 md:flex-row">
         <div className="md:max-w-[33.333%] md:flex-[0_0_33.333%]">
           <div className="flex gap-2">
             <UserAvatar

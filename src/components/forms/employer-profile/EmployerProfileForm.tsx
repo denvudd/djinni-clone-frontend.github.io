@@ -131,7 +131,7 @@ const EmployerProfileForm: React.FC<EmployerProfileFormProps> = ({
           )}
         />
 
-        <div className="flex items-start gap-6">
+        <div className="flex flex-col items-start gap-6 sm:flex-row">
           <FormField
             control={form.control}
             name="telegram"

@@ -72,9 +72,9 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
   ];
 
   return (
-    <div className="-mt-8">
+    <div className="sm:-mt-8">
       <PageTabs tabs={tabs} active={0} />
-      <PageTitle>
+      <PageTitle className="sm:my-8">
         Усі відгуки <span className="text-gray">{count}</span>
       </PageTitle>
       {error === 'true' && <ErrorAlert />}

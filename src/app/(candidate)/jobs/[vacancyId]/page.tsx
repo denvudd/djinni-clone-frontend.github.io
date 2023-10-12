@@ -22,6 +22,7 @@ import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
 import { UserRole } from '@/lib/enums';
+import { getVacancy } from '@/actions/server/get-vacancy';
 
 interface PageProps {
   params: {
@@ -33,27 +34,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   const { vacancyId } = params;
 
   const session = await getAuthServerSession();
-
-  async function getVacancy() {
-    try {
-      const { data } = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/vacancies/${vacancyId}`,
-      );
-
-      if (data instanceof AxiosError) {
-        if (data.status === 404) {
-          redirect('not-found');
-        } else {
-          throw new Error();
-        }
-      }
-
-      return data as Vacancy;
-    } catch (error) {
-      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
-      redirect('/not-found');
-    }
-  }
 
   const {
     active,
@@ -76,7 +56,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     youtube,
     employer,
     clarifiedData,
-  } = await getVacancy();
+  } = await getVacancy(vacancyId);
 
   const segments: BreadcrumbsSegment = [
     {

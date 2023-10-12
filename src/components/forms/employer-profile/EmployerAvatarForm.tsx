@@ -74,7 +74,7 @@ const EmployerAvatarForm: React.FC<EmployerAvatarFormProps> = ({
   });
 
   return (
-    <div className="relative flex justify-center">
+    <div className="relative mt-6 flex justify-center lg:mt-0">
       <AvatarUploader
         avatar={avatar}
         reqFunc={changeAvatar}

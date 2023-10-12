@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { getEmployerVacancies } from '@/actions/get-employer-vacancies';
+import { getEmployerVacancies } from '@/actions/server/get-employer-vacancies';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import PageTitle from '@/components/pagers/PageTitle';
@@ -58,7 +58,7 @@ const Page: React.FC = async () => {
                   <span className="text-danger">(неактивна)</span>
                 )}
               </h4>
-              <div className="mt-1 flex gap-2 text-sm">
+              <div className="mt-1 flex flex-wrap gap-2 text-sm">
                 <Link className="text-link" href={`/home/post_job?job=${vacancy.id}`}>
                   Редагувати
                 </Link>

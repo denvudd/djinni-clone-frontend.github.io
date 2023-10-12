@@ -78,9 +78,9 @@ const SignUpForm: React.FC = () => {
   return (
     <div className="mx-auto flex max-w-2xl flex-col">
       {isRegisterError && <ErrorAlert />}
-      <PageTitle className="mb-5 text-4xl">Зареєструватись на Джині</PageTitle>
-      <div className="flex">
-        <div className="border-borderColor flex-1 border-r pr-9">
+      <PageTitle className="mb-5 text-3xl md:text-4xl">Зареєструватись на Джині</PageTitle>
+      <div className="flex flex-col gap-12 md:flex-row md:gap-0">
+        <div className="md:border-borderColor flex-1 md:border-r md:pr-9">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
               <FormField
@@ -149,7 +149,7 @@ const SignUpForm: React.FC = () => {
           </Form>
         </div>
         <div className="flex-1">
-          <div className="flex flex-col gap-4 pb-5 pl-9">
+          <div className="flex flex-col gap-4 pb-5 md:pl-9">
             <Button variant="outline">
               <Icons.Linkedin className="mr-3 h-6 w-6" />
               Продовжити з LinkedIn

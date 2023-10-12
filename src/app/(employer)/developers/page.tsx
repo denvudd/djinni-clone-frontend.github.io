@@ -1,37 +1,40 @@
 import React from 'react';
 
+import { headers } from 'next/headers';
+import { getSelectorsByUserAgent } from 'react-device-detect';
 import { getAuthServerSession } from '@/lib/next-auth';
-import { getCandidatesList } from '@/actions/get-candidate-list';
+import { getEmployerSubscriptions } from '@/actions/private/get-employer-subscriptions';
+import { getCandidatesList } from '@/actions/server/get-candidate-list';
+import { getPopularCities } from '@/actions/get-popular-cities';
+import { getCategories } from '@/actions/get-categories';
 
-import SidebarDevelopers from '@/components/SidebarDevelopers';
+import SidebarDevelopers from '@/components/developers-filters/SidebarDevelopers';
 import DevelopersSearch from '@/components/DevelopersSearch';
 import DeveloperCard from '@/components/developer-card/DeveloperCard';
 import PageTabs, { type PageTabProp } from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
 
-import { type EmploymentOption, type EnglishLevel } from '@/lib/enums';
+import { type DevelopersFilters } from './types';
+import SheetDevelopers from '@/components/developers-filters/SheetDevelopers';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
+
 export interface DevelopersPageProps {
-  searchParams: {
-    location: string;
-    title: string;
-    exp_from: string;
-    exp_to: string;
-    salary_min: string;
-    salary_max: string;
-    english_level: EnglishLevel;
-    employment_options: EmploymentOption;
-    ready_to_relocate: string;
-    page: string;
-    keywords: string;
-  };
+  searchParams: DevelopersFilters;
 }
 
 const Page = async ({ searchParams }: DevelopersPageProps) => {
-  const { candidates, count } = await getCandidatesList(searchParams);
+  const headersList = headers();
+  const ua = headersList.get('User-Agent') ?? '';
+  const { isMobile } = getSelectorsByUserAgent(ua);
+
   const session = await getAuthServerSession();
+
+  const { candidates, count } = await getCandidatesList(searchParams);
+  const cities = await getPopularCities();
+  const categories = await getCategories();
+  const subscriptions = await getEmployerSubscriptions(session);
 
   const tabs: PageTabProp = [
     {
@@ -50,9 +53,23 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
         Кандидати <span className="text-gray">{count}</span>
       </PageTitle>
       <PageTabs tabs={tabs} active={0} />
-      <div className="grid grid-cols-4 gap-4">
-        <SidebarDevelopers searchParams={searchParams} />
-        <div className="col-span-3 bg-white px-3">
+      <div className="grid-cols-4 gap-4 md:grid">
+        {isMobile ? (
+          <SheetDevelopers
+            subscriptions={subscriptions}
+            categories={categories}
+            cities={cities}
+            {...searchParams}
+          />
+        ) : (
+          <SidebarDevelopers
+            subscriptions={subscriptions}
+            categories={categories}
+            cities={cities}
+            searchParams={searchParams}
+          />
+        )}
+        <div className="col-span-3 bg-white md:px-3">
           <DevelopersSearch />
           <div className="mt-4 flex flex-col gap-4">
             {!candidates ||
@@ -65,18 +82,10 @@ const Page = async ({ searchParams }: DevelopersPageProps) => {
               !!candidates.length &&
               candidates.map((candidate) => (
                 <DeveloperCard
-                  id={candidate.id}
-                  key={candidate.id}
-                  city={candidate.city}
-                  country={candidate.country}
-                  createdAt={candidate.createdAt}
-                  description={candidate.experienceDescr}
-                  expectations={candidate.expectations}
-                  experience={candidate.experience}
-                  english={candidate.english}
-                  skills={candidate.skills}
+                  {...candidate}
                   title={candidate.position}
-                  views={candidate.views}
+                  description={candidate.experienceDescr}
+                  key={candidate.id}
                   isFavorite={!!candidate.favoriteCandidates[0]?.employerId}
                   favoriteId={candidate.favoriteCandidates[0]?.id}
                   employerId={session?.user?.employer_id}

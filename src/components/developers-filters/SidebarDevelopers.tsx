@@ -1,51 +1,32 @@
 import React from 'react';
 
 import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
 import qs from 'query-string';
 import clsx from 'clsx';
 
 import { Mail } from 'lucide-react';
-import { getAuthServerSession } from '@/lib/next-auth';
-import { getPopularCities } from '@/actions/get-popular-cities';
-import { getCategories } from '@/actions/get-categories';
-import ExperienceRange from './ExperienceRange';
-import SalaryRange from './SalaryRange';
+
+import ExperienceRange from '../ExperienceRange';
+import SalaryRange from '../SalaryRange';
 
 import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
 import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 import { type DevelopersPageProps } from '@/app/(employer)/developers/page';
-import { type EmployerSubscribe } from '@/types';
+import { type Category, type City, type EmployerSubscribe } from '@/types';
 
-type SidebarDevelopersProps = DevelopersPageProps;
+interface SidebarDevelopersProps extends DevelopersPageProps {
+  cities: City[] | undefined;
+  categories: Category[] | undefined;
+  subscriptions: EmployerSubscribe[] | undefined;
+}
 
-const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
+const SidebarDevelopers = ({
+  searchParams,
+  categories,
+  cities,
+  subscriptions,
+}: SidebarDevelopersProps) => {
   const { employment_options, english_level, location, title } = searchParams;
-
-  const cities = await getPopularCities();
-  const categories = await getCategories();
-
-  async function getEmployerSubscriptions() {
-    const session = await getAuthServerSession();
-
-    if (!session) return null;
-
-    const { data } = await axios.get(
-      process.env.NEXT_PUBLIC_BACKEND_API_URL +
-        `/employer/${session?.user?.employer_id}/subscriptions`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
-        },
-      },
-    );
-
-    if (data instanceof AxiosError) throw new Error();
-
-    return data as EmployerSubscribe[];
-  }
-
-  const subscriptions = await getEmployerSubscriptions();
 
   return (
     <aside className="col-span-1">
@@ -65,6 +46,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
             )}
           </h4>
           <ul className="flex flex-col gap-1">
+            {!cities?.length && (
+              <li>Не вдалось загрузити список міст. Повторіть спробу через якийсь час.</li>
+            )}
             {cities &&
               !!cities.length &&
               cities.map(({ city }) => (
@@ -103,6 +87,9 @@ const SidebarDevelopers = async ({ searchParams }: SidebarDevelopersProps) => {
             )}
           </h4>
           <ul className="flex flex-col gap-1">
+            {!categories?.length && (
+              <li>Не вдалось загрузити список категорій. Повторіть спробу через якийсь час.</li>
+            )}
             {categories &&
               !!categories.length &&
               categories.map((category) => (

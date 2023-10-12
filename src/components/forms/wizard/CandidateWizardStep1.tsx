@@ -125,9 +125,9 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
           control={form.control}
           name="category"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Категорія</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">Категорія</FormLabel>
+              <div className="md:flex-1">
                 <Select onValueChange={(value) => field.onChange(value)} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
@@ -152,13 +152,16 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="experience"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Досвід роботи</FormLabel>
-              <div className="flex-1">
+            <FormItem className="md:ustify-between flex flex-col md:flex-row md:items-center">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
+                Досвід роботи
+              </FormLabel>
+              <div className="md:flex-1">
                 <FormControl>
                   <Slider
                     defaultValue={[0]}
@@ -174,12 +177,13 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="expectations"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel className="h-full flex-1 text-base font-semibold">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
                 Зарплатні очікування
                 <Tooltip>
                   <TooltipTrigger>
@@ -188,7 +192,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
                   <TooltipContent>Сума &quot;на руки&quot;, після сплати податків</TooltipContent>
                 </Tooltip>
               </FormLabel>
-              <div className="flex-1">
+              <div className="md:flex-1">
                 <FormControl>
                   <div className="flex items-center">
                     <span className="h-10 rounded-l-md bg-gray-300 px-3 py-1">
@@ -196,10 +200,9 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
                     </span>
                     <Input
                       className="rounded-es-none rounded-ss-none border-l-0"
-                      onChange={(e) => field.onChange(+e.target.value)}
+                      onChange={(event) => field.onChange(+event.target.value)}
                       value={field.value}
                       ref={field.ref}
-                      type="number"
                     />
                   </div>
                 </FormControl>
@@ -208,13 +211,14 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="position"
           render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel className="h-full flex-1 text-base font-semibold">Посада</FormLabel>
-              <div className="flex-1">
+            <FormItem className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">Посада</FormLabel>
+              <div className="md:flex-1">
                 <FormControl>
                   <Input placeholder="Наприклад, PHP розробник" {...field} />
                 </FormControl>
@@ -223,15 +227,16 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="english"
           render={({ field }) => (
-            <FormItem className="flex items-start justify-between">
-              <FormLabel className="h-full flex-1 text-base font-semibold">
+            <FormItem className="flex flex-col md:flex-row md:items-start md:justify-between">
+              <FormLabel className="h-full text-base font-semibold md:flex-1">
                 Рівень англійської
               </FormLabel>
-              <div className="flex-1">
+              <div className="md:flex-1">
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -246,7 +251,8 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
             </FormItem>
           )}
         />
-        <div className="inline-block">
+
+        <div className="mt-6 inline-block md:mt-0">
           <Button isLoading={isCandidateLoading} type="submit" className="text-lg">
             Продовжити
           </Button>
