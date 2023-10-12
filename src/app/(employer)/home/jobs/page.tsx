@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { getEmployerVacancies } from '@/actions/get-employer-vacancies';
+import { getEmployerVacancies } from '@/actions/server/get-employer-vacancies';
 import { getAuthServerSession } from '@/lib/next-auth';
 
 import PageTitle from '@/components/pagers/PageTitle';

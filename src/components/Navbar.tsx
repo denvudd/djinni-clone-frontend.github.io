@@ -48,49 +48,49 @@ const Navbar: React.FC = async () => {
               </ul>
             )}
           </div>
-          {session?.user?.filled ? (
-            !isMobile && (
-              <UserAccountNav
-                user={{
-                  fullname: session?.user?.fullname,
-                  avatar: session?.user?.avatar,
-                  role: session?.user?.role,
-                  filled: session?.user?.filled,
-                }}
-              />
-            )
-          ) : (
-            <ul className="flex gap-2">
-              <li>
-                <Link
-                  href="/login"
-                  className={cn(
-                    buttonVariants({
-                      variant: 'outline',
-                      className:
-                        'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
-                    }),
-                  )}
-                >
-                  Увійти
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/signup"
-                  className={cn(
-                    buttonVariants({
-                      variant: 'outline',
-                      className:
-                        'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
-                    }),
-                  )}
-                >
-                  Зареєструватись
-                </Link>
-              </li>
-            </ul>
-          )}
+          {session?.user?.filled
+            ? !isMobile && (
+                <UserAccountNav
+                  user={{
+                    fullname: session?.user?.fullname,
+                    avatar: session?.user?.avatar,
+                    role: session?.user?.role,
+                    filled: session?.user?.filled,
+                  }}
+                />
+              )
+            : !isMobile && (
+                <ul className="flex gap-2">
+                  <li>
+                    <Link
+                      href="/login"
+                      className={cn(
+                        buttonVariants({
+                          variant: 'outline',
+                          className:
+                            'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+                        }),
+                      )}
+                    >
+                      Увійти
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/signup"
+                      className={cn(
+                        buttonVariants({
+                          variant: 'outline',
+                          className:
+                            'rounded-full dark:text-white border-gray-300 px-3 py-0 text-sm leading-loose',
+                        }),
+                      )}
+                    >
+                      Зареєструватись
+                    </Link>
+                  </li>
+                </ul>
+              )}
           {isMobile && (
             <MobileNavbar
               avatar={session?.user?.avatar}

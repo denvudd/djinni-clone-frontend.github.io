@@ -12,12 +12,10 @@ const Page: React.FC = async () => {
   if (!session?.user.candidate_id) redirect('/');
 
   return (
-    <div className="flex flex-col">
-      <div className="max-w-[60%] flex-[0_0_60%]">
-        <p>33% Заповнено</p>
-        <Progress value={33} className="mt-1" />
-        <CandidateWizardStep2 candidateId={session.user.candidate_id} />
-      </div>
+    <div className="md:max-w-[60%] md:flex-[0_0_60%]">
+      <p>33% Заповнено</p>
+      <Progress value={33} className="mt-1" />
+      <CandidateWizardStep2 candidateId={session.user.candidate_id} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { type Metadata } from 'next';
 import { getAuthServerSession } from '@/lib/next-auth';
-import { getEmployer } from '@/actions/get-employer';
+import { getEmployer } from '@/actions/server/get-employer';
 
 import EmployerProfileForm from '@/components/forms/employer-profile/EmployerProfileForm';
 import EmployerAvatarForm from '@/components/forms/employer-profile/EmployerAvatarForm';

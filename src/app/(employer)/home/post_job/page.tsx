@@ -12,6 +12,7 @@ import PageTitle from '@/components/pagers/PageTitle';
 
 import { type Vacancy } from '@/types';
 import { UserRole } from '@/lib/enums';
+import { getVacancy } from '@/actions/server/get-vacancy';
 
 interface PageProps {
   searchParams: {
@@ -25,27 +26,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   if (session && session.user.role !== UserRole.Employer) redirect('/');
 
-  async function getExistVacancy() {
-    try {
-      if (job) {
-        const { data } = await axios.get(`/vacancies/${job}`);
-
-        if (data instanceof AxiosError) {
-          if (data.status === 404) {
-            redirect('/not-found');
-          } else {
-            redirect('/error');
-          }
-        }
-
-        return data as Vacancy;
-      }
-    } catch (error) {
-      redirect('/error');
-    }
-  }
-
-  const existVacancy = await getExistVacancy();
+  const existVacancy = await getVacancy(job);
 
   return (
     <>

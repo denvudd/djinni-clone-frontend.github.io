@@ -14,10 +14,6 @@ export interface DevelopersFilters {
   keywords: string;
 }
 
-export type DevelopersFiltersByKey = {
-  [key in DevelopersFiltersEnum]: string | EnglishLevel | EmploymentOption;
-};
-
 export enum DevelopersFiltersEnum {
   Location = 'location',
   Title = 'title',

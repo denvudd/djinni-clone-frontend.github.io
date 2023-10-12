@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { getSelectorsByUserAgent } from 'react-device-detect';
 import { getAuthServerSession } from '@/lib/next-auth';
 import { getEmployerSubscriptions } from '@/actions/private/get-employer-subscriptions';
-import { getCandidatesList } from '@/actions/get-candidate-list';
+import { getCandidatesList } from '@/actions/server/get-candidate-list';
 import { getPopularCities } from '@/actions/get-popular-cities';
 import { getCategories } from '@/actions/get-categories';
 

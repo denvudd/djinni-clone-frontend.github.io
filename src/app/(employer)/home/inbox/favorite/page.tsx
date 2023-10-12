@@ -23,7 +23,7 @@ const Page: React.FC = async () => {
   const session = await getAuthServerSession();
 
   if (!session?.user.employer_id) redirect('/');
-  async function getOffers() {
+  async function getFavoriteOffers() {
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/employer/${session?.user.employer_id}/offers/favorite`,
@@ -54,7 +54,7 @@ const Page: React.FC = async () => {
     }
   }
 
-  const { offers, count } = await getOffers();
+  const { offers, count } = await getFavoriteOffers();
 
   const tabs: PageTabProp = [
     {
