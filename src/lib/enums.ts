@@ -60,3 +60,11 @@ export enum RefusalReason {
   StopedHiring = 'StopedHiring',
   Other = 'Other',
 }
+
+export enum ExpRank {
+  Junior = 'Junior',
+  Middle = 'Middle',
+  Senior = 'Senior',
+  TeamLead = 'Team Lead',
+  Chief = 'Chief / Head of',
+}

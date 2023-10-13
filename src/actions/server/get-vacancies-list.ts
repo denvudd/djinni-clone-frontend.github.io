@@ -1,12 +1,12 @@
 import axios, { AxiosError } from 'axios';
 import { redirect } from 'next/navigation';
 
-import { type CandidateProfile } from '@/types';
-import { DevelopersFilters } from '@/app/(employer)/developers/types';
+import { ListVacancy } from '@/types';
+import { type JobsFilters } from '@/app/(candidate)/jobs/types';
 
-export const getCandidatesList = async (searchParams: DevelopersFilters) => {
+export const getVacanciesList = async (searchParams: JobsFilters) => {
   try {
-    const { data } = await axios.get(process.env.NEXT_PUBLIC_BACKEND_API_URL + '/candidate/list', {
+    const { data } = await axios.get(process.env.NEXT_PUBLIC_BACKEND_API_URL + '/vacancies/list', {
       params: {
         ...searchParams,
         limit: 10,
@@ -22,12 +22,7 @@ export const getCandidatesList = async (searchParams: DevelopersFilters) => {
     }
 
     return data as {
-      candidates: ({
-        favoriteCandidates: {
-          employerId?: string;
-          id?: string;
-        }[];
-      } & CandidateProfile)[];
+      vacancies: ListVacancy[];
       count: number;
     };
   } catch (error) {
