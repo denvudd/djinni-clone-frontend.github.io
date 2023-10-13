@@ -101,6 +101,8 @@ const Page = async () => {
               english={vacancy.english}
               experience={vacancy.experience}
               candidateId={session?.user.candidate_id}
+              salaryForkGte={vacancy.salaryForkGte}
+              salaryForkLte={vacancy.salaryForkLte}
             />
           ))}
         {favoriteVacancies && !favoriteVacancies.length && (
