@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { type Metadata } from 'next';
 import ReactMarkdown from 'react-markdown';
 import { PenSquare, Users } from 'lucide-react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
-import { redirect } from 'next/navigation';
 import { getAuthServerSession } from '@/lib/next-auth';
+import { getVacancy } from '@/actions/server/get-vacancy';
 
 import UserAvatar from '@/components/UserAvatar';
 import YoutubeEmbed from '@/components/ui/YoutubeEmbed';
@@ -22,7 +22,7 @@ import { MarkdownRender } from '@/components/renderers/MarkdownRender';
 import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
 import { UserRole } from '@/lib/enums';
-import { getVacancy } from '@/actions/server/get-vacancy';
+import { getPublicVacancy } from '@/actions/server/get-public-vacancy';
 
 interface PageProps {
   params: {
@@ -34,6 +34,14 @@ const Page: React.FC<PageProps> = async ({ params }) => {
   const { vacancyId } = params;
 
   const session = await getAuthServerSession();
+
+  async function getPublicOrPrivateVacancy() {
+    if (session?.user.role === UserRole.Candidate) {
+      return getPublicVacancy(vacancyId);
+    }
+
+    return getVacancy(vacancyId);
+  }
 
   const {
     active,
@@ -56,7 +64,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     youtube,
     employer,
     clarifiedData,
-  } = await getVacancy(vacancyId);
+  } = await getPublicOrPrivateVacancy();
 
   const segments: BreadcrumbsSegment = [
     {

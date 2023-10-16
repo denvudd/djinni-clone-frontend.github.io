@@ -1,9 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { type Session } from 'next-auth';
 import { type EmployerSubscribe } from '@/types';
+import { UserRole } from '@/lib/enums';
 
 export async function getEmployerSubscriptions(session: Session | null) {
   if (!session) return undefined;
+  if (session.user.role !== UserRole.Employer) {
+    return undefined;
+  }
 
   const { data } = await axios.get(
     process.env.NEXT_PUBLIC_BACKEND_API_URL +

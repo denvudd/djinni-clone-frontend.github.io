@@ -153,13 +153,14 @@ export interface Vacancy {
 
   active: boolean;
   responsesCount: number;
+  views: number;
   name: string;
   domain: string;
   description: string;
   category: string;
   employmentOptions: EmploymentOption;
   country: string;
-  city?: string;
+  city: string;
   isRelocate: boolean;
 
   salaryForkGte?: number;
@@ -175,6 +176,7 @@ export interface Vacancy {
   clarifiedData: ClarifiedData[];
   keywords: VacancyKeyword[];
 
+  favoriteVacancies: FavoriteVacancy[];
   employer: {
     id: string;
     companyLink: string;
@@ -184,6 +186,55 @@ export interface Vacancy {
     positionAndCompany: string;
     avatar: string | null;
   };
+}
+
+export interface ListVacancy {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  active: boolean;
+  responsesCount: number;
+  views: number;
+  name: string;
+  domain: string;
+  description: string;
+  category: string;
+  employmentOptions: EmploymentOption;
+  country: string;
+  city: string;
+  isRelocate: boolean;
+  salaryForkGte: number;
+  salaryForkLte: number;
+  privateSalaryForkGte: number;
+  privateSalaryForkLte: number;
+  experience: number;
+  english: EnglishLevel;
+  companyType: CompanyType;
+  youtube?: string;
+  employerId: string;
+  favoriteVacancies: {
+    candidateId: string;
+    id: string;
+    vacancyId: string;
+  }[];
+  employer: {
+    id: string;
+    fullname: string;
+    positionAndCompany: string;
+    user: {
+      avatar: string;
+    }[];
+  };
+}
+
+export interface FavoriteVacancy {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  vacancyId: string;
+  candidateId: string;
+  vacancy: Vacancy;
 }
 
 export interface EmployerOffer {
