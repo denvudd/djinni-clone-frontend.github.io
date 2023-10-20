@@ -51,7 +51,7 @@ export interface CandidateProfile {
   experience: number;
   views: number;
 
-  category?: string;
+  category: string;
   hourlyRate?: number;
   position: string;
   experienceDescr: string;
@@ -75,8 +75,8 @@ export interface CandidateProfile {
 
   skills: Skill[];
   offers?: Offer[];
-  // blockedDomains: [];
-  // blockedTypes: [];
+  blockedDomains?: BlockedDomain[];
+  blockedTypes?: BlockedVacancyType[];
 }
 
 export interface EmployerProfile {
@@ -370,6 +370,20 @@ export interface Offer {
     category: string;
     id: string;
   } | null;
+}
+
+export interface BlockedDomain {
+  id: string;
+  name: string;
+
+  candidateId: string;
+}
+
+export interface BlockedVacancyType {
+  id: string;
+  name: string;
+
+  candidateId: string;
 }
 
 export interface ClarifiedData {

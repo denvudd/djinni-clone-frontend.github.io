@@ -31,14 +31,15 @@ import { Slider } from '@/components/ui/Slider';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/Tooltip';
 import ErrorAlert from '@/components/ui/ErrorAlert';
+import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 import {
   type CandidateWizardStep1Request,
   CandidateWizardStep1Validator,
 } from '@/lib/validators/wizard/candidate-wizard-step1';
+import { formatExperience } from '@/lib/utils';
 import { type CandidateProfile, type Category } from '@/types';
 import { EnglishLevel } from '@/lib/enums';
-import EnglishLevelGroup from '@/components/EnglishLevelGroup';
 
 interface CandidateWizardStep1Props {
   candidateId: string;
@@ -105,18 +106,6 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
     updateCandidate(values);
   }
 
-  const formatExperienceLabel = React.useCallback((experience: number) => {
-    if (experience === 0) {
-      return 'немає досвіду роботи';
-    }
-
-    if (experience === 11) {
-      return 'більше 10 років';
-    }
-
-    return `${experience} років`;
-  }, []);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-3">
@@ -172,7 +161,7 @@ const CandidateWizardStep1: React.FC<CandidateWizardStep1Props> = ({ candidateId
                   />
                 </FormControl>
                 <FormMessage />
-                <span className="text-sm">{formatExperienceLabel(field.value)}</span>
+                <span className="text-sm">{formatExperience(field.value)}</span>
               </div>
             </FormItem>
           )}

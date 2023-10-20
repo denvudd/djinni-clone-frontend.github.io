@@ -34,7 +34,7 @@ import PhoneInput from '@/components/ui/PhoneInput';
 import {
   type EmployerBillingRequest,
   EmployerBillingValidator,
-} from '@/lib/validators/employer-profile/employer-billing';
+} from '@/lib/validators/employer-account/employer-billing';
 import { type EmployerBilling } from '@/types';
 
 interface EmployerBillingFormProps {

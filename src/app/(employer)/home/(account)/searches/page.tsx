@@ -8,7 +8,7 @@ import { getEmployerSubscriptions } from '@/actions/private/get-employer-subscri
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
-import EmployerSubscribeForm from '@/components/forms/employer-profile/EmployerSubscribeForm';
+import EmployerSubscribeForm from '@/components/forms/employer-account/EmployerSubscribeForm';
 import EmployerSubscriptionsList from '@/components/EmployerSubscriptionsList';
 
 import { tabs } from '../tabs';

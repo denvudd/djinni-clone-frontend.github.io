@@ -85,7 +85,7 @@ const EditCandidateSkills: React.FC<EditCandidateSkillsProps> = ({ candidateId }
       onChange={(tags) => {
         addSkillsFromTags(tags);
       }}
-      name="fruits"
+      name="skills"
       onRemoved={(tag) => {
         removeSkillsFromTags(tag);
       }}

@@ -9,7 +9,7 @@ import { getEmployer } from '@/actions/server/get-employer';
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
-import EmployerAboutForm from '@/components/forms/employer-profile/EmployerAboutForm';
+import EmployerAboutForm from '@/components/forms/employer-account/EmployerAboutForm';
 
 import { tabs } from '../tabs';
 

@@ -35,7 +35,7 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import {
   EmployerSubscribeRequest,
   EmployerSubscribeValidator,
-} from '@/lib/validators/employer-profile/employer-subscribe';
+} from '@/lib/validators/employer-account/employer-subscribe';
 import { EmploymentOption, EnglishLevel } from '@/lib/enums';
 import { convertEnumObjToArray, formatEmploymenOptions, formatEnglishLevel } from '@/lib/utils';
 import { type EmployerProfile } from '@/types';
