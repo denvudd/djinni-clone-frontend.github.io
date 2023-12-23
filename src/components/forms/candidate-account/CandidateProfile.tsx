@@ -88,33 +88,22 @@ interface CandidateProfileProps {
 const CandidateProfile: React.FC<CandidateProfileProps> = (props) => {
   const {
     candidateId,
-    achievementsDescr,
     blockedDomains,
     blockedTypes,
     category,
     city,
     communicateMethod,
-    employmentOptions,
-    english,
-    expectations,
-    expectationsDescr,
     experience,
-    experienceDescr,
-    hourlyRate,
-    position,
-    preferableLang,
-    skills,
-    employerQuestions,
     isRelocate,
   } = props;
 
+  const router = useRouter();
   const [selectedDomains, setSelectedDomains] = React.useState<string[]>(
     blockedDomains?.map((skill) => skill.name) ?? [],
   );
   const [selectedVacanciesTypes, setSelectedVacanciesTypes] = React.useState<string[]>(
     blockedTypes?.map((skill) => skill.name) ?? [],
   );
-  const router = useRouter();
 
   const form = useForm<CandidateProfileRequest>({
     resolver: zodResolver(CandidateProfileValidator),
@@ -183,8 +172,6 @@ const CandidateProfile: React.FC<CandidateProfileProps> = (props) => {
   function onSubmit(values: CandidateProfileRequest) {
     updateProfile(values);
   }
-
-  console.log(form.watch());
 
   return (
     <Form {...form}>
@@ -706,7 +693,7 @@ const CandidateProfile: React.FC<CandidateProfileProps> = (props) => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:gap-3 md:items-center">
           <div className="sm:max-w-[33.33333%] sm:flex-[0_0_33.33333%]" />
           <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
-            <Button size="lg" type="submit" className="w-full text-xl">
+            <Button size="lg" type="submit" isLoading={isProfileLoading} className="w-full text-xl">
               Оновити профіль
             </Button>
 

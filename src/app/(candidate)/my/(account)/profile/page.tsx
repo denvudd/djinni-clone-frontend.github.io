@@ -8,11 +8,10 @@ import { getCandidateProfile } from '@/actions/private/get-candidate-profile';
 
 import PageTabs from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
-import { Separator } from '@/components/ui/Separator';
 import AlertSuccess from '@/components/ui/AlertSuccess';
+import CandidateProfile from '@/components/forms/candidate-account/CandidateProfile';
 
 import { tabs } from '../tabs';
-import CandidateProfile from '@/components/forms/candidate-account/CandidateProfile';
 
 interface PageProps {
   searchParams: {

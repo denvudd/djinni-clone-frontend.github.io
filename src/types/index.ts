@@ -71,12 +71,23 @@ export interface CandidateProfile {
   linkedIn?: string;
   github?: string;
   portfolio?: string;
-  resumeFile?: null;
+  resumeFile?: CandidateResume[] | null;
 
   skills: Skill[];
   offers?: Offer[];
   blockedDomains?: BlockedDomain[];
   blockedTypes?: BlockedVacancyType[];
+}
+
+export interface CandidateResume {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  candidateId: string;
+
+  resumeUrl: string;
+  name: string;
+  isMain: boolean;
 }
 
 export interface EmployerProfile {
