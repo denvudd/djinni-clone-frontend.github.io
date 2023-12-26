@@ -2,6 +2,10 @@
 
 Built with the Next.js, Nest.js, TypeScript & Tailwind
 
+> [!WARNING]  
+> This project is still in development and is not ready for production use. 
+> Also, the back-end part is free deployed on [Cyclic](https://www.cyclic.sh/) so it can delay requests, especially in a cold one.
+
 [![Djinni](https://i.ibb.co/hLM7y0V/Screenshot-2023-09-21-10-21-55.png)](https://djinni-clone.vercel.app/)
 
 > **Warning**
