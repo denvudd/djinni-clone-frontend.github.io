@@ -68,6 +68,7 @@ NEXTAUTH_URL=
 and that's all you need to get started!
 
 ## Deploy
+
 I'm deploying my Front-End on Vercel. You can see the live demo here: https://djinni-clone.vercel.app/
 
 Also, I have Back-End deployment on Railways. You can access live API here: https://djinni-backendgithubio-production.up.railway.app/

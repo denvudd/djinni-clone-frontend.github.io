@@ -64,12 +64,4 @@ export const candidateUserMenu = [
     title: 'Підписки',
     href: '/my/subscriptions',
   },
-  {
-    title: 'Стоп-ліст',
-    href: '/my/stoplist',
-  },
-  {
-    title: 'Найми',
-    href: '/my/hires',
-  },
 ];

@@ -8,7 +8,7 @@ import { getAuthServerSession } from '@/lib/next-auth';
 import AlertSuccess from '@/components/ui/AlertSuccess';
 import PageTabs from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
-import EmployerBillingForm from '@/components/forms/employer-profile/EmployerBillingForm';
+import EmployerBillingForm from '@/components/forms/employer-account/EmployerBillingForm';
 
 import { tabs } from '../tabs';
 import { EmployerBilling } from '@/types';

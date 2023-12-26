@@ -26,7 +26,7 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import {
   EmployerProfileValidator,
   type EmployerProfileRequest,
-} from '@/lib/validators/employer-profile/employer-profile';
+} from '@/lib/validators/employer-account/employer-profile';
 import { type EmployerProfile } from '@/types';
 
 interface EmployerProfileFormProps {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UploadFileResponse } from 'uploadthing/client';
 import { Cropper, ReactCropperElement } from 'react-cropper';
-import { Camera, MoreHorizontal, XCircle } from 'lucide-react';
+import { Camera, Loader2, MoreHorizontal, XCircle } from 'lucide-react';
 
 import { Button, buttonVariants } from '../ui/Button';
 import UserAvatar from '../UserAvatar';
@@ -122,7 +122,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
       <div className="flex flex-col gap-4">
         <Cropper
           ref={cropperRef}
-          style={{ width: '100%' }}
+          style={{ width: '100%', maxWidth: '300px' }}
           zoomTo={0.5}
           initialAspectRatio={1}
           aspectRatio={1}
@@ -145,12 +145,17 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
       <div className="flex items-center gap-2">
         <Button
           onClick={onCrop}
-          disabled={isAvatarLoading ?? isUploading}
-          isLoading={isAvatarLoading ?? isUploading}
+          disabled={isAvatarLoading || isUploading}
+          isLoading={isAvatarLoading || isUploading}
         >
           Зберегти
         </Button>
-        <Button variant="outline" disabled={isAvatarLoading ?? isUploading} onClick={onCancel}>
+        <Button
+          variant="outline"
+          disabled={isAvatarLoading || isUploading}
+          isLoading={isAvatarLoading || isUploading}
+          onClick={onCancel}
+        >
           Скасувати
         </Button>
       </div>
@@ -178,11 +183,21 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
               id="file-upload"
             />
             <label htmlFor="file-upload" className={buttonVariants()}>
-              <Camera className="mr-2 h-4 w-4" /> Завантажити фото
+              {isUploading || isAvatarLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Camera className="mr-2 h-4 w-4" />
+              )}{' '}
+              Завантажити фото
             </label>
             {avatar && (
               <Button variant="destructive" onClick={onDelete}>
-                <XCircle className="mr-2 h-4 w-4" /> Видалити фото
+                {isUploading || isAvatarLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <XCircle className="mr-2 h-4 w-4" />
+                )}{' '}
+                Видалити фото
               </Button>
             )}
           </div>
