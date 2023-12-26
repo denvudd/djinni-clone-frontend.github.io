@@ -14,6 +14,8 @@ import CandidateAvatarForm from '@/components/forms/candidate-account/CandidateA
 
 import { tabs } from '../tabs';
 
+export const dynamic = 'force-dynamic';
+
 interface PageProps {
   searchParams: {
     updated: 'ok';
@@ -93,6 +95,10 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
 export default Page;
 
-export const metadata: Metadata = {
-  title: 'Мій профіль',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const session = await getAuthServerSession();
+
+  return {
+    title: `Мій аккаунт – ${session?.user?.email}`,
+  };
+}

@@ -1,19 +1,19 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 
-import { FileBadge, MoreHorizontal, Trash } from 'lucide-react';
+import { FileBadge, FileText, MoreHorizontal, Trash } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/Popover';
 import { Button } from './ui/Button';
 
 import axios from '@/lib/axios';
 import { type CandidateResume } from '@/types';
+import { cn } from '@/lib/utils';
 
 interface CandidateAccountResumeProps {
   candidateId: string;
@@ -32,7 +32,7 @@ const CandidateAccountResume: React.FC<CandidateAccountResumeProps> = ({
   url,
   createdAt,
 }) => {
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     mutate: deleteResume,
@@ -48,8 +48,32 @@ const CandidateAccountResume: React.FC<CandidateAccountResumeProps> = ({
 
       return data as CandidateResume;
     },
-    onSuccess: () => {
-      window.location.reload(); // hard reload to reset date cache and get actual data
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['resume']);
+    },
+    onError: (error) => {
+      console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
+    },
+  });
+
+  const {
+    mutate: updateIsMain,
+    isLoading: isUpdateIsMainLoading,
+    isError: isUpdateIsMainError,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data } = await axios.patch(`/candidate/${candidateId}/resume/${resumeId}/main`, {
+        isMain: true,
+      });
+
+      if (data instanceof AxiosError) {
+        throw new Error();
+      }
+
+      return data as CandidateResume;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['resume']);
     },
     onError: (error) => {
       console.log('%c[DEV]:', 'background-color: yellow; color: black', error);
@@ -57,11 +81,20 @@ const CandidateAccountResume: React.FC<CandidateAccountResumeProps> = ({
   });
 
   return (
-    <div className="border-dark flex items-center justify-between gap-2 rounded-md border p-2">
+    <div
+      className={cn('flex items-center justify-between gap-2 rounded-md border p-2', {
+        'border-dark': isMain,
+        'border-gray-300': !isMain,
+      })}
+    >
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <span>
-            <FileBadge className="text-link h-5 w-5" />
+            {isMain ? (
+              <FileBadge className="text-link h-5 w-5" />
+            ) : (
+              <FileText className="text-link h-5 w-5" />
+            )}
           </span>
           <a href={url} target="_blank" rel="noreferrer" className="text-link text-base">
             {name}
@@ -76,12 +109,23 @@ const CandidateAccountResume: React.FC<CandidateAccountResumeProps> = ({
           <PopoverTrigger>
             <MoreHorizontal className="h-4 w-4 opacity-50" />
           </PopoverTrigger>
-          <PopoverContent className="w-full max-w-xl">
+          <PopoverContent className="flex w-full max-w-xl flex-col justify-start gap-2">
+            {!isMain && (
+              <Button
+                isLoading={isUpdateIsMainLoading}
+                onClick={() => updateIsMain()}
+                variant="link"
+                className="text-dark flex w-full items-center justify-start gap-2 p-0"
+              >
+                <FileBadge className="h-4 w-4" />
+                Встановити як основне резюме
+              </Button>
+            )}
             <Button
               isLoading={isResumeLoading}
               onClick={() => deleteResume()}
-              variant="destructive"
-              className="flex items-center gap-2"
+              variant="link"
+              className="text-red flex w-full items-center justify-start gap-2 p-0"
             >
               <Trash className="h-4 w-4" />
               Видалити

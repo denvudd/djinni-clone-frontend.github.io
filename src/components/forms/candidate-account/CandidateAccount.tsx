@@ -59,7 +59,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
   const { candidateId, accessToken } = props;
   const router = useRouter();
 
-  const { isUploading, startUpload } = useUploadThing('userResumeUploader');
+  const { isUploading: isResumeUploading, startUpload } = useUploadThing('userResumeUploader');
   const [isAddResume, setIsAddResume] = React.useState<boolean>(false);
   const [resume, setResume] = React.useState<FileWithPreview | undefined>();
 
@@ -94,6 +94,26 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
   });
 
   const {
+    data: existResume,
+    isLoading: isExistResumeLoading,
+    isError: isExistResumeError,
+  } = useQuery({
+    queryKey: ['resume'],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        process.env.NEXT_PUBLIC_BACKEND_API_URL + `/candidate/${candidateId}/resume`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      return data as CandidateResume[];
+    },
+  });
+
+  const {
     mutate: addResume,
     isLoading: isResumeLoading,
     isError: isResumeError,
@@ -102,7 +122,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
       const payload: CandidateResumePayload = {
         resumeUrl: resume.url,
         name: resume.name,
-        isMain: false,
+        isMain: existResume?.length === 0,
       };
 
       const { data } = await axios.post(
@@ -126,26 +146,6 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
 
       setIsAddResume(false);
       setResume(undefined);
-    },
-  });
-
-  const {
-    data: existResume,
-    isLoading: isExistResumeLoading,
-    isError: isExistResumeError,
-  } = useQuery({
-    queryKey: ['resume'],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        process.env.NEXT_PUBLIC_BACKEND_API_URL + `/candidate/${candidateId}/resume`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      return data as CandidateResume[];
     },
   });
 
@@ -196,6 +196,9 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
   const onAddMoreResume = () => {
     setIsAddResume(true);
   };
+
+  const isResumeExist = !!existResume?.length;
+  const isCanAddResume = !isAddResume && existResume?.length !== 3;
 
   return (
     <Form {...form}>
@@ -376,7 +379,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
             </Tooltip>
           </FormLabel>
           <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
-            {!!existResume?.length && (
+            {isResumeExist && (
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col gap-2">
                   {existResume.map((resume) => (
@@ -398,7 +401,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
                         <Input
                           id="resume-upload"
                           type="file"
-                          className="p-0 text-base file:h-full file:bg-gray-100 file:px-3 file:py-2"
+                          className="cursor-pointer p-0 text-base file:h-full file:cursor-pointer file:bg-gray-100 file:px-3 file:py-2"
                           onChange={onResumeInput}
                           disabled={isExistResumeLoading || isExistResumeError}
                         />
@@ -409,7 +412,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
                       </FormDescription>
                     </>
                   )}
-                  {!isAddResume && existResume.length !== 3 && (
+                  {isCanAddResume && (
                     <Button type="button" className="px-0" onClick={onAddMoreResume} variant="link">
                       + Додати резюме
                     </Button>
@@ -418,7 +421,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
                 </div>
               </div>
             )}
-            {!existResume?.length && (
+            {!isResumeExist && (
               <>
                 <FormControl>
                   <Input
@@ -443,7 +446,7 @@ const CandidateAccount: React.FC<CandidateAccountProps> = (props) => {
           <div className="w-full sm:max-w-[63.33333%] sm:flex-[0_0_63.33333%]">
             <Button
               type="submit"
-              isLoading={isAccountLoading || isResumeLoading}
+              isLoading={isAccountLoading || isResumeLoading || isResumeUploading}
               className="text-lg"
             >
               Зберегти зміни

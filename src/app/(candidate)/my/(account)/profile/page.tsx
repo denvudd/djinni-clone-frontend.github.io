@@ -13,6 +13,7 @@ import CandidateProfile from '@/components/forms/candidate-account/CandidateProf
 
 import { tabs } from '../tabs';
 
+export const dynamic = 'force-dynamic';
 interface PageProps {
   searchParams: {
     updated: 'ok';
