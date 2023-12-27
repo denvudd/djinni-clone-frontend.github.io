@@ -1,13 +1,12 @@
 import React from 'react';
 import PageTitle from '@/components/pagers/PageTitle';
-import { getAuthServerSession } from '@/lib/next-auth';
 import { tabs } from '../tabs';
 import PageTabs from '@/components/pagers/PageTabs';
 import { SalariesFilters } from './types';
 import { getPopularCities } from '@/actions/get-popular-cities';
 import { getCategories } from '@/actions/get-categories';
 import SidebarSalaries from '@/components/salaries-filters/SidebarSalaries';
-import SalariesStastics from '@/components/salaries-stastics/SalariesStastics';
+import SalariesStastics from '@/components/statistics/salaries/SalariesStastics';
 
 export interface SalariesPageProps {
   searchParams: SalariesFilters;
@@ -21,7 +20,7 @@ const SalariesPage: React.FC<SalariesPageProps> = async ({ searchParams }) => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="mb-4 flex justify-between">
         <PageTitle>
           Зарплати {title} {location}
         </PageTitle>

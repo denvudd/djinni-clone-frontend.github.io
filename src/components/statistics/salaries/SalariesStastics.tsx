@@ -4,9 +4,9 @@ import { ExternalLink } from 'lucide-react';
 import { SalariesPageProps } from '@/app/(finances)/salaries/page';
 import SalariesChart from './SalariesChart';
 import { getSalariesStatistics } from '@/actions/server/get-salaries-statistics';
-import { Button, buttonVariants } from '../ui/Button';
+import { buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { Alert, AlertDescription } from '../ui/Alert';
+import { Alert, AlertDescription } from '@/components/ui/Alert';
 
 type SalariesStasticsProps = SalariesPageProps;
 
