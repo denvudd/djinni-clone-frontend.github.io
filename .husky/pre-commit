@@ -3,6 +3,13 @@
 
 echo '🏗️👷 Styling, testing and building your project before committing'
 
+# Check NPM dependencies
+npm install ||
+(
+    echo '❌ NPM Check Failed. Make the required changes listed above, add changes and try commit again.';
+    false;
+)
+
 # Check Prettier standards
 npm run format ||
 (
@@ -17,7 +24,7 @@ npm run lint--force ||
         false; 
 )
 
-# If everything passes... Now we can commit
+# Check build
 echo '👷 Trying to build now.'
 
 npm run build ||
