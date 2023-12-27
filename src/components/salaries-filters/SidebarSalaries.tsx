@@ -1,14 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
+
 import qs from 'query-string';
 import clsx from 'clsx';
-import { SalariesPageProps } from '@/app/(finances)/salaries/page';
-import { Category, City } from '@/types';
+
 import { Badge } from '../ui/Badge';
+
 import { expLevels } from './data-filters';
 import { convertEnumObjToArray, formatEnglishLevel } from '@/lib/utils';
+
 import { EnglishLevel } from '@/lib/enums';
 import { SalariesFiltersEnum } from '@/app/(finances)/salaries/types';
+import { type SalariesPageProps } from '@/app/(finances)/salaries/page';
+import { type Category, City } from '@/types';
 
 interface SidebarSalariesProps extends SalariesPageProps {
   categories: Category[] | undefined;

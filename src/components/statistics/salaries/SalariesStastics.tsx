@@ -1,12 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
+
 import { ExternalLink } from 'lucide-react';
-import { SalariesPageProps } from '@/app/(finances)/salaries/page';
-import SalariesChart from './SalariesChart';
-import { getSalariesStatistics } from '@/actions/server/get-salaries-statistics';
-import { buttonVariants } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
 import { Alert, AlertDescription } from '@/components/ui/Alert';
+import SalariesChart from './SalariesChart';
+
+import { buttonVariants } from '@/components/ui/Button';
+import { getSalariesStatistics } from '@/actions/server/get-salaries-statistics';
+import { cn } from '@/lib/utils';
+import { type SalariesPageProps } from '@/app/(finances)/salaries/page';
 
 type SalariesStasticsProps = SalariesPageProps;
 

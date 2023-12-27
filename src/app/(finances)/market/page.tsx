@@ -1,12 +1,15 @@
 import React from 'react';
+
 import PageTitle from '@/components/pagers/PageTitle';
-import { tabs } from '../tabs';
 import PageTabs from '@/components/pagers/PageTabs';
-import { MarketFilters } from './types';
 import MarketChart from '@/components/statistics/market/MarketChart';
+import MarketStatisticsForm from '@/components/forms/MarketStatisticsForm';
+
 import { getMarketStatics } from '@/actions/server/get-market-statistics';
 import { getCategories } from '@/actions/get-categories';
-import MarketStatisticsForm from '@/components/forms/MarketStatisticsForm';
+
+import { tabs } from '../tabs';
+import { type MarketFilters } from './types';
 
 export interface MarketPageProps {
   searchParams: MarketFilters;

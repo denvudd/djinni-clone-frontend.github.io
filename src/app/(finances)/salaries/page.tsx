@@ -1,12 +1,15 @@
 import React from 'react';
+
 import PageTitle from '@/components/pagers/PageTitle';
-import { tabs } from '../tabs';
 import PageTabs from '@/components/pagers/PageTabs';
-import { SalariesFilters } from './types';
-import { getPopularCities } from '@/actions/get-popular-cities';
-import { getCategories } from '@/actions/get-categories';
 import SidebarSalaries from '@/components/salaries-filters/SidebarSalaries';
 import SalariesStastics from '@/components/statistics/salaries/SalariesStastics';
+
+import { getPopularCities } from '@/actions/get-popular-cities';
+import { getCategories } from '@/actions/get-categories';
+
+import { tabs } from '../tabs';
+import { type SalariesFilters } from './types';
 
 export interface SalariesPageProps {
   searchParams: SalariesFilters;
