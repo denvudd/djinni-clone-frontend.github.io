@@ -195,6 +195,7 @@ const SidebarSalaries: React.FC<SidebarSalariesProps> = ({ searchParams, categor
                   query: {
                     ...searchParams,
                     [SalariesFiltersEnum.Remote]: true,
+                    [SalariesFiltersEnum.Location]: undefined,
                   },
                 }}
               >
@@ -219,6 +220,7 @@ const SidebarSalaries: React.FC<SidebarSalariesProps> = ({ searchParams, categor
                       pathname: '/salaries',
                       query: {
                         ...searchParams,
+                        [SalariesFiltersEnum.Remote]: undefined,
                         [SalariesFiltersEnum.Location]: city,
                       },
                     }}
