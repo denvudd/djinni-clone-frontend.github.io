@@ -1,4 +1,5 @@
 import React from 'react';
+import { Metadata } from 'next';
 
 import PageTitle from '@/components/pagers/PageTitle';
 import PageTabs from '@/components/pagers/PageTabs';
@@ -45,3 +46,10 @@ const SalariesPage: React.FC<MarketPageProps> = async ({ searchParams }) => {
 };
 
 export default SalariesPage;
+
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Конкуренція на Джині',
+  },
+  description: 'Ситуація на ринку праці в IT',
+};

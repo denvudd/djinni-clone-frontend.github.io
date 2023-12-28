@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Metadata } from 'next';
 import PageTitle from '@/components/pagers/PageTitle';
 import PageTabs from '@/components/pagers/PageTabs';
 import SidebarSalaries from '@/components/salaries-filters/SidebarSalaries';
@@ -42,3 +43,10 @@ const SalariesPage: React.FC<SalariesPageProps> = async ({ searchParams }) => {
 };
 
 export default SalariesPage;
+
+export const metadata: Metadata = {
+  title: {
+    absolute: 'Статистика зарплат на Джині',
+  },
+  description: 'Ситуація на ринку зарплат в IT',
+};
