@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { type Metadata } from 'next';
 import ReactMarkdown from 'react-markdown';
-import { PenSquare, Users } from 'lucide-react';
+import { PenSquare, Users, LayoutPanelTop } from 'lucide-react';
 import axios from 'axios';
 
 import { format } from 'date-fns';
@@ -23,6 +23,7 @@ import { cn } from '@/lib/utils';
 import { type Vacancy } from '@/types';
 import { UserRole } from '@/lib/enums';
 import { getPublicVacancy } from '@/actions/server/get-public-vacancy';
+import { Icons } from '@/components/ui/Icons';
 
 interface PageProps {
   params: {
@@ -142,6 +143,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
               {employer.companyLink}
             </a>
           </div>
+
           {employer.dou && (
             <div className="mb-4">
               <h4 className="mb-2 font-semibold">Компанія на DOU</h4>
@@ -150,6 +152,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
               </a>
             </div>
           )}
+
           {!active && (
             <div className="mb-4">
               <p className="text-danger mb-4 font-semibold">Ця вакансія зараз неактивна.</p>
@@ -161,6 +164,58 @@ const Page: React.FC<PageProps> = async ({ params }) => {
               </p>
             </div>
           )}
+
+          {isOwner && (
+            <Link
+              href={`/home/post_job?job=${id}`}
+              className={cn(
+                buttonVariants({
+                  className: 'my-6 text-lg',
+                }),
+              )}
+            >
+              ← Продовжити редагування
+            </Link>
+          )}
+
+          {active && (
+            <div className="text-gray mt-6 flex flex-col gap-1">
+              <p className="inline-flex items-center gap-1">
+                <PenSquare className="h-4 w-4" />
+                Вакансія опублікована {format(new Date(createdAt), 'PPP', { locale: uk })}
+              </p>
+              <p className="inline-flex items-center gap-1">
+                <Users className="h-4 w-4" />
+                {responsesCount} відгуків
+              </p>
+            </div>
+          )}
+
+          {session?.user.role === UserRole.Candidate && (
+            <Button className="my-6 text-lg">Відгукнутись</Button>
+          )}
+
+          <div className="bg-light flex w-full items-center gap-2 rounded-md p-4">
+            <span>
+              <LayoutPanelTop className="text-link h-6 w-6" />
+            </span>
+            <p>
+              Подивитись <strong>середню зарплату</strong> cхожих вакансій у{' '}
+              <Link href={`/salaries?title=${category}`} className="text-link">
+                аналітиці →
+              </Link>
+            </p>
+          </div>
+
+          <Link
+            href="https://t.me/djinni_jobs_bot"
+            className="bg-blue-subtle mt-4 inline-flex w-full items-center gap-2 rounded-md border border-transparent px-4 py-3"
+          >
+            <span>
+              <Icons.Telegram width={24} height={24} />
+            </span>
+            <p className="text-blue font-bold">Отримувати нові вакансії у Telegram</p>
+          </Link>
         </div>
 
         <div className="md:max-w-[33.333%] md:flex-[0_0_33.333%]">
@@ -177,33 +232,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
           />
         </div>
       </div>
-      {isOwner && (
-        <Link
-          href={`/home/post_job?job=${id}`}
-          className={cn(
-            buttonVariants({
-              className: 'my-6 text-lg',
-            }),
-          )}
-        >
-          ← Продовжити редагування
-        </Link>
-      )}
-      {active && (
-        <div className="text-gray mt-6 flex flex-col gap-1">
-          <p className="inline-flex items-center gap-1">
-            <PenSquare className="h-4 w-4" />
-            Вакансія опублікована {format(new Date(createdAt), 'PPP', { locale: uk })}
-          </p>
-          <p className="inline-flex items-center gap-1">
-            <Users className="h-4 w-4" />
-            {responsesCount} відгуків
-          </p>
-        </div>
-      )}
-      {session?.user.role === UserRole.Candidate && (
-        <Button className="my-6 text-lg">Відгукнутись</Button>
-      )}
     </>
   );
 };
