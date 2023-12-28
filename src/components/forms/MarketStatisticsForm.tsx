@@ -67,13 +67,12 @@ const MarketStatisticsForm: React.FC<MarketStatisticsFormProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-12 flex items-end gap-4">
-        {/* {isCandidateError && <ErrorAlert />} */}
         <FormField
           control={form.control}
           name="exp"
           render={({ field }) => (
             <FormItem className="flex flex-[1_0_0] flex-col gap-2">
-              <FormLabel className="text-base font-medium">Спеціалізація</FormLabel>
+              <FormLabel className="text-base font-medium">Досвід роботи</FormLabel>
               <div>
                 <Select
                   onValueChange={(value) => field.onChange(+value)}

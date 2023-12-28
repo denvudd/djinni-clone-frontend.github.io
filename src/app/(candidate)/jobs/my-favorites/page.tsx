@@ -6,10 +6,11 @@ import { redirect } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 import { getAuthServerSession } from '@/lib/next-auth';
 
-import PageTabs, { PageTabProp } from '@/components/pagers/PageTabs';
+import PageTabs from '@/components/pagers/PageTabs';
 import PageTitle from '@/components/pagers/PageTitle';
-
 import JobCard from '@/components/job-card/JobCard';
+
+import { jobsTabs } from '../tabs';
 import { type ListVacancy } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -58,27 +59,12 @@ const Page = async () => {
 
   const { count, favoriteVacancies } = await getFavoriteVacancies();
 
-  const tabs: PageTabProp = [
-    {
-      title: 'Для мене',
-      path: '/jobs/my',
-    },
-    {
-      title: 'Всі',
-      path: '/jobs',
-    },
-    {
-      title: 'Збережені',
-      path: '/jobs/my-favorites',
-    },
-  ];
-
   return (
     <>
       <PageTitle>
         Вакансії на Джині <span className="text-gray">{count}</span>
       </PageTitle>
-      <PageTabs tabs={tabs} active={2} />
+      <PageTabs tabs={jobsTabs} active={2} />
       <div className="flex flex-col gap-6">
         {favoriteVacancies &&
           !!favoriteVacancies.length &&
